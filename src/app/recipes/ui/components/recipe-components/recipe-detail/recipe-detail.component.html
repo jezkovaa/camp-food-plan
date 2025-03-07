@@ -1,0 +1,34 @@
+<ion-grid>
+  <ion-row>
+    <ion-col>
+      {{"recipe-detail.course" | translate}}:
+    </ion-col>
+    <ion-col>
+      {{"recipe-detail.variants" | translate}}:
+    </ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col class="wrap-text">
+      {{ getCourseNames(recipe.courses) }}
+    </ion-col>
+    <ion-col>
+
+      {{recipe.variants.length}}
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col>
+      <div *ngIf="recipe !== null && recipe.variants.length > 1">
+        <app-variants-list [variants]="recipe.variants" />
+      </div>
+      <div *ngIf="recipe !== null && recipe.variants.length === 1">
+        <app-recipe-variant-detail [variant]="recipe.variants[0]" />
+      </div>
+      <div *ngIf="recipe !== null && recipe.variants.length === 0">
+        <p>{{"recipe-detail.no-variants" | translate}}</p>
+      </div>
+    </ion-col>
+
+  </ion-row>
+</ion-grid>
