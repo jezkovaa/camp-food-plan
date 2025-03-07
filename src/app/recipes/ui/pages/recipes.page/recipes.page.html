@@ -1,0 +1,19 @@
+<div id="recipes">
+  <ion-header [translucent]="true">
+    <ion-toolbar class="ion-align-items-stretch">
+      <ion-title>{{"recipes.newTitle" | translate }}</ion-title>
+      <ion-buttons slot="end">
+        <ion-button>
+          <ion-icon slot="icon-only" fill="solid" name="add" />
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+    <ion-toolbar>
+      <ion-searchbar animated="true" placeholder="{{'recipes.searchBar' | translate}}" show-clear-button="always" />
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content [fullscreen]="true">
+    <app-recipes-list [recipes]="recipes" />
+  </ion-content>
+</div>
