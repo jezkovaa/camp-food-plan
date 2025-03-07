@@ -1,0 +1,42 @@
+/* Base styles for the responsive icon */
+.responsive-icon {
+  width: 100%;
+  height: auto;
+}
+
+/* Mobile devices (portrait and landscape) */
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+  .responsive-icon {
+    max-width: 16px;
+  }
+}
+
+/* Tablets (portrait and landscape) */
+@media only screen and (min-device-width: 481px) and (max-device-width: 768px) {
+  .responsive-icon {
+    max-width: 30px;
+  }
+}
+
+/* Laptops */
+@media only screen and (min-device-width: 769px) and (max-device-width: 1024px) {
+  .responsive-icon {
+    max-width: 35px;
+  }
+}
+
+/* Desktops */
+@media only screen and (min-device-width: 1025px) {
+  .responsive-icon {
+    max-width: 40px;
+  }
+}
+
+.restriction-icons {
+  display: flex;
+  gap: 2px;
+  border: 2px solid #ccc;
+  width: 100%;
+  border-radius: 30%;
+  padding: 5px;
+}

@@ -1,0 +1,6 @@
+export enum FoodRestriction {
+    VEGAN = 'VEGAN',
+    VEGETARIAN = 'VEGETARIAN',
+    LACTOSE_INTOLERANT = 'LACTOSE_INTOLERANT',
+    GLUTEN_FREE = 'GLUTEN_FREE'
+}
