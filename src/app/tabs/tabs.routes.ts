@@ -24,7 +24,7 @@ export const routes: Routes = [
       {
         path: 'planning',
         loadComponent: () =>
-          import('../planning/planning.page').then((m) => m.Tab2Page),
+          import('../planning/planning.page').then((m) => m.PlanningPage),
       },
       {
         path: '',
