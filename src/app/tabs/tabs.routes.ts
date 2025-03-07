@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { TabsPage } from './tabs.page';
+import { RecipeDetailPage } from '../recipes/ui/pages/recipe-detail/recipe-detail.page.component';
 
 export const routes: Routes = [
   {
@@ -7,30 +8,34 @@ export const routes: Routes = [
     component: TabsPage,
     children: [
       {
-        path: 'tab1',
+        path: 'recipes',
         loadComponent: () =>
-          import('../tab1/tab1.page').then((m) => m.Tab1Page),
+          import('../recipes/ui/pages/recipes/recipes.page').then((m) => m.RecipesPage),
       },
       {
-        path: 'tab2',
-        loadComponent: () =>
-          import('../tab2/tab2.page').then((m) => m.Tab2Page),
+        path: 'recipes/:id',
+        component: RecipeDetailPage,
       },
       {
-        path: 'tab3',
+        path: 'recipes/:id/variants/:variantId',
         loadComponent: () =>
-          import('../tab3/tab3.page').then((m) => m.Tab3Page),
+          import('../recipes/ui/pages/recipe-variant-detail.page/recipe-variant-detail.page.component').then((m) => m.RecipeVariantDetailPage),
+      },
+      {
+        path: 'planning',
+        loadComponent: () =>
+          import('../planning/planning.page').then((m) => m.Tab2Page),
       },
       {
         path: '',
-        redirectTo: '/tabs/tab1',
+        redirectTo: '/tabs/recipes',
         pathMatch: 'full',
-      },
+      }
     ],
   },
   {
     path: '',
-    redirectTo: '/tabs/tab1',
+    redirectTo: '/tabs/recipes',
     pathMatch: 'full',
   },
 ];
