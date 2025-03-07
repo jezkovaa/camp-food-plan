@@ -1,0 +1,36 @@
+.recipe-variant-detail {
+
+  ::ng-deep .group {
+    border: 1px solid black;
+    border-radius: 30px
+  }
+
+  ::ng-deep ion-list {
+    border-radius: 30px;
+  }
+
+  ::ng-deep .grid {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  ::ng-deep .order {
+    flex-grow: 0 !important;
+
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    padding: 8px;
+
+    background: #fff;
+    border: 1px solid black;
+    color: black;
+    text-align: center;
+  }
+
+  ::ng-deep .description {
+    align-self: center;
+  }
+
+}
