@@ -9,7 +9,7 @@ import { RecipeVariant } from 'src/app/recipes/data/interfaces/recipe-variant.in
   selector: 'app-variants-list',
   templateUrl: './variants-list.component.html',
   styleUrls: ['./variants-list.component.scss'],
-  imports: [IonList, IonList, RecipeVariantComponent, CommonModule],
+  imports: [IonList, RecipeVariantComponent, CommonModule],
   standalone: true
 })
 export class VariantsListComponent implements OnInit {
