@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { TabsPage } from './tabs.page';
-import { RecipeDetailPage } from '../recipes/ui/pages/recipe-detail/recipe-detail.page.component';
+import { RecipeDetailPage } from '../recipes/ui/pages/recipe-detail.page/recipe-detail.page.component';
 
 export const routes: Routes = [
   {
