@@ -11,7 +11,7 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./restriction.component.scss'],
   imports: [IonIcon, CommonModule]
 })
-export class RestrictionComponent implements OnInit {
+export class RestrictionComponent {
 
 
   @Input() inputRestrictions: FoodRestriction[] = [];
@@ -19,10 +19,6 @@ export class RestrictionComponent implements OnInit {
   restrictions = FoodRestriction;
 
   constructor() {
-
     addIcons({ leaf });
   }
-
-  ngOnInit() { }
-
 }
