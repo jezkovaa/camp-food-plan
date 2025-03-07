@@ -1,0 +1,11 @@
+<div class="recipe">
+  <ion-button fill="outline" size="large" (click)="openVariant()">
+    <div class="ion-text-start recipe-name">
+      {{variant.name}}
+    </div>
+
+    <div class="recipe-variants-container">
+      <app-restriction [inputRestrictions]="variant.restrictions"></app-restriction>
+    </div>
+  </ion-button>
+</div>
