@@ -1,0 +1,26 @@
+#recipe-detail {
+
+  ::ng-deep ion-toolbar {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  ::ng-deep .toolbar-content {
+    display: flex !important;
+  }
+
+  ::ng-deep ion-col {
+    justify-content: center;
+    display: flex;
+  }
+
+  ::ng-deep ion-content {
+    height: 700px;
+  }
+
+  ::ng-deep .header-recipe-name {
+    font-size: 1.5em;
+    font-weight: bold;
+  }
+
+}
