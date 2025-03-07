@@ -1,0 +1,41 @@
+<div id="recipe-variant-detail" class="ion-page">
+  <ion-header>
+    <ion-toolbar class="ion-padding-start ion-padding-end" style="display: flex;">
+      <ion-back-button />
+
+      <div class="firs-row ion-padding-top">
+        <div>{{" recipe" | translate }}</div>
+        <div class="header-recipe-name"> {{ recipe?.name }}</div>
+      </div>
+
+      <div class="second-row ion-padding-top">
+
+        <div class="upper-part-of-row">
+          <div>{{"variant" | translate}}</div>
+        </div>
+        <div class="lower-part-of-row">
+          <div class="left">
+            <div class="header-variant-name"> {{ variant?.name }}</div>
+            <ion-button fill="clear">
+              <ion-icon slot="icon-only" name="pencil" />
+            </ion-button>
+          </div>
+          <div class="right">
+            <ion-button fill="clear">
+              <ion-icon slot="icon-only" name="trash" />
+            </ion-button>
+
+          </div>
+        </div>
+      </div>
+
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content>
+
+    <div *ngIf="variant !== null">
+      <app-recipe-variant-detail [variant]="variant" />
+    </div>
+  </ion-content>
+</div>

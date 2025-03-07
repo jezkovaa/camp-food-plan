@@ -1,0 +1,48 @@
+<div class="recipe-variant-detail">
+  <div class="ingredients group ion-padding-start ion-padding-end ion-padding-top ion-margin">
+    <ion-label>{{" recipe-variant.ingredients" | translate}}</ion-label>
+    <ion-list>
+      <ion-reorder-group [disabled]="isEditing" (ionItemReorder)="handleReorder($any($event))">
+        <div *ngFor="let ingredient of variant.ingredients">
+          <ion-item>
+            <ion-label>{{ ingredient.name }}</ion-label>
+            <div> {{ingredient.quantity}} {{ingredient.unit}}</div>
+            <ion-reorder slot="end" />
+          </ion-item>
+        </div>
+      </ion-reorder-group>
+    </ion-list>
+  </div>
+
+  <div class="proceeding group ion-padding-start ion-padding-end ion-padding-top ion-margin">
+    <ion-label>{{"recipe-variant.proceeding" | translate}}</ion-label>
+    <ion-grid class="grid">
+      <ion-row *ngFor="let item of variant.proceeding">
+        <ion-col class="order">
+          {{ item.order }}
+        </ion-col>
+        <ion-col class="description">
+          {{ item.description }}
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+  <div class="history-of-changes group ion-padding-start ion-padding-end ion-padding-top ion-margin">
+    <ion-label>{{"recipe-variant.history-of-changes" | translate}}</ion-label>
+    <div *ngIf="variant.historyOfChanges.length === 0">
+      <p>{{"recipe-variant.no-history-of-changes" | translate}}</p>
+    </div>
+    <div *ngIf="variant.historyOfChanges.length > 0">
+      <div *ngFor="let change of variant.historyOfChanges">
+        <div>
+          {{ change.date | date: "dd.MM.yyyy" }}
+        </div>
+        <div>
+          {{ change.changes }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
