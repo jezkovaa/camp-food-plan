@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { IonHeader, IonItem, IonLabel, IonSearchbar, IonToolbar, IonTitle, IonContent, IonButton, IonButtons, IonList, IonListHeader, IonIcon } from '@ionic/angular/standalone';
-import { TranslateModule } from '@ngx-translate/core';
+import { IonHeader, IonSearchbar, IonToolbar, IonTitle, IonContent, IonButton, IonButtons, IonIcon } from '@ionic/angular/standalone';
+import { TranslateModule, TranslateService, TranslateStore } from '@ngx-translate/core';
 import { CommonModule } from '@angular/common';
 import { addIcons } from 'ionicons';
 import { add } from 'ionicons/icons';
@@ -24,6 +24,7 @@ import { RecipesListComponent } from '../../components/recipe-components/recipes
     CommonModule,
     RecipesListComponent],
   standalone: true,
+  providers: [TranslateService, TranslateStore]
 })
 export class RecipesPage implements OnInit {
 

@@ -7,6 +7,7 @@ import { RecipeVariantDetailComponent } from '../../recipe-variant-components/re
 import { Recipe } from 'src/app/recipes/data/interfaces/recipe.interface';
 import { Course } from 'src/app/recipes/data/enums/courses.enum';
 import { CommonModule } from '@angular/common';
+import { TranslateStore } from "@ngx-translate/core";
 
 @Component({
   selector: 'app-recipe-detail',
@@ -20,7 +21,8 @@ import { CommonModule } from '@angular/common';
     VariantsListComponent,
     RecipeVariantDetailComponent,
     TranslateModule,
-    CommonModule]
+    CommonModule],
+  providers: [TranslateService, TranslateStore]
 })
 export class RecipeDetailComponent {
 
