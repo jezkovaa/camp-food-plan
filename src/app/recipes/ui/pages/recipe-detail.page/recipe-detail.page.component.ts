@@ -6,11 +6,8 @@ import { Recipe } from '../../../data/interfaces/recipe.interface';
 import { CommonModule } from '@angular/common';
 import { addIcons } from 'ionicons';
 import { pencil, trash } from 'ionicons/icons';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateModule, TranslateService, TranslateStore } from '@ngx-translate/core';
 import { RecipesPage } from '../recipes.page/recipes.page';
-import { VariantsListComponent } from "../../components/recipe-variant-components/variants-list/variants-list.component";
-import { RecipeVariantDetailComponent } from '../../components/recipe-variant-components/recipe-variant-detail/recipe-variant-detail.component';
-import { Course } from 'src/app/recipes/data/enums/courses.enum';
 import { RecipeDetailComponent } from '../../components/recipe-components/recipe-detail/recipe-detail.component';
 
 
@@ -28,7 +25,8 @@ import { RecipeDetailComponent } from '../../components/recipe-components/recipe
     IonBackButton,
     CommonModule, TranslateModule,
     RecipeDetailComponent],
-  standalone: true
+  standalone: true,
+  providers: [TranslateService, TranslateStore]
 })
 export class RecipeDetailPage implements OnInit {
 
