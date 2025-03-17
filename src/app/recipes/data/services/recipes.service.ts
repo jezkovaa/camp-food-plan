@@ -598,4 +598,13 @@ export class RecipesService {
 
     return of(true);
   }
+
+  deleteRecipe(recipeId: number): Observable<any> {
+
+    this.oldRecipes = this.dummyRecipes;
+
+    this.dummyRecipes = this.dummyRecipes.filter(recipe => recipe.id !== recipeId);
+
+    return of(true);
+  }
 }

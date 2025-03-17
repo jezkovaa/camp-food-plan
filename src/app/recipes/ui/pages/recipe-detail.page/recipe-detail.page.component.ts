@@ -9,7 +9,7 @@ import { pencil, trash } from 'ionicons/icons';
 import { TranslateModule, TranslateService, TranslateStore } from '@ngx-translate/core';
 import { RecipesPage } from '../recipes.page/recipes.page';
 import { RecipeDetailComponent } from '../../components/recipe-components/recipe-detail/recipe-detail.component';
-
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-recipe.page',
@@ -38,6 +38,8 @@ export class RecipeDetailPage implements OnInit {
     private route: ActivatedRoute,
     private recipesService: RecipesService,
     private router: Router,
+    private alertController: AlertController,
+    private translateService: TranslateService
 
   ) {
 
@@ -58,10 +60,81 @@ export class RecipeDetailPage implements OnInit {
     if (this.recipe === null) {
       return;
     }
-
     this.router.navigate(['/tabs/recipes', this.recipe.id, 'edit']);
   }
 
 
+  async deleteRecipe() {
+    if (this.recipe === null) {
+      return;
+    }
+
+    let message = this.translateService.instant('alert.delete-confirm-message');
+    if (this.recipe.variants.length > 0) {
+      message += this.translateService.instant('alert.delete-confirm-message-variants');
+    }
+
+    const alert = await this.alertController.create({
+      header: this.translateService.instant('alert.delete-confirm'),
+      message: message,
+      buttons: [
+        {
+          text: this.translateService.instant('alert.cancel'),
+          role: 'cancel',
+        },
+        {
+          text: this.translateService.instant('alert.ok'),
+          handler: () => {
+            if (this.recipe) {
+              this.recipesService.deleteRecipe(this.recipe.id).subscribe({
+                next: async () => {
+                  this.deleteSuccess();
+
+                },
+                error: async (err: any) => {
+
+                  this.deleteError(err);
+                }
+
+              });
+            }
+
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
+
+  private async deleteSuccess() {
+    this.router.navigate(['/tabs/recipes']);
+    const alert = await this.alertController.create(
+      {
+        header: this.translateService.instant('alert.delete-success'),
+        message: this.translateService.instant('alert.delete-success-message'),
+        buttons: [
+          {
+            text: this.translateService.instant('alert.ok'),
+            role: 'ok',
+          },
+        ]
+      });
+    await alert.present();
+  }
+
+  private async deleteError(err: any) {
+    const alert = await this.alertController.create(
+      {
+        header: this.translateService.instant('alert.delete-error'),
+        message: err,
+        buttons: [
+          {
+            text: this.translateService.instant('alert.ok'),
+            role: 'ok',
+          },
+        ]
+      });
+    await alert.present();
+  }
 
 }
