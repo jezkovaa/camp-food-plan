@@ -1,7 +1,9 @@
 <div id="recipe-variant-detail" class="ion-page">
   <ion-header>
-    <ion-toolbar class="ion-padding-start ion-padding-end" style="display: flex;">
-      <ion-back-button />
+    <ion-toolbar class=" ion-padding-end" style="display: flex;">
+      <ion-buttons slot="start" class="ion-padding-end">
+        <ion-back-button defaultHref="/recipes" text="" />
+      </ion-buttons>
 
       <div class="firs-row ion-padding-top">
         <div>{{" recipe" | translate }}</div>
@@ -21,7 +23,7 @@
             </ion-button>
           </div>
           <div class="right">
-            <ion-button fill="clear">
+            <ion-button fill="clear" color="danger">
               <ion-icon slot="icon-only" name="trash" />
             </ion-button>
 

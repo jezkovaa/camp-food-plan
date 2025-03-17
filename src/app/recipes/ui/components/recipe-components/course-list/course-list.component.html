@@ -1,0 +1,12 @@
+<ion-list id="course-list">
+  <div *ngFor="let course of courses">
+    <ion-item>
+      <ion-checkbox slot="start" [checked]="courseValue(course)" (ionChange)=" checkboxClick($event, course)" />
+      <ion-label>{{ courseName(course) }}</ion-label>
+    </ion-item>
+  </div>
+</ion-list>
+
+<ion-button (click)="applyCourses()" class="apply-button ion-padding-end">
+  <ion-label>{{"buttons.apply" | translate}}</ion-label>
+</ion-button>

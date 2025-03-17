@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { IonHeader, IonSearchbar, IonToolbar, IonTitle, IonContent, IonButton, IonButtons, IonIcon } from '@ionic/angular/standalone';
+import { IonHeader, IonSearchbar, IonToolbar, IonTitle, IonContent, IonButton, IonButtons, IonIcon, IonBackButton } from '@ionic/angular/standalone';
 import { TranslateModule, TranslateService, TranslateStore } from '@ngx-translate/core';
 import { CommonModule } from '@angular/common';
 import { addIcons } from 'ionicons';
@@ -20,6 +20,7 @@ import { RecipesListComponent } from '../../components/recipe-components/recipes
     IonButton,
     IonButtons,
     IonSearchbar,
+    IonBackButton,
     TranslateModule,
     CommonModule,
     RecipesListComponent],

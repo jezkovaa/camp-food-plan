@@ -1,0 +1,11 @@
+#recipe-edit-page {
+  ::ng-deep .upper-part {
+    display: flex;
+  }
+
+  ::ng-deep .header-recipe-name {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: grey;
+  }
+}
