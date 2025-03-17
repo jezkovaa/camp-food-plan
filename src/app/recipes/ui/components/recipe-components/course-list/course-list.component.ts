@@ -40,7 +40,6 @@ export class CourseListComponent implements OnInit {
   }
 
   checkboxClick(e: any, course: Course) {
-    this.selectedCourses.filter(c => c !== course);
     this.selectedCourses = e.detail.checked ? [...this.selectedCourses, course] : this.selectedCourses.filter(c => c !== course);
   }
 
