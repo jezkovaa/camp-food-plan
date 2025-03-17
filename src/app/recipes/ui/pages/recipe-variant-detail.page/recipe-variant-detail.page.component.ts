@@ -14,8 +14,16 @@ import { TranslateModule } from '@ngx-translate/core';
   selector: 'app-recipe-variant-detail.page',
   templateUrl: './recipe-variant-detail.page.component.html',
   styleUrls: ['./recipe-variant-detail.page.component.scss'],
-  imports: [IonIcon, IonHeader, IonContent, IonToolbar, IonBackButton, IonButton,
-    RecipeVariantDetailComponent, CommonModule, TranslateModule],
+  imports: [IonIcon,
+    IonHeader,
+    IonContent,
+    IonToolbar,
+    IonBackButton,
+    IonButton,
+    IonButtons,
+    RecipeVariantDetailComponent,
+    CommonModule,
+    TranslateModule],
   standalone: true
 })
 export class RecipeVariantDetailPage implements OnInit {

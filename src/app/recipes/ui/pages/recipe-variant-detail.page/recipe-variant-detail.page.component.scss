@@ -6,6 +6,11 @@
   }
 
 
+  ::ng-deep .toolbar-container {
+    display: flex;
+    gap: 12px;
+  }
+
   .header-variant-name {
 
     font-weight: bold;

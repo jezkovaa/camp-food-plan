@@ -1,5 +1,5 @@
 <div class="recipe">
-  <ion-button fill="outline" size="large" (click)="openRecipe()">
+  <ion-button fill="outline" size="large" (click)="openRecipe()" [disabled]="isEditing">
     <div class="ion-text-start recipe-name">
       {{recipe.name}}
     </div>

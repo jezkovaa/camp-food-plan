@@ -1,10 +1,13 @@
 <div id="recipes" class="ion-page">
   <ion-header [translucent]="true">
     <ion-toolbar class="ion-align-items-stretch">
+      <ion-buttons slot="start" class="ion-padding-end">
+        <ion-back-button defaultHref="/recipes" text="" />
+      </ion-buttons>
       <ion-title>{{"recipes.newTitle" | translate }}</ion-title>
       <ion-buttons slot="end">
         <ion-button>
-          <ion-icon slot="icon-only" fill="solid" name="add" />
+          <ion-icon slot="icon-only" fill="solid" color="success" name="add" />
         </ion-button>
       </ion-buttons>
     </ion-toolbar>

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { RecipesService } from '../../../data/services/recipes.service';
 import { IonTitle, IonHeader, IonToolbar, IonContent, IonButtons, IonButton, IonIcon, IonGrid, IonRow, IonCol, IonBackButton, IonItem, IonLabel, IonListHeader, IonList, IonImg } from '@ionic/angular/standalone';
 import { Recipe } from '../../../data/interfaces/recipe.interface';
@@ -23,6 +23,7 @@ import { RecipeDetailComponent } from '../../components/recipe-components/recipe
     IonToolbar,
     IonContent,
     IonBackButton,
+    IonButtons,
     CommonModule, TranslateModule,
     RecipeDetailComponent],
   standalone: true,
@@ -36,6 +37,7 @@ export class RecipeDetailPage implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private recipesService: RecipesService,
+    private router: Router,
 
   ) {
 
@@ -50,6 +52,14 @@ export class RecipeDetailPage implements OnInit {
         this.recipe = recipe;
       });
     });
+  }
+
+  editRecipe() {
+    if (this.recipe === null) {
+      return;
+    }
+
+    this.router.navigate(['/tabs/recipes', this.recipe.id, 'edit']);
   }
 
 

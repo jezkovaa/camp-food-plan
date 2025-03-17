@@ -22,6 +22,10 @@ export const routes: Routes = [
           import('../recipes/ui/pages/recipe-variant-detail.page/recipe-variant-detail.page.component').then((m) => m.RecipeVariantDetailPage),
       },
       {
+        path: 'recipes/:id/edit',
+        loadComponent: () => import('../recipes/ui/pages/recipe-edit.page/recipe-edit.page.component').then((m) => m.RecipeEditPage),
+      },
+      {
         path: 'planning',
         loadComponent: () =>
           import('../planning/planning.page').then((m) => m.PlanningPage),

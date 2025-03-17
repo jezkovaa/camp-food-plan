@@ -15,7 +15,8 @@ import { TranslateModule } from '@ngx-translate/core';
 })
 export class RecipeComponent {
 
-  @Input() recipe!: Recipe;
+  @Input({ required: true }) recipe!: Recipe;
+  @Input() isEditing = false;
 
   constructor(private router: Router) { }
 
