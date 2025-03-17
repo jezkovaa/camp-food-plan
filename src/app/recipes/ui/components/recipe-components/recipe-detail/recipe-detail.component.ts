@@ -96,17 +96,15 @@ export class RecipeDetailComponent {
   }
 
   deleteSelected() {
-    this.recipesService.deleteVariants(this.recipe.id, this.selectedIds).subscribe(() => {
-      (res: any) => {
+    this.recipesService.deleteVariants(this.recipe.id, this.selectedIds).subscribe({
+      next: () => {
         this.selectedIds = [];
-
-      };
-      (err: any) => {
+      },
+      error: (err: any) => {
         console.error(err);
-      };
-
-    });
-
+      }
+    }
+    );
   }
 
   selectedCoursesChange(courses: Course[]) {
