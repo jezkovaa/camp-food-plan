@@ -4,9 +4,10 @@ import { TranslateModule, TranslateService, TranslateStore } from '@ngx-translat
 import { CommonModule } from '@angular/common';
 import { addIcons } from 'ionicons';
 import { add } from 'ionicons/icons';
-import { Recipe } from 'src/app/recipes/data/interfaces/recipe.interface';
+import { IRecipe } from 'src/app/recipes/data/interfaces/recipe.interface';
 import { RecipesService } from 'src/app/recipes/data/services/recipes.service';
 import { RecipesListComponent } from '../../components/recipe-components/recipes-list/recipes-list.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-recipes',
@@ -29,10 +30,12 @@ import { RecipesListComponent } from '../../components/recipe-components/recipes
 })
 export class RecipesPage implements OnInit {
 
-  recipes: Recipe[] = [];
+  recipes: IRecipe[] = [];
 
 
-  constructor(private recipesService: RecipesService) {
+  constructor(private recipesService: RecipesService,
+    private router: Router
+  ) {
     addIcons({ add });
   }
 
@@ -41,8 +44,12 @@ export class RecipesPage implements OnInit {
   }
 
   loadRecipes() {
-    this.recipesService.getRecipes().subscribe((recipes: Recipe[]) => {
+    this.recipesService.getRecipes().subscribe((recipes: IRecipe[]) => {
       this.recipes = recipes;
     });
+  }
+
+  createRecipe() {
+    this.router.navigate(['tabs', 'recipes', 'new']);
   }
 }

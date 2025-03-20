@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { FoodRestriction } from '../enums/food-restriction.enum';
 import { Course } from '../enums/courses.enum';
-import { RecipeVariant } from '../interfaces/recipe-variant.interface';
-import { Recipe } from '../interfaces/recipe.interface';
+import { IRecipeVariant } from '../interfaces/recipe-variant.interface';
+import { IRecipe } from '../interfaces/recipe.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -12,8 +12,8 @@ export class RecipesService {
 
   restrictions = FoodRestriction;
 
-  oldRecipes: Recipe[] = [];
-  dummyRecipes: Recipe[] = [
+  oldRecipes: IRecipe[] = [];
+  dummyRecipes: IRecipe[] = [
     {
       id: 1, name: 'Špagety',
       courses: [Course.LUNCH, Course.DINNER],
@@ -571,7 +571,7 @@ export class RecipesService {
 
   }
 
-  deleteVariants(recipeId: number, variantIds: number[]): Observable<any> {
+  deleteVariants(recipeId: number, variantIds: number[]): Observable<IRecipeVariant[]> {
 
     this.oldRecipes = this.dummyRecipes;
 
@@ -579,7 +579,11 @@ export class RecipesService {
       recipe.variants = recipe.variants.filter(variant => !variantIds.includes(variant.id));
     });
 
-    return of(true);
+    const recipe = this.dummyRecipes.find(recipe => recipe.id === recipeId);
+    if (recipe) {
+      return of(recipe.variants);
+    }
+    return throwError(() => new Error('Recipe not found'));
 
   }
 
@@ -595,7 +599,7 @@ export class RecipesService {
   }
 
 
-  saveRecipe(recipe: Recipe): Observable<any> {
+  saveRecipe(recipe: IRecipe): Observable<any> {
 
     this.oldRecipes = this.dummyRecipes;
 
@@ -607,7 +611,7 @@ export class RecipesService {
       this.dummyRecipes[index] = recipe;
     }
 
-    return of(true);
+    return of(recipe);
   }
 
   deleteRecipe(recipeId: number): Observable<any> {

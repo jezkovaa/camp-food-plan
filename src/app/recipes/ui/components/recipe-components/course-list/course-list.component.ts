@@ -10,7 +10,16 @@ import { EventEmitter } from '@angular/core';
   templateUrl: './course-list.component.html',
   styleUrls: ['./course-list.component.scss'],
   standalone: true,
-  imports: [IonButtons, IonList, IonItem, IonCheckbox, IonLabel, IonButton, CommonModule, TranslateModule]
+  imports: [
+    IonList,
+    IonItem,
+    IonCheckbox,
+    IonLabel,
+    IonButton,
+
+    CommonModule,
+    TranslateModule
+  ]
 })
 export class CourseListComponent implements OnInit {
 

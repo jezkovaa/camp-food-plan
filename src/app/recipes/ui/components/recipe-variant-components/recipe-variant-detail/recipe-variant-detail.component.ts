@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { RecipeVariant } from 'src/app/recipes/data/interfaces/recipe-variant.interface';
+import { IRecipeVariant } from 'src/app/recipes/data/interfaces/recipe-variant.interface';
 import { IonList, IonReorder, IonReorderGroup, IonItem, IonLabel, IonTitle, IonGrid, IonCol, IonRow, IonCard, IonCardHeader, IonCardTitle, IonCardContent } from '@ionic/angular/standalone';
 import { TranslateModule } from '@ngx-translate/core';
 import { CommonModule } from '@angular/common';
@@ -15,7 +15,7 @@ import { CommonModule } from '@angular/common';
 })
 export class RecipeVariantDetailComponent implements OnInit {
 
-  @Input({ required: true }) variant!: RecipeVariant;
+  @Input({ required: true }) variant!: IRecipeVariant;
 
 
   isEditing = true;

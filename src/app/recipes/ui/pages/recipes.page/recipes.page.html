@@ -6,7 +6,7 @@
       </ion-buttons>
       <ion-title>{{"recipes.newTitle" | translate }}</ion-title>
       <ion-buttons slot="end">
-        <ion-button>
+        <ion-button (click)="createRecipe()">
           <ion-icon slot="icon-only" fill="solid" color="success" name="add" />
         </ion-button>
       </ion-buttons>

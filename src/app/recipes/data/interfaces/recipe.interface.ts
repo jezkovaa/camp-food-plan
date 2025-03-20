@@ -1,10 +1,9 @@
 import { Course } from '../enums/courses.enum';
-import { RecipeVariant } from './recipe-variant.interface';
+import { IRecipeVariant } from './recipe-variant.interface';
 
-export interface Recipe {
-  id: number;
+export interface IRecipe {
+  id: number | null;
   name: string;
   courses: Course[];
-  variants: RecipeVariant[];
+  variants: IRecipeVariant[];
 }
-

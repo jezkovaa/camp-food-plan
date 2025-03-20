@@ -1,30 +1,30 @@
 import { FoodRestriction } from "../enums/food-restriction.enum";
 
-interface Ingredient {
+interface IIngredient {
   name: string;
   unit: string;
   quantity: number;
   durability: number;
 }
 
-interface Proceeding {
+interface IProceeding {
 
   order: number;
   description: string;
 }
 
-interface HistoryOfChanges {
+interface IHistoryOfChanges {
 
   date: Date;
   changes: string;
 }
 
-export interface RecipeVariant {
+export interface IRecipeVariant {
   id: number;
   recipeId: number;
   name: string;
-  ingredients: Ingredient[];
-  proceeding: Proceeding[];
+  ingredients: IIngredient[];
+  proceeding: IProceeding[];
   restrictions: FoodRestriction[];
-  historyOfChanges: HistoryOfChanges[];
+  historyOfChanges: IHistoryOfChanges[];
 }
