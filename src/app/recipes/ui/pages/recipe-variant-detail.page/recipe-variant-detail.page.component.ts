@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { RecipeVariantDetailComponent } from '../../components/recipe-variant-components/recipe-variant-detail/recipe-variant-detail.component';
-import { RecipeVariant } from 'src/app/recipes/data/interfaces/recipe-variant.interface';
+import { IRecipeVariant } from 'src/app/recipes/data/interfaces/recipe-variant.interface';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RecipesService } from 'src/app/recipes/data/services/recipes.service';
 import { CommonModule } from '@angular/common';
 import { IonContent, IonHeader, IonToolbar, IonBackButton, IonButton, IonButtons, IonIcon, IonInfiniteScroll } from "@ionic/angular/standalone";
 import { addIcons } from 'ionicons';
 import { pencil, trash } from 'ionicons/icons';
-import { Recipe } from 'src/app/recipes/data/interfaces/recipe.interface';
+import { IRecipe } from 'src/app/recipes/data/interfaces/recipe.interface';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { AlertService } from '../../services/alert.service';
 
@@ -30,8 +30,8 @@ import { AlertService } from '../../services/alert.service';
 export class RecipeVariantDetailPage implements OnInit {
 
 
-  variant: RecipeVariant | null = null;
-  recipe: Recipe | null = null;
+  variant: IRecipeVariant | null = null;
+  recipe: IRecipe | null = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -49,10 +49,10 @@ export class RecipeVariantDetailPage implements OnInit {
     this.route.params.subscribe(params => {
       const recipeId = +params['id'];
       const variantId = +params['variantId'];
-      this.recipesService.getVariant(recipeId, variantId).subscribe((variant: RecipeVariant) => {
+      this.recipesService.getVariant(recipeId, variantId).subscribe((variant: IRecipeVariant) => {
         this.variant = variant;
       });
-      this.recipesService.getRecipe(recipeId).subscribe((recipe: Recipe) => {
+      this.recipesService.getRecipe(recipeId).subscribe((recipe: IRecipe) => {
         this.recipe = recipe;
       });
     });
@@ -67,17 +67,19 @@ export class RecipeVariantDetailPage implements OnInit {
         if (this.variant === null) {
           return;
         }
-        this.recipesService.deleteVariant(this.recipe!.id, this.variant.id).subscribe({
-          next: async () => {
-            this.router.navigate(['/tabs/recipes', this.recipe!.id]);
-            this.alertService.deleteSuccess();
+        if (this.recipe && this.recipe.id) {
+          this.recipesService.deleteVariant(this.recipe!.id, this.variant.id).subscribe({
+            next: async () => {
+              this.router.navigate(['/tabs/recipes', this.recipe!.id]);
+              this.alertService.deleteSuccess();
 
-          },
-          error: async (err: any) => {
-            this.alertService.deleteError(err);
+            },
+            error: async (err: any) => {
+              this.alertService.deleteError(err);
 
-          }
-        });
+            }
+          });
+        }
       }
     );
   }

@@ -3,20 +3,20 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { IonButton, IonIcon, IonCheckbox } from '@ionic/angular/standalone';
 import { RestrictionComponent } from '../../restriction/restriction.component';
-import { Recipe } from 'src/app/recipes/data/interfaces/recipe.interface';
-import { RecipeVariant } from 'src/app/recipes/data/interfaces/recipe-variant.interface';
+import { IRecipe } from 'src/app/recipes/data/interfaces/recipe.interface';
+import { IRecipeVariant } from 'src/app/recipes/data/interfaces/recipe-variant.interface';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-recipe-variant',
   templateUrl: './recipe-variant.component.html',
   styleUrls: ['./recipe-variant.component.scss'],
-  imports: [IonCheckbox, IonIcon, IonButton, TranslateModule, CommonModule, RestrictionComponent],
+  imports: [IonCheckbox, IonButton, TranslateModule, CommonModule, RestrictionComponent],
   standalone: true
 })
 export class RecipeVariantComponent {
 
-  @Input({ required: true }) variant!: RecipeVariant;
+  @Input({ required: true }) variant!: IRecipeVariant;
   @Input() isEditing = false;
   @Output() selectionChanged = new EventEmitter<{ id: number, selected: boolean; }>();
 

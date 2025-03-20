@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
-import { Recipe } from 'src/app/recipes/data/interfaces/recipe.interface';
+import { IRecipe } from 'src/app/recipes/data/interfaces/recipe.interface';
 import { RestrictionComponent } from "../../restriction/restriction.component";
 import { IonItem, IonButton, IonIcon } from "@ionic/angular/standalone";
 import { Router } from '@angular/router';
@@ -15,7 +15,7 @@ import { TranslateModule } from '@ngx-translate/core';
 })
 export class RecipeComponent {
 
-  @Input({ required: true }) recipe!: Recipe;
+  @Input({ required: true }) recipe!: IRecipe;
   @Input() isEditing = false;
 
   constructor(private router: Router) { }

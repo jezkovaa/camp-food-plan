@@ -50,7 +50,7 @@
       {{"recipe-detail.selected" | translate }} : {{selectedCount}}
     </ion-col>
     <ion-col>
-      <ion-button id="delete-selected-button" color="danger">
+      <ion-button (click)="deleteSelected()" color="danger">
         <ion-icon name="trash" />
         <div>
           {{"recipe-detail.delete-selected" | translate}}
@@ -78,6 +78,3 @@
 
   </ion-row>
 </ion-grid>
-
-<ion-alert trigger="delete-selected-button" header="A Short Title Is Best" subHeader="A Sub Header Is Optional"
-  message="A message should be a short, complete sentence." [buttons]="alertButtons" />

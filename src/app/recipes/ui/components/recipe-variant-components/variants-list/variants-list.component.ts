@@ -3,7 +3,7 @@ import { IonList } from "@ionic/angular/standalone";
 import { RecipeVariantComponent } from "../recipe-variant/recipe-variant.component";
 import { CommonModule } from '@angular/common';
 import { Input } from '@angular/core';
-import { RecipeVariant } from 'src/app/recipes/data/interfaces/recipe-variant.interface';
+import { IRecipeVariant } from 'src/app/recipes/data/interfaces/recipe-variant.interface';
 
 @Component({
   selector: 'app-variants-list',
@@ -14,7 +14,7 @@ import { RecipeVariant } from 'src/app/recipes/data/interfaces/recipe-variant.in
 })
 export class VariantsListComponent implements OnInit {
 
-  @Input({ required: true }) variants: RecipeVariant[] = [];
+  @Input({ required: true }) variants: IRecipeVariant[] = [];
   @Input() isEditing = false;
   @Output() selectedCountChanged = new EventEmitter<number[]>();
 

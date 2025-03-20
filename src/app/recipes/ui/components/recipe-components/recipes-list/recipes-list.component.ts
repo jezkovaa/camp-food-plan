@@ -3,7 +3,7 @@ import { IonList } from '@ionic/angular/standalone';
 import { RecipeComponent } from '../recipe/recipe.component';
 import { CommonModule } from '@angular/common';
 import { Input } from '@angular/core';
-import { Recipe } from 'src/app/recipes/data/interfaces/recipe.interface';
+import { IRecipe } from 'src/app/recipes/data/interfaces/recipe.interface';
 
 @Component({
   selector: 'app-recipes-list',
@@ -14,7 +14,7 @@ import { Recipe } from 'src/app/recipes/data/interfaces/recipe.interface';
 })
 export class RecipesListComponent {
 
-  @Input({ required: true }) recipes: Recipe[] = [];
+  @Input({ required: true }) recipes: IRecipe[] = [];
 
   constructor() { }
 
