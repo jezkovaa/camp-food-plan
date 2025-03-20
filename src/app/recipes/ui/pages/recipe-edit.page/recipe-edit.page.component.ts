@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { IonHeader, IonToolbar, IonBackButton, IonButtons, IonButton, IonContent, IonIcon, IonRow, IonCol, IonGrid, IonTextarea } from '@ionic/angular/standalone';
-import { AlertController } from '@ionic/angular';
 import { RecipeDetailComponent } from '../../components/recipe-components/recipe-detail/recipe-detail.component';
 import { TranslateModule, TranslateService, TranslateStore } from '@ngx-translate/core';
 import { CommonModule } from '@angular/common';
@@ -12,7 +11,7 @@ import { save, closeCircle } from 'ionicons/icons';
 import { FormsModule } from '@angular/forms';
 import cloneDeep from 'lodash/cloneDeep';
 import isEqual from 'lodash/isEqual';
-import { IonicModule } from '@ionic/angular';
+import { AlertService } from '../../services/alert.service';
 
 @Component({
   selector: 'app-recipe-edit.page',
@@ -47,7 +46,7 @@ export class RecipeEditPage implements OnInit {
   constructor(private route: ActivatedRoute,
     private recipesService: RecipesService,
     private router: Router,
-    private alertController: AlertController,
+    private alertService: AlertService,
     private translateService: TranslateService) {
 
     addIcons({ save, closeCircle });
@@ -66,22 +65,13 @@ export class RecipeEditPage implements OnInit {
 
   async saveRecipe() {
     if (isEqual(this.recipeDetail.recipe, this.initRecipe)) {
-      const alert = await this.alertController.create({
-        header: this.translateService.instant('alert.no-changes'),
-        message: this.translateService.instant('alert.no-changes-message'),
-        buttons: [
-          {
-            text: this.translateService.instant('alert.ok'),
-            role: 'cancel',
-          }
-        ]
-      });
-      await alert.present();
+      this.alertService.presentAlert(
+        this.translateService.instant('alert.no-changes'),
+        this.translateService.instant('alert.no-changes-message'),);
     }
     else if (this.recipe) {
       this.recipesService.saveRecipe(this.recipe).subscribe({
         next: (res: any) => {
-          console.log('Recipe saved', res);
           this.router.navigate(['/tabs/recipes/', this.recipe?.id]);
         },
         error: (err: any) => {
@@ -94,27 +84,17 @@ export class RecipeEditPage implements OnInit {
   async closeRecipe() {
 
     if (!isEqual(this.recipeDetail.recipe, this.initRecipe)) {
-      const alert = await this.alertController.create({
-        header: this.translateService.instant('alert.unsaved-changes'),
-        message: this.translateService.instant('alert.unsaved-changes-message'),
-        buttons: [
-          {
-            text: this.translateService.instant('alert.cancel'),
-            role: 'cancel',
-            handler: () => {
-              console.log('Cancel clicked');
-            }
-          },
-          {
-            text: this.translateService.instant('alert.ok'),
-            handler: () => {
-              this.recipe = this.initRecipe;
-              this.router.navigate(['/tabs/recipes/', this.recipe?.id]);
-            }
-          }
-        ]
-      });
-      await alert.present();
+
+      this.alertService.presentConfirm(
+        this.translateService.instant('alert.unsaved-changes'),
+        this.translateService.instant('alert.unsaved-changes-message'),
+        () => {
+          this.recipe = this.initRecipe;
+          this.router.navigate(['/tabs/recipes/', this.recipe?.id]);
+        },
+        () => {
+          console.log('Cancel clicked');
+        });
     }
     else {
       this.recipe = this.initRecipe;
