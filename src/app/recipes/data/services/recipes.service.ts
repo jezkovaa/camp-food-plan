@@ -583,6 +583,17 @@ export class RecipesService {
 
   }
 
+  deleteVariant(recipeId: number, variantId: number): Observable<any> {
+
+    this.oldRecipes = this.dummyRecipes;
+
+    this.dummyRecipes.filter(recipe => recipe.id === recipeId).forEach(recipe => {
+      recipe.variants = recipe.variants.filter(variant => variant.id !== variantId);
+    });
+
+    return of(true);
+  }
+
 
   saveRecipe(recipe: Recipe): Observable<any> {
 

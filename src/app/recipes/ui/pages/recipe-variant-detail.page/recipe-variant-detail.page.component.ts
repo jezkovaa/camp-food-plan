@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { RecipeVariantDetailComponent } from '../../components/recipe-variant-components/recipe-variant-detail/recipe-variant-detail.component';
 import { RecipeVariant } from 'src/app/recipes/data/interfaces/recipe-variant.interface';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { RecipesService } from 'src/app/recipes/data/services/recipes.service';
 import { CommonModule } from '@angular/common';
 import { IonContent, IonHeader, IonToolbar, IonBackButton, IonButton, IonButtons, IonIcon, IonInfiniteScroll } from "@ionic/angular/standalone";
 import { addIcons } from 'ionicons';
 import { pencil, trash } from 'ionicons/icons';
 import { Recipe } from 'src/app/recipes/data/interfaces/recipe.interface';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { AlertService } from '../../services/alert.service';
 
 @Component({
   selector: 'app-recipe-variant-detail.page',
@@ -34,7 +35,10 @@ export class RecipeVariantDetailPage implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private recipesService: RecipesService
+    private recipesService: RecipesService,
+    private translateService: TranslateService,
+    private alertService: AlertService,
+    private router: Router
   ) {
 
     addIcons({ trash, pencil });
@@ -52,6 +56,30 @@ export class RecipeVariantDetailPage implements OnInit {
         this.recipe = recipe;
       });
     });
+  }
+
+
+  async deleteVariant() {
+    this.alertService.presentConfirm(
+      this.translateService.instant('recipe-variant-detail.delete-variant'),
+      this.translateService.instant('recipe-variant-detail.delete-variant-message'),
+      () => {
+        if (this.variant === null) {
+          return;
+        }
+        this.recipesService.deleteVariant(this.recipe!.id, this.variant.id).subscribe({
+          next: async () => {
+            this.router.navigate(['/tabs/recipes', this.recipe!.id]);
+            this.alertService.deleteSuccess();
+
+          },
+          error: async (err: any) => {
+            this.alertService.deleteError(err);
+
+          }
+        });
+      }
+    );
   }
 }
 
