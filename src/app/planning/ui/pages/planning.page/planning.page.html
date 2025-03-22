@@ -1,0 +1,20 @@
+<div id="planning-home" class="ion-page">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title> {{ "planning" | translate}}</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content [fullscreen]="true">
+
+    <div class="content">
+      <ion-label *ngIf="plannedEvents.length === 0">{{"planning.no-planned-events"}}</ion-label>
+      <ion-button>
+        <ion-icon slot="start" name="add" (click)="createEvent()"></ion-icon>
+        <ion-label>{{"planning.add-event"}}</ion-label>
+      </ion-button>
+
+    </div>
+
+  </ion-content>
+</div>
