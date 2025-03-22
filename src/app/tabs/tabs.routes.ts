@@ -41,6 +41,11 @@ export const routes: Routes = [
           import('../planning/ui/pages/event-edit.page/event-edit.page').then((m) => m.EventEditPage),
       },
       {
+        path: 'planning/events/:id',
+        loadComponent: () =>
+          import('../planning/ui/pages/event/event.page').then((m) => m.EventPage)
+      },
+      {
         path: 'planning/events/:id/edit',
         loadComponent: () =>
           import('../planning/ui/pages/event-edit.page/event-edit.page').then((m) => m.EventEditPage),

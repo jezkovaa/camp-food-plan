@@ -1,0 +1,27 @@
+#event-page {
+
+  ::ng-deep .toolbar-content {
+    align-items: center;
+    justify-content: center;
+    display: flex;
+  }
+
+  .my-toolbar-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+
+  ::ng-deep .content {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-direction: column;
+    height: 60%;
+  }
+
+  ::ng-deep .content-button {
+    width: 100%;
+  }
+}

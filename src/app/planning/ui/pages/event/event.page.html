@@ -1,0 +1,52 @@
+<div id="event-page" class="ion-page">
+  <ion-header [translucent]="true">
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-back-button defaultHref="/planning" text="" />
+      </ion-buttons>
+
+      <div class="my-toolbar-content">
+        <ion-label>{{"planning.event.choose-event"}}</ion-label>
+        <ion-button (click)="editEvent()" fill="clear">
+          <ion-icon slot="icon-only" name="pencil" />
+        </ion-button>
+      </div>
+
+      <ion-buttons slot="end">
+        <ion-button id="select-event" fill="clear" class="ion-align-self-center select-even-button"
+          style="align-self: flex-end; display: flex;">
+          <ion-icon slot="icon-only" name="chevron-down" />
+        </ion-button>
+      </ion-buttons>
+
+      <ion-popover trigger="select-event" triggerAction="click">
+        <ng-template>
+          <app-select-event />
+        </ng-template>
+      </ion-popover>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content [fullscreen]="true">
+    <div class="content ion-padding-start ion-padding-end">
+      <div>
+        <ion-icon name="calendar" class="event-icon" />
+        <ion-label>
+          {{event?.dateFrom | date: 'dd.MM.yyyy'}} - {{event?.dateTo | date: 'dd.MM.yyyy'}}
+        </ion-label>
+      </div>
+      <ion-button (click)="loadParticipants()" class="content-button">
+
+        {{"planning.event.load-participants" | translate}}
+      </ion-button>
+
+      <ion-button (click)="displayMenu()" class="content-button">
+        {{"planning.event.display-menu" | translate}}
+      </ion-button>
+
+      <ion-button (click)="shoppingLists()" class="content-button">
+        {{"planning.event.shopping-lists" | translate}}
+      </ion-button>
+    </div>
+  </ion-content>
+</div>
