@@ -84,8 +84,7 @@ export class EventEditPage implements OnInit {
 
   async saveEvent() {
     const same = isEqual(this.event, this.initEvent);
-    if (this.isCreating) { //creating new recipe and nothing filled
-
+    if (this.isCreating) { //creating new event and nothing filled
       if (this.event && this.validateEvent()) {
         this.planningService.saveEvent(this.event).subscribe({
           next: (res: IPlannedEvent) => {
