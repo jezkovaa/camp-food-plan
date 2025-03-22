@@ -3,6 +3,7 @@ import { IPlannedEvent } from 'src/app/planning/data/interfaces/planned-event.in
 import { IonToolbar, IonLabel, IonItem, IonList, IonSearchbar, IonButtons, IonButton, IonCheckbox } from "@ionic/angular/standalone";
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { EventsService } from 'src/app/planning/data/services/planning.service';
 
 @Component({
   selector: 'app-select-event',
@@ -21,16 +22,28 @@ import { CommonModule } from '@angular/common';
 })
 export class SelectEventComponent implements OnInit {
 
-  @Input() items: IPlannedEvent[] = [];
-  @Input() selectedItem: string = "";
-  @Input() title = 'Select Items';
+
 
   @Output() selectionChange = new EventEmitter<string>();
 
   filteredItems: IPlannedEvent[] = [];
+  items: IPlannedEvent[] = [];
+
+  constructor(private eventService: EventsService) {
+
+  }
 
   ngOnInit() {
     this.filteredItems = [...this.items];
+    this.eventService.getPlannedEvents().subscribe({
+      next: (plannedEvents) => {
+        this.items = plannedEvents;
+        this.filteredItems = [...this.items];
+      },
+      error: (error) => {
+        console.error(error);
+      }
+    });
   }
 
 

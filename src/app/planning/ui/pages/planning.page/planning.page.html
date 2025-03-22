@@ -18,7 +18,7 @@
         <ion-icon slot="end" name="chevron-down"></ion-icon>
         {{selectedEventText}}</ion-button>
       <ion-popover trigger="showPopover" show-backdrop="true" showBackdrop="true">
-        <app-select-event *ngIf="plannedEvents.length !== 0" title="Select Event" [items]="this.plannedEvents"
+        <app-select-event *ngIf="plannedEvents.length !== 0" title="Select Event"
           (selectionChange)="selectionChanged($event)"></app-select-event>
       </ion-popover>
 
