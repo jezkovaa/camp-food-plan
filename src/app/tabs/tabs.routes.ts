@@ -36,6 +36,16 @@ export const routes: Routes = [
           import('../planning/ui/pages/planning.page/planning.page').then((m) => m.PlanningPage),
       },
       {
+        path: 'planning/events/new',
+        loadComponent: () =>
+          import('../planning/ui/pages/event-edit.page/event-edit.page').then((m) => m.EventEditPage),
+      },
+      {
+        path: 'planning/events/:id/edit',
+        loadComponent: () =>
+          import('../planning/ui/pages/event-edit.page/event-edit.page').then((m) => m.EventEditPage),
+      },
+      {
         path: '',
         redirectTo: '/tabs/recipes',
         pathMatch: 'full',

@@ -1,16 +1,17 @@
 import { Injectable } from '@angular/core';
-import { PlannedEvent } from '../interfaces/planned-event.interface';
+import { IPlannedEvent } from '../interfaces/planned-event.interface';
 import { FoodRestriction } from 'src/app/recipes/data/enums/food-restriction.enum';
-import { Observable, of } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
+import { last } from 'lodash';
 
 @Injectable({
   providedIn: 'root'
 })
-export class PlanningService {
+export class EventsService {
 
   constructor() { }
-  noData: PlannedEvent[] = [];
-  dummyData: PlannedEvent[] = [
+  noData: IPlannedEvent[] = [];
+  dummyData: IPlannedEvent[] = [
     {
       id: '1',
       name: 'Tábor 2025',
@@ -69,9 +70,35 @@ export class PlanningService {
     }
   ];
 
-  getPlannedEvents(): Observable<PlannedEvent[]> {
+  getPlannedEvents(): Observable<IPlannedEvent[]> {
 
     return of(this.dummyData);
 
+  }
+
+  getEvent(id: number): Observable<IPlannedEvent> {
+    const event = this.dummyData.find(event => event.id === id.toString());
+    if (event) {
+      return of(event);
+    }
+    return throwError(() => new Error('Event not found'));
+  }
+
+  saveEvent(event: IPlannedEvent): Observable<IPlannedEvent> {
+    const existingEvent = this.dummyData.find(e => e.id === event.id);
+    if (existingEvent) {
+      Object.assign(existingEvent, event);
+      return of(existingEvent);
+    }
+    else {
+      let lastId = this.dummyData[(this.dummyData.length - 1)]?.id;
+      if (lastId === undefined) {
+        lastId = '0';
+      }
+      event.id = (parseInt(lastId) + 1).toString();
+      this.dummyData.push(event);
+
+      return of(event);
+    }
   }
 }

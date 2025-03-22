@@ -1,0 +1,17 @@
+#event-edit-page {
+  ::ng-deep .content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  ::ng-deep .upper-part {
+    display: flex;
+  }
+
+  ::ng-deep .header-event-name {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: grey;
+  }
+}

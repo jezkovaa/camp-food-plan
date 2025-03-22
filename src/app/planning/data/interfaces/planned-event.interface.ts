@@ -1,15 +1,15 @@
 import { FoodRestriction } from "src/app/recipes/data/enums/food-restriction.enum";
 
-export interface PlannedEvent {
+export interface IPlannedEvent {
   id: string;
   name: string;
-  dateFrom: Date;
-  dateTo: Date;
+  dateFrom: Date | null;
+  dateTo: Date | null;
   description?: string;
-  participants: Participant[];
+  participants: IParticipant[];
 }
 
-export interface Participant {
+export interface IParticipant {
   id: string;
   restrictions: FoodRestriction[];
 }
