@@ -4,10 +4,11 @@ import { IonHeader, IonToolbar, IonTitle, IonContent, IonLabel, IonButton, IonIc
 import { TranslateModule } from '@ngx-translate/core';
 import { addIcons } from 'ionicons';
 import { add, chevronDown } from 'ionicons/icons';
-import { PlannedEvent } from 'src/app/planning/data/interfaces/planned-event.interface';
-import { PlanningService } from 'src/app/planning/data/services/planning.service';
+import { IPlannedEvent } from 'src/app/planning/data/interfaces/planned-event.interface';
+import { EventsService } from 'src/app/planning/data/services/planning.service';
 import { SelectEventComponent } from '../../components/select-popover/select-event.component';
 import { PopoverController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-planning',
@@ -29,7 +30,7 @@ import { PopoverController } from '@ionic/angular';
 })
 export class PlanningPage implements OnInit {
 
-  plannedEvents: PlannedEvent[] = [];
+  plannedEvents: IPlannedEvent[] = [];
   selectedEventId: string = '';
 
   get selectedEventText(): string {
@@ -39,7 +40,8 @@ export class PlanningPage implements OnInit {
 
   @ViewChild(IonPopover) popover!: IonPopover;
 
-  constructor(private planningService: PlanningService
+  constructor(private planningService: EventsService,
+    private router: Router
   ) {
     addIcons({ add, chevronDown });
   }
@@ -56,13 +58,13 @@ export class PlanningPage implements OnInit {
   }
 
   createEvent() {
-    //todo
+    this.router.navigate(['tabs/planning/events/new']);
   }
 
   selectionChanged(selectedEventId: string) {
-    //todo redirect to event details
     this.selectedEventId = selectedEventId;
     this.popover.dismiss();
+    this.router.navigate(['tabs/planning/events/', selectedEventId]);
 
   }
 }

@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { PopoverController } from '@ionic/angular';
-import { PlannedEvent } from 'src/app/planning/data/interfaces/planned-event.interface';
+import { IPlannedEvent } from 'src/app/planning/data/interfaces/planned-event.interface';
 import { IonToolbar, IonLabel, IonItem, IonList, IonSearchbar, IonButtons, IonButton, IonCheckbox } from "@ionic/angular/standalone";
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -22,20 +21,20 @@ import { CommonModule } from '@angular/common';
 })
 export class SelectEventComponent implements OnInit {
 
-  @Input() items: PlannedEvent[] = [];
+  @Input() items: IPlannedEvent[] = [];
   @Input() selectedItem: string = "";
   @Input() title = 'Select Items';
 
   @Output() selectionChange = new EventEmitter<string>();
 
-  filteredItems: PlannedEvent[] = [];
+  filteredItems: IPlannedEvent[] = [];
 
   ngOnInit() {
     this.filteredItems = [...this.items];
   }
 
 
-  selectItem(item: PlannedEvent) {
+  selectItem(item: IPlannedEvent) {
     this.selectionChange.emit(item.id);
   }
 

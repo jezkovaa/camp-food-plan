@@ -1,0 +1,48 @@
+<div id="event-edit-page" class="ion-page">
+  <ion-header>
+    <ion-toolbar>
+      <div class="upper-part ion-justify-content-end">
+        <ion-buttons slot="end">
+          <ion-button (click)="saveEvent()" color="tertiary">
+            <ion-icon slot="icon-only" fill="solid" name="save" />
+          </ion-button>
+          <ion-button (click)="closeEvent()" color="danger">
+            <ion-icon slot="icon-only" fill="solid" name="close-circle" />
+          </ion-button>
+        </ion-buttons>
+      </div>
+      <ion-buttons slot="start" class="ion-padding-end">
+        <ion-back-button defaultHref="/planning" text="" />
+      </ion-buttons>
+      <div>
+        <div class="ion-padding-top">{{"recipe" | translate }}</div>
+        <div style="display: flex; justify-content: space-between;">
+          <div style="display: flex; align-items: center;">
+            <div *ngIf="event" class="header-event-name">
+              <ion-textarea [(ngModel)]="event.name" placeholder="{{'planning.event.empty-name' |translate }}" />
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content>
+    <div *ngIf="event !== null" class="content">
+      <ion-button fill="clear" id="choose-date">
+        <ion-icon slot="start" name="calendar" />
+        <ion-label *ngIf="event.dateFrom && event.dateTo">{{event.dateFrom | date:'dd.MM.yyyy'}} - {{event.dateTo |
+          date:'dd.MM.yyyy'}}</ion-label>
+        <ion-label *ngIf="!event.dateFrom || !event.dateTo">{{"planning.event.choose-date" | translate}}</ion-label>
+      </ion-button>
+      <ion-popover id="choose-date-popover" trigger="choose-date" triggerAction="click" size="cover">
+        <ng-template>
+          <ion-range-calendar [(ngModel)]="dateRange" [options]="optionsRange" type="string" [format]="'yyyy-MM-dd'"
+            (ionChange)="onDidDismiss($event)">
+          </ion-range-calendar>
+        </ng-template>
+      </ion-popover>
+    </div>
+  </ion-content>
+</div>
