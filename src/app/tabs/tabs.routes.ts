@@ -33,7 +33,7 @@ export const routes: Routes = [
       {
         path: 'planning',
         loadComponent: () =>
-          import('../planning/planning.page').then((m) => m.PlanningPage),
+          import('../planning/ui/pages/planning.page/planning.page').then((m) => m.PlanningPage),
       },
       {
         path: '',
