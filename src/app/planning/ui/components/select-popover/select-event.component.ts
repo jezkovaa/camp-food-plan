@@ -23,17 +23,15 @@ import { CommonModule } from '@angular/common';
 export class SelectEventComponent implements OnInit {
 
   @Input() items: PlannedEvent[] = [];
-  @Input() selectedItems: string = "";
+  @Input() selectedItem: string = "";
   @Input() title = 'Select Items';
 
   @Output() selectionChange = new EventEmitter<string>();
 
   filteredItems: PlannedEvent[] = [];
-  workingSelectedValues: string[] = [];
 
   ngOnInit() {
     this.filteredItems = [...this.items];
-    this.workingSelectedValues = [...this.selectedItems];
   }
 
 
