@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonPopover, IonButton, IonIcon, IonLabel, IonItem, IonButtons, IonBackButton } from '@ionic/angular/standalone';
 import { SelectEventComponent } from '../../components/select-popover/select-event.component';
-import { add } from 'lodash';
 import { addIcons } from 'ionicons';
 import { chevronDown, pencil } from 'ionicons/icons';
 import { ActivatedRoute } from '@angular/router';
