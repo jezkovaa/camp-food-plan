@@ -1,0 +1,12 @@
+<ion-toolbar>
+  <ion-searchbar (ionInput)="searchbarInput($event)"></ion-searchbar>
+</ion-toolbar>
+
+<ion-list id="modal-list" [inset]="true">
+  @for (item of filteredItems; track item.name) {
+  <ion-item>
+    <ion-button (click)="selectItem(item)">{{
+      item.name }}</ion-button>
+  </ion-item>
+  }
+</ion-list>

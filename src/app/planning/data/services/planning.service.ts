@@ -71,7 +71,7 @@ export class PlanningService {
 
   getPlannedEvents(): Observable<PlannedEvent[]> {
 
-    return of(this.noData);
+    return of(this.dummyData);
 
   }
 }
