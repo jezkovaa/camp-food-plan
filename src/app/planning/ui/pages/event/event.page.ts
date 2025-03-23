@@ -5,7 +5,7 @@ import { IonContent, IonHeader, IonTitle, IonToolbar, IonPopover, IonButton, Ion
 import { SelectEventComponent } from '../../components/select-popover/select-event.component';
 import { addIcons } from 'ionicons';
 import { chevronDown, pencil } from 'ionicons/icons';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { PlannedEvent } from 'src/app/planning/data/models/planned-event';
 import { IPlannedEvent } from 'src/app/planning/data/interfaces/planned-event.interface';
 import { EventsService } from 'src/app/planning/data/services/planning.service';
@@ -32,7 +32,8 @@ export class EventPage implements OnInit {
   event: IPlannedEvent | null = null;
 
   constructor(private route: ActivatedRoute,
-    private eventService: EventsService
+    private eventService: EventsService,
+    private router: Router
   ) {
 
     addIcons({ pencil, chevronDown });
@@ -70,7 +71,7 @@ export class EventPage implements OnInit {
 
 
   shoppingLists() {
-    //todo
+    this.router.navigate(['tabs/planning/events/', this.event?.id, 'shopping-lists']);
   }
 
 };

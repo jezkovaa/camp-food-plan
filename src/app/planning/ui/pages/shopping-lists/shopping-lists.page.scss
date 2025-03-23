@@ -1,0 +1,19 @@
+#shopping-lists-page {
+
+  ::ng-deep .shopping-lists-title {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+
+  ::ng-deep .column-lists {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  ::ng-deep .align-center {
+    text-align: center;
+    align-self: center;
+  }
+}

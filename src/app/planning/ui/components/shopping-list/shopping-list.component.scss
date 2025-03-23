@@ -1,0 +1,11 @@
+#shopping-list {
+
+  ::ng-deep .wrap-text {
+    white-space: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    text-align: center
+  }
+
+}

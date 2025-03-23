@@ -1,0 +1,52 @@
+<div id="shopping-lists-page" class="ion-page">
+  <ion-header [translucent]="true" class="ion-padding-start ion-padding-end">
+    <ion-toolbar>
+      <ion-label class="shopping-lists-title">
+        <div class=" custom-title-2">{{"planning.shopping-lists" | translate}}</div>
+        <div>
+          {{event?.name}}
+        </div>
+      </ion-label>
+      <ion-buttons slot="end">
+        <ion-button (click)="getPDF()" fill="solid" class="ion-text-wrap"
+          style="max-width: 150px">{{"event.shopping-lists.getPDF"
+          |translate}}</ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content [fullscreen]="true" class="ion-padding-top">
+    <ion-grid id="shopping-list-detail">
+      <ion-row>
+        <ion-col class="align-center custom-label">
+          {{"event.date" | translate}}:
+        </ion-col>
+        <ion-col class="align-center custom-label">
+          {{"event.shopping-lists.minimum" | translate}}:
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col class="align-center custom-title-4">
+          {{event?.dateFrom | date: 'dd.MM.yyyy'}} - {{event?.dateTo | date: 'dd.MM.yyyy'}}
+        </ion-col>
+        <ion-col class="align-center custom-title-4">
+          {{shoppingLists.length}}
+        </ion-col>
+      </ion-row>
+
+      <ion-row class="ion-padding-top">
+        <ion-col *ngIf="shoppingLists.length > 0" class="column-lists">
+          <div *ngFor="let list of shoppingLists" style="display: flex; gap: 10px">
+            <app-shopping-list [list]="list" />
+          </div>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col *ngIf="shoppingLists.length === 0">
+          <p>{{"event.shopping-lists.no-shopping-lists" | translate}}</p>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-content>
+</div>
