@@ -1,0 +1,39 @@
+<div id="shopping-list" class="shopping-list" style="    display: flex
+    ;
+        flex-direction: row;
+        justify-content: space-between;
+        /* align-content: space-around; */
+        gap: 10px;
+        align-items: center;
+        flex-wrap: wrap;
+        border: 1px solid #d3d3d3;
+        padding: 10px;
+        border-radius: 10px;
+">
+  <ion-label class="list-name custom-title-4">
+    {{list.name}}
+  </ion-label>
+  <ion-grid>
+    <ion-row>
+      <ion-col class="wrap-text custom-label">
+        {{"event.date" | translate}}:
+      </ion-col>
+      <ion-col class="wrap-text custom-label">
+        {{"event.shopping-lists.minimum-count" | translate}}:
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="wrap-text">
+        {{list.date | date: 'dd.MM.yyyy'}}
+      </ion-col>
+      <ion-col class="wrap-text">
+        {{list.items.length}}
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-button (click)="openList()" color="primary" fill="clear">
+    <ion-icon name="chevron-forward"></ion-icon>
+
+  </ion-button>
+
+</div>
