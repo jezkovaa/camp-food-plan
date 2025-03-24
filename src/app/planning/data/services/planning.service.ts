@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { IPlannedEvent } from '../interfaces/planned-event.interface';
 import { FoodRestriction } from 'src/app/recipes/data/enums/food-restriction.enum';
 import { Observable, of, throwError } from 'rxjs';
-import { last } from 'lodash';
 import { IShoppingList } from '../interfaces/shopping-list.interface';
+import { IDayMenu } from '../interfaces/day-menu.interface';
+import { Course } from 'src/app/recipes/data/enums/courses.enum';
 
 @Injectable({
   providedIn: 'root'
@@ -39,6 +40,59 @@ export class EventsService {
         { id: 'p18', restrictions: [FoodRestriction.VEGETARIAN] },
         { id: 'p19', restrictions: [FoodRestriction.NONE] },
         { id: 'p20', restrictions: [FoodRestriction.GLUTEN_FREE] }
+      ],
+      menu: [
+        {
+          id: '1',
+          date: new Date('2025-07-01'),
+          meals: [
+            {
+              id: '1',
+              course: Course.BREAKFAST,
+              chosenRecipes: [
+                {
+                  recipeId: 'r1',
+                  variants: [
+                    {
+                      variantId: 'v1',
+                      portions: 20
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              id: '2',
+              course: Course.LUNCH,
+              chosenRecipes: [
+                {
+                  recipeId: 'r2',
+                  variants: [
+                    {
+                      variantId: 'v2',
+                      portions: 20
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              id: '3',
+              course: Course.DINNER,
+              chosenRecipes: [
+                {
+                  recipeId: '3',
+                  variants: [
+                    {
+                      variantId: '1',
+                      portions: 20
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
       ]
     },
     {
@@ -67,6 +121,59 @@ export class EventsService {
         { id: 'p18', restrictions: [FoodRestriction.VEGETARIAN] },
         { id: 'p19', restrictions: [FoodRestriction.NONE] },
         { id: 'p20', restrictions: [FoodRestriction.GLUTEN_FREE] }
+      ],
+      menu: [
+        {
+          id: '1',
+          date: new Date('2025-07-01'),
+          meals: [
+            {
+              id: '1',
+              course: Course.BREAKFAST,
+              chosenRecipes: [
+                {
+                  recipeId: 'r1',
+                  variants: [
+                    {
+                      variantId: 'v1',
+                      portions: 20
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              id: '2',
+              course: Course.LUNCH,
+              chosenRecipes: [
+                {
+                  recipeId: 'r2',
+                  variants: [
+                    {
+                      variantId: 'v2',
+                      portions: 20
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              id: '3',
+              course: Course.DINNER,
+              chosenRecipes: [
+                {
+                  recipeId: '3',
+                  variants: [
+                    {
+                      variantId: '1',
+                      portions: 20
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
       ]
     }
   ];
@@ -140,6 +247,17 @@ export class EventsService {
     ];
 
     return of(shoppingLists);
+
+  }
+
+
+  getEventMenu(eventId: string): Observable<IDayMenu[]> {
+
+    const menu = this.dummyData.find(event => event.id === eventId)?.menu;
+    if (menu === undefined) {
+      return of([]);
+    }
+    return of(menu);
 
   }
 }

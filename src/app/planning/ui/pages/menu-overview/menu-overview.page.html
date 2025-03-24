@@ -1,0 +1,11 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>{{"planning.event.menu"}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div *ngFor="let dayMenu of dayMenus">
+    <app-day-menu-overview [dayMenu]="dayMenu"></app-day-menu-overview>
+  </div>
+</ion-content>

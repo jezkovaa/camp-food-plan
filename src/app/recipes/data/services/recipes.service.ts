@@ -622,4 +622,11 @@ export class RecipesService {
 
     return of(true);
   }
+
+  getRecipesNames(recipeIds: string[]): Observable<any> {
+
+    const recipes = this.dummyRecipes.filter(recipe => recipe.id && recipeIds.includes(recipe.id.toString()));
+    return of(recipes.map(recipe => recipe.name));
+
+  }
 }

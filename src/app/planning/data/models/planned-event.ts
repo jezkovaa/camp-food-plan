@@ -1,3 +1,4 @@
+import { IDayMenu } from "../interfaces/day-menu.interface";
 import { IPlannedEvent, IParticipant } from "../interfaces/planned-event.interface";
 
 export class PlannedEvent implements IPlannedEvent {
@@ -7,5 +8,6 @@ export class PlannedEvent implements IPlannedEvent {
   dateTo: Date | null = null;
   description?: string;
   participants: IParticipant[] = [];
+  menu: IDayMenu[] = [];
 
 }
