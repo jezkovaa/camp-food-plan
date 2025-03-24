@@ -1,0 +1,20 @@
+{
+  "planning": {
+    "title": "Plánovanie",
+    "add-event": "Pridať udalosť"
+  },
+  "courses": {
+    "BREAKFAST": "Raňajky",
+    "MORNING_SNACK": "Desiata",
+    "LUNCH": "Obed",
+    "DINNER": "Večera",
+    "SNACK": "Olovrant"
+  },
+  "event": {
+    "date": "Dátum"
+  },
+  "HOME": {
+    "TITLE": "Vitajte",
+    "DESCRIPTION": "Toto je testovací popis"
+  }
+}
