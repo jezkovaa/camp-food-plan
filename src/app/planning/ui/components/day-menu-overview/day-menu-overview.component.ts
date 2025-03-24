@@ -30,6 +30,12 @@ export class DayMenuOverviewComponent implements OnInit {
   courses = Object.values(Course);
   recipeNames: { [key in Course]: string[]; } = {} as { [key in Course]: string[]; };
 
+
+  get getDayName() {
+    const formattedDate = new Intl.DateTimeFormat(this.translateService.currentLang, { weekday: 'long', day: 'numeric', month: 'numeric' }).format(this.dayMenu.date);
+    return formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1);
+  }
+
   constructor(private translateService: TranslateService,
     private recipesService: RecipesService
   ) {
@@ -56,17 +62,17 @@ export class DayMenuOverviewComponent implements OnInit {
   getCourseName(course: Course): string {
     switch (course) {
       case Course.BREAKFAST:
-        return this.translateService.instant('planning.day-menu-overview.breakfast');
+        return this.translateService.instant('courses.BREAKFAST');
       case Course.LUNCH:
-        return this.translateService.instant('planning.day-menu-overview.lunch');;
+        return this.translateService.instant('courses.LUNCH');;
       case Course.DINNER:
-        return this.translateService.instant('planning.day-menu-overview.dinner');;
+        return this.translateService.instant('courses.DINNER');;
       case Course.SNACK:
-        return this.translateService.instant('planning.day-menu-overview.snack');
+        return this.translateService.instant('courses.SNACK');
       case Course.MORNING_SNACK:
-        return this.translateService.instant('planning.day-menu-overview.morning-snack');
+        return this.translateService.instant('courses.MORNING-SNACK');
       default:
-        return this.translateService.instant('planning.day-menu-overview.breakfast');;
+        return this.translateService.instant('courses.BREAKFAST');;
     }
   }
 

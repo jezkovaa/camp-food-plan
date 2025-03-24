@@ -18,7 +18,7 @@ export class RecipeVariantComponent {
 
   @Input({ required: true }) variant!: IRecipeVariant;
   @Input() isEditing = false;
-  @Output() selectionChanged = new EventEmitter<{ id: number, selected: boolean; }>();
+  @Output() selectionChanged = new EventEmitter<{ id: string, selected: boolean; }>();
 
   constructor(private router: Router) { }
 

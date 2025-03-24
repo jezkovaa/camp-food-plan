@@ -6,7 +6,6 @@ import { RecipeVariantDetailComponent } from '../../recipe-variant-components/re
 import { IRecipe } from 'src/app/recipes/data/interfaces/recipe.interface';
 import { Course } from 'src/app/recipes/data/enums/courses.enum';
 import { CommonModule } from '@angular/common';
-import { TranslateStore } from "@ngx-translate/core";
 import { addIcons } from 'ionicons';
 import { add, trash } from 'ionicons/icons';
 import { RecipesService } from 'src/app/recipes/data/services/recipes.service';
@@ -27,8 +26,7 @@ import { AlertService } from '../../../services/alert.service';
     RecipeVariantDetailComponent,
     TranslateModule,
     CommonModule,
-    CourseListComponent],
-  providers: [TranslateService, TranslateStore]
+    CourseListComponent]
 })
 export class RecipeDetailComponent {
 
@@ -38,7 +36,7 @@ export class RecipeDetailComponent {
 
   @ViewChild(IonPopover) popover!: IonPopover;
 
-  selectedIds: number[] = [];
+  selectedIds: string[] = [];
 
   get selectedCount(): number {
     return this.selectedIds.length;
@@ -60,7 +58,7 @@ export class RecipeDetailComponent {
     if (courses === undefined) {
       return '';
     }
-    return courses.map(course => this.translateService.instant(`COURSES.${course}`)).join(', ');
+    return courses.map(course => this.translateService.instant(`courses.${course}`)).join(', ');
 
   }
 
@@ -73,7 +71,7 @@ export class RecipeDetailComponent {
   }
 
 
-  selectedCountChanged(selectedIds: number[]) {
+  selectedCountChanged(selectedIds: string[]) {
 
     this.selectedIds = selectedIds;
   }

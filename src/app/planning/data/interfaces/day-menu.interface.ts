@@ -1,20 +1,21 @@
 import { Course } from "src/app/recipes/data/enums/courses.enum";
+import { ID } from "src/app/types";
 
 export interface IDayMenu {
-  id: string;
+  id: ID;
   date: Date;
   meals: IDayMeal[];
 }
 
 export interface IDayMeal {
-  id: string;
+  id: ID;
   course: Course;
   chosenRecipes: [
     {
-      recipeId: string;
+      recipeId: ID;
       variants: [
         {
-          variantId: string;
+          variantId: ID;
           portions: number;
         }
       ];

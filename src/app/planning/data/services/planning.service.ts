@@ -5,6 +5,7 @@ import { Observable, of, throwError } from 'rxjs';
 import { IShoppingList } from '../interfaces/shopping-list.interface';
 import { IDayMenu } from '../interfaces/day-menu.interface';
 import { Course } from 'src/app/recipes/data/enums/courses.enum';
+import { ID } from 'src/app/types';
 
 @Injectable({
   providedIn: 'root'
@@ -15,10 +16,10 @@ export class EventsService {
   noData: IPlannedEvent[] = [];
   dummyData: IPlannedEvent[] = [
     {
-      id: '1',
+      id: 'e1',
       name: 'Tábor 2025',
-      dateFrom: new Date('2025-07-01'),
-      dateTo: new Date('2025-07-15'),
+      dateFrom: new Date('2025-07-05'),
+      dateTo: new Date('2025-07-19'),
       participants: [
         { id: 'p1', restrictions: [FoodRestriction.VEGAN] },
         { id: 'p2', restrictions: [FoodRestriction.VEGETARIAN] },
@@ -43,11 +44,11 @@ export class EventsService {
       ],
       menu: [
         {
-          id: '1',
-          date: new Date('2025-07-01'),
+          id: 'd1',
+          date: new Date('2025-07-05'),
           meals: [
             {
-              id: '1',
+              id: 'c1',
               course: Course.BREAKFAST,
               chosenRecipes: [
                 {
@@ -62,7 +63,160 @@ export class EventsService {
               ]
             },
             {
-              id: '2',
+              id: 'd2',
+              course: Course.LUNCH,
+              chosenRecipes: [
+                {
+                  recipeId: 'r2',
+                  variants: [
+                    {
+                      variantId: 'v1',
+                      portions: 20
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              id: 'd3',
+              course: Course.DINNER,
+              chosenRecipes: [
+                {
+                  recipeId: 'r3',
+                  variants: [
+                    {
+                      variantId: 'v1',
+                      portions: 20
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          id: 'd2',
+          date: new Date('2025-07-06'),
+          meals: [
+            {
+              id: 'c1',
+              course: Course.BREAKFAST,
+              chosenRecipes: [
+                {
+                  recipeId: 'r1',
+                  variants: [
+                    {
+                      variantId: 'v1',
+                      portions: 20
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              id: 'c2',
+              course: Course.LUNCH,
+              chosenRecipes: [
+                {
+                  recipeId: 'r2',
+                  variants: [
+                    {
+                      variantId: 'v1',
+                      portions: 20
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              id: 'c3',
+              course: Course.DINNER,
+              chosenRecipes: [
+                {
+                  recipeId: 'r3',
+                  variants: [
+                    {
+                      variantId: 'v1',
+                      portions: 20
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          id: 'd3',
+          date: new Date('2025-07-06'),
+          meals: [
+            {
+              id: 'c1',
+              course: Course.BREAKFAST,
+              chosenRecipes: [
+                {
+                  recipeId: 'r1',
+                  variants: [
+                    {
+                      variantId: 'v1',
+                      portions: 20
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              id: 'c2',
+              course: Course.LUNCH,
+              chosenRecipes: [
+                {
+                  recipeId: 'r2',
+                  variants: [
+                    {
+                      variantId: 'v1',
+                      portions: 20
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              id: 'c3',
+              course: Course.DINNER,
+              chosenRecipes: [
+                {
+                  recipeId: 'r3',
+                  variants: [
+                    {
+                      variantId: 'v1',
+                      portions: 20
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          id: 'd4',
+          date: new Date('2025-07-07'),
+          meals: [
+            {
+              id: 'c1',
+              course: Course.BREAKFAST,
+              chosenRecipes: [
+                {
+                  recipeId: 'r1',
+                  variants: [
+                    {
+                      variantId: 'v1',
+                      portions: 20
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              id: 'c2',
               course: Course.LUNCH,
               chosenRecipes: [
                 {
@@ -77,14 +231,269 @@ export class EventsService {
               ]
             },
             {
-              id: '3',
+              id: 'c3',
               course: Course.DINNER,
               chosenRecipes: [
                 {
-                  recipeId: '3',
+                  recipeId: 'r3',
                   variants: [
                     {
-                      variantId: '1',
+                      variantId: 'v1',
+                      portions: 20
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          id: 'd5',
+          date: new Date('2025-07-08'),
+          meals: [
+            {
+              id: 'c1',
+              course: Course.BREAKFAST,
+              chosenRecipes: [
+                {
+                  recipeId: 'r1',
+                  variants: [
+                    {
+                      variantId: 'v1',
+                      portions: 20
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              id: 'c2',
+              course: Course.LUNCH,
+              chosenRecipes: [
+                {
+                  recipeId: 'r2',
+                  variants: [
+                    {
+                      variantId: 'v2',
+                      portions: 20
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              id: 'c3',
+              course: Course.DINNER,
+              chosenRecipes: [
+                {
+                  recipeId: 'r3',
+                  variants: [
+                    {
+                      variantId: 'v1',
+                      portions: 20
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          id: 'd1',
+          date: new Date('2025-07-09'),
+          meals: [
+            {
+              id: 'c1',
+              course: Course.BREAKFAST,
+              chosenRecipes: [
+                {
+                  recipeId: 'r1',
+                  variants: [
+                    {
+                      variantId: 'v1',
+                      portions: 20
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              id: 'c2',
+              course: Course.LUNCH,
+              chosenRecipes: [
+                {
+                  recipeId: 'r2',
+                  variants: [
+                    {
+                      variantId: 'v2',
+                      portions: 20
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              id: 'c3',
+              course: Course.DINNER,
+              chosenRecipes: [
+                {
+                  recipeId: 'r3',
+                  variants: [
+                    {
+                      variantId: 'v1',
+                      portions: 20
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          id: 'd1',
+          date: new Date('2025-07-10'),
+          meals: [
+            {
+              id: 'c1',
+              course: Course.BREAKFAST,
+              chosenRecipes: [
+                {
+                  recipeId: 'r1',
+                  variants: [
+                    {
+                      variantId: 'v1',
+                      portions: 20
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              id: 'c2',
+              course: Course.LUNCH,
+              chosenRecipes: [
+                {
+                  recipeId: 'r2',
+                  variants: [
+                    {
+                      variantId: 'v2',
+                      portions: 20
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              id: 'c3',
+              course: Course.DINNER,
+              chosenRecipes: [
+                {
+                  recipeId: 'r3',
+                  variants: [
+                    {
+                      variantId: 'v1',
+                      portions: 20
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          id: 'd1',
+          date: new Date('2025-07-11'),
+          meals: [
+            {
+              id: 'c1',
+              course: Course.BREAKFAST,
+              chosenRecipes: [
+                {
+                  recipeId: 'r1',
+                  variants: [
+                    {
+                      variantId: 'v1',
+                      portions: 20
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              id: 'c2',
+              course: Course.LUNCH,
+              chosenRecipes: [
+                {
+                  recipeId: 'r2',
+                  variants: [
+                    {
+                      variantId: 'v2',
+                      portions: 20
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              id: 'c3',
+              course: Course.DINNER,
+              chosenRecipes: [
+                {
+                  recipeId: 'r3',
+                  variants: [
+                    {
+                      variantId: 'v1',
+                      portions: 20
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          id: 'd1',
+          date: new Date('2025-07-12'),
+          meals: [
+            {
+              id: 'c1',
+              course: Course.BREAKFAST,
+              chosenRecipes: [
+                {
+                  recipeId: 'r1',
+                  variants: [
+                    {
+                      variantId: 'v1',
+                      portions: 20
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              id: 'c2',
+              course: Course.LUNCH,
+              chosenRecipes: [
+                {
+                  recipeId: 'r2',
+                  variants: [
+                    {
+                      variantId: 'v2',
+                      portions: 20
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              id: 'c3',
+              course: Course.DINNER,
+              chosenRecipes: [
+                {
+                  recipeId: 'r3',
+                  variants: [
+                    {
+                      variantId: 'v1',
                       portions: 20
                     }
                   ]
@@ -96,7 +505,7 @@ export class EventsService {
       ]
     },
     {
-      id: '2',
+      id: 'e2',
       name: 'Tábor 2024',
       dateFrom: new Date('2024-07-01'),
       dateTo: new Date('2024-07-15'),
@@ -124,11 +533,11 @@ export class EventsService {
       ],
       menu: [
         {
-          id: '1',
+          id: 'd1',
           date: new Date('2025-07-01'),
           meals: [
             {
-              id: '1',
+              id: 'c1',
               course: Course.BREAKFAST,
               chosenRecipes: [
                 {
@@ -143,7 +552,7 @@ export class EventsService {
               ]
             },
             {
-              id: '2',
+              id: 'c2',
               course: Course.LUNCH,
               chosenRecipes: [
                 {
@@ -158,14 +567,14 @@ export class EventsService {
               ]
             },
             {
-              id: '3',
+              id: 'c3',
               course: Course.DINNER,
               chosenRecipes: [
                 {
-                  recipeId: '3',
+                  recipeId: 'r3',
                   variants: [
                     {
-                      variantId: '1',
+                      variantId: 'v1',
                       portions: 20
                     }
                   ]
@@ -184,7 +593,7 @@ export class EventsService {
 
   }
 
-  getEvent(id: number): Observable<IPlannedEvent> {
+  getEvent(id: ID): Observable<IPlannedEvent> {
     const event = this.dummyData.find(event => event.id === id.toString());
     if (event) {
       return of(event);

@@ -4,7 +4,7 @@
       <ion-buttons slot="start" class="ion-padding-end">
         <ion-back-button defaultHref="/recipes" text="" />
       </ion-buttons>
-      <ion-title>{{"recipes.newTitle" | translate }}</ion-title>
+      <ion-title>{{"recipes.title" | translate }}</ion-title>
       <ion-buttons slot="end">
         <ion-button (click)="createRecipe()">
           <ion-icon slot="icon-only" fill="solid" color="success" name="add" />
@@ -12,7 +12,7 @@
       </ion-buttons>
     </ion-toolbar>
     <ion-toolbar>
-      <ion-searchbar animated="true" placeholder="{{'recipes.searchBar' | translate}}" show-clear-button="always" />
+      <ion-searchbar animated="true" placeholder="{{'searchBar' | translate}}" show-clear-button="always" />
     </ion-toolbar>
   </ion-header>
 

@@ -6,13 +6,23 @@ import { DayMenuOverviewComponent } from "../../components/day-menu-overview/day
 import { IDayMenu } from 'src/app/planning/data/interfaces/day-menu.interface';
 import { ActivatedRoute } from '@angular/router';
 import { EventsService } from 'src/app/planning/data/services/planning.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-menu-overview',
   templateUrl: './menu-overview.page.html',
   styleUrls: ['./menu-overview.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, DayMenuOverviewComponent]
+  imports: [
+    IonContent,
+    IonHeader,
+    IonTitle,
+    IonToolbar,
+
+    CommonModule,
+    FormsModule,
+    TranslateModule,
+    DayMenuOverviewComponent]
 })
 export class MenuOverviewPage implements OnInit {
 

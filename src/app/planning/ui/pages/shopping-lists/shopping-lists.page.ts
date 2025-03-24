@@ -44,7 +44,7 @@ export class ShoppingListsPage implements OnInit {
   ngOnInit() {
 
     this.route.params.subscribe((params: any) => {
-      const eventId = +params['eventId'];
+      const eventId = params['eventId'];
       this.eventService.getEvent(eventId).subscribe({
         next: (event: IPlannedEvent) => {
           this.event = event;

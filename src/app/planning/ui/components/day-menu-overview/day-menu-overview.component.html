@@ -1,16 +1,21 @@
-<div id="day-menu-overview">
-  <div>{{dayMenu.date | date: "EEEE "}}</div>
+<div id="day-menu-overview" class="ion-padding">
+  <div style="width: 55px">{{getDayName}}</div>
   <ion-grid>
-    <ion-row>
-      <div *ngFor="let course of courses">
+    <div *ngFor="let course of courses">
+      <ion-row>
+
         <ion-col>
           {{getCourseName(course)}}
         </ion-col>
         <ion-col>
-          {{ getMealforCourse(course) }}
+          <div [title]="getMealforCourse(course)" class="overflow-hidden" style="display: block; max-width: 150px">
+            {{ getMealforCourse(course) }}
+          </div>
         </ion-col>
-      </div>
-    </ion-row>
+
+      </ion-row>
+    </div>
+
   </ion-grid>
   <ion-button>
     <ion-icon slot="icon-only" name="chevron-forward"></ion-icon>

@@ -1,6 +1,7 @@
 <div id="select-event">
   <ion-toolbar>
-    <ion-searchbar class="searchbar-event" (ionInput)="searchbarInput($event)"></ion-searchbar>
+    <ion-searchbar class="searchbar-event" (ionInput)="searchbarInput($event)"
+      placeholder="{{'searchBar' | translate}}" />
   </ion-toolbar>
 
   <ion-list id="modal-list" [inset]="true">

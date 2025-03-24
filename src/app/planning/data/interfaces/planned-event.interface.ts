@@ -1,8 +1,9 @@
 import { FoodRestriction } from "src/app/recipes/data/enums/food-restriction.enum";
 import { IDayMenu } from "./day-menu.interface";
+import { ID } from "src/app/types";
 
 export interface IPlannedEvent {
-  id: string;
+  id: ID;
   name: string;
   dateFrom: Date | null;
   dateTo: Date | null;
@@ -12,6 +13,6 @@ export interface IPlannedEvent {
 }
 
 export interface IParticipant {
-  id: string;
+  id: ID;
   restrictions: FoodRestriction[];
 }

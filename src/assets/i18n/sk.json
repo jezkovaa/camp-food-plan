@@ -1,20 +1,87 @@
 {
-  "planning": {
-    "title": "Plánovanie",
-    "add-event": "Pridať udalosť"
+  "alert": {
+    "cancel": "Zrušiť",
+    "delete-success": "Úspešne vymazané",
+    "delete-success-message": "Údaje boli úspešne vymazané",
+    "delete-error": "Chyba pri vymazaní",
+    "delete-error-message": "Nastala chyba pri vymazaní údajov:",
+    "no-changes": "Žiadne zmeny",
+    "no-changes-message": "Nemáte žiadne zmeny na uloženie",
+    "cancel-creation": "Zrušiť vytvorenie",
+    "cancel-creation-message": "Naozaj chcete zrušiť vytvorenie udalosti?",
+    "unsaved-changes": "Neuložené zmeny",
+    "unsaved-changes-message": "Máte neuložené zmeny. Naozaj chcete pokračovať?",
+    "missing-name": "Chýbajúci názov",
+    "missing-name-message": "Názov nesmie byť prázdny",
+    "missing-dates": "Chýbajúce dátumy",
+    "missing-dates-message": "Doba konání události musí být vyplněna",
+    "delete-confirm-message": "Naozaj chcete vymazať udalosť?",
+    "delete-confirm-message-variants": "Naozaj chcete vymazať všetky varianty receptu?",
+    "delete-confirm": "Potvrzení vymazání"
   },
   "courses": {
     "BREAKFAST": "Raňajky",
-    "MORNING_SNACK": "Desiata",
+    "MORNING-SNACK": "Desiata",
     "LUNCH": "Obed",
     "DINNER": "Večera",
     "SNACK": "Olovrant"
   },
-  "event": {
-    "date": "Dátum"
+  "planning": {
+    "title": "Plánovanie",
+    "day-menu-overview": {
+      "title": "Jídelníček",
+      "no-recipe": "-"
+    },
+    "event": {
+      "date": "Dátum",
+      "add-event": "Pridať udalosť",
+      "select-event": "Vyberte udalosť",
+      "load-participants": "Načítať účastníkov",
+      "display-menu": "Zobraziť jídelníček",
+      "shopping-lists": "Nákupné zoznamy",
+      "empty-name": "Zadejte názov...",
+      "choose-date": "Vyberte dátum",
+      "menu": "Jídelníček",
+      "title": "Udalosť"
+    },
+    "no-planned-events": "Nemáte naplánované žiadne udalosti",
+    "choose-or-create": "Vyberte alebo vytvorte novú udalosť"
   },
-  "HOME": {
-    "TITLE": "Vitajte",
-    "DESCRIPTION": "Toto je testovací popis"
-  }
+  "recipes": {
+    "alert": {
+      "empty-recipe": "Prázdný recept",
+      "empty-recipe-message": "Recept nesmie byť prázdny. Vyplňte název, vyberte chod a pridejte aspoň jednu variantu",
+      "no-changes": "Žiadne zmeny",
+      "no-changes-message": "Nemáte žiadne zmeny na uloženie",
+      "cancel-creation": "Zrušiť vytvorenie",
+      "cancel-creation-message": "Naozaj chcete zrušiť vytvorenie receptu?",
+      "unsaved-changes": "Neuložené zmeny",
+      "unsaved-changes-message": "Máte neuložené zmeny. Naozaj chcete pokračovať?"
+    },
+    "new-recipe": "Nový recept",
+    "recipe": "Recept",
+    "variant": "Varianta",
+    "recipe-detail": {
+      "delete-variants": "Vymazať varianty",
+      "delete-variants-message": "Naozaj chcete vymazať všetky varianty receptu?",
+      "course": "Chod",
+      "variants": "Varianty",
+      "choose-course": "Vyberte chod",
+      "add-variant": "Pridať variantu",
+      "selected": "Vybrané",
+      "delete-selected": "Vymazať vybrané",
+      "no-variants": "Žiadne varianty"
+    },
+    "recipe-variant-detail": {
+      "delete-variant": "Vymazať variantu",
+      "delete-variant-message": "Naozaj chcete vymazať túto variantu receptu?",
+      "ingredients": "Ingrediencie",
+      "proceeding": "Postup",
+      "history-of-changes": "História zmien",
+      "no-history-of-changes": "Žiadne zmeny"
+    },
+    "title": "Recepty",
+    "variants": "varianty"
+  },
+  "searchBar": "Hľadať..."
 }

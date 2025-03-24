@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { IonHeader, IonToolbar, IonBackButton, IonButtons, IonButton, IonContent, IonIcon, IonRow, IonCol, IonGrid, IonTextarea } from '@ionic/angular/standalone';
 import { RecipeDetailComponent } from '../../components/recipe-components/recipe-detail/recipe-detail.component';
-import { TranslateModule, TranslateService, TranslateStore } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RecipesService } from 'src/app/recipes/data/services/recipes.service';
@@ -31,8 +31,7 @@ import { Recipe } from 'src/app/recipes/data/models/recipe';
     RecipeDetailComponent,
     TranslateModule,
     CommonModule,
-    FormsModule],
-  providers: [TranslateService, TranslateStore]
+    FormsModule]
 })
 export class RecipeEditPage implements OnInit {
 
@@ -54,7 +53,7 @@ export class RecipeEditPage implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      const recipeId = +params['id'];
+      const recipeId = params['id'];
       if (recipeId) {
         this.recipesService.getRecipe(recipeId).subscribe(
           {
@@ -69,7 +68,7 @@ export class RecipeEditPage implements OnInit {
       }
       else {
         this.isCreating = true;
-        this.recipe = new Recipe(this.translateService.instant('recipe.new-recipe'));
+        this.recipe = new Recipe(this.translateService.instant('recipes.new-recipe'));
         this.initRecipe = cloneDeep(this.recipe);
       }
     });
@@ -79,13 +78,13 @@ export class RecipeEditPage implements OnInit {
     const same = isEqual(this.recipeDetail.recipe, this.initRecipe);
     if (same && this.isCreating) {
       this.alertService.presentAlert(
-        this.translateService.instant('alert.empty-recipe'),
-        this.translateService.instant('alert.empty-recipe-message'));
+        this.translateService.instant('recipes.alert.empty-recipe'),
+        this.translateService.instant('recipes.alert.empty-recipe-message'));
     }
     else if (same) {
       this.alertService.presentAlert(
-        this.translateService.instant('alert.no-changes'),
-        this.translateService.instant('alert.no-changes-message'));
+        this.translateService.instant('recipes.alert.no-changes'),
+        this.translateService.instant('recipes.alert.no-changes-message'));
     }
     else if (this.recipe) {
       this.recipesService.saveRecipe(this.recipe).subscribe({
@@ -103,8 +102,8 @@ export class RecipeEditPage implements OnInit {
 
     if (this.isCreating) {
       this.alertService.presentConfirm(
-        this.translateService.instant('alert.cancel-creation'),
-        this.translateService.instant('alert.cancel-creation-message'),
+        this.translateService.instant('recipes.alert.cancel-creation'),
+        this.translateService.instant('recipes.alert.cancel-creation-message'),
         () => {
           this.router.navigate(['/tabs/recipes/']);
         },
@@ -115,8 +114,8 @@ export class RecipeEditPage implements OnInit {
     else if (!isEqual(this.recipeDetail.recipe, this.initRecipe)) {
 
       this.alertService.presentConfirm(
-        this.translateService.instant('alert.unsaved-changes'),
-        this.translateService.instant('alert.unsaved-changes-message'),
+        this.translateService.instant('recipes.alert.unsaved-changes'),
+        this.translateService.instant('recipes.alert.unsaved-changes-message'),
         () => {
           this.recipe = this.initRecipe;
           if (this.recipe?.id) {

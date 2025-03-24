@@ -4,6 +4,7 @@ import { IonToolbar, IonLabel, IonItem, IonList, IonSearchbar, IonButtons, IonBu
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { EventsService } from 'src/app/planning/data/services/planning.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-select-event',
@@ -17,7 +18,8 @@ import { EventsService } from 'src/app/planning/data/services/planning.service';
     IonSearchbar,
 
     CommonModule,
-    FormsModule
+    FormsModule,
+    TranslateModule
   ]
 })
 export class SelectEventComponent implements OnInit {
