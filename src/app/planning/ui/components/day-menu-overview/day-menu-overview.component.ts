@@ -4,9 +4,11 @@ import { IonRow, IonCol, IonGrid, IonButton, IonIcon } from "@ionic/angular/stan
 import { TranslateService } from '@ngx-translate/core';
 import { addIcons } from 'ionicons';
 import { chevronForward } from 'ionicons/icons';
+import { firstValueFrom, Observable } from 'rxjs';
 import { IDayMenu } from 'src/app/planning/data/interfaces/day-menu.interface';
 import { Course } from 'src/app/recipes/data/enums/courses.enum';
 import { RecipesService } from 'src/app/recipes/data/services/recipes.service';
+import { ID } from 'src/app/types';
 
 @Component({
   selector: 'app-day-menu-overview',
@@ -41,16 +43,16 @@ export class DayMenuOverviewComponent implements OnInit {
   ) {
 
     addIcons({ chevronForward });
+    this.loadRecipeNames = this.loadRecipeNames.bind(this);
 
   }
 
   ngOnInit() {
-    this.courses.forEach(async course => {
-      this.recipeNames[course] = await this.getRecipesNamesForCourse(course);
-    });
+
+    this.loadRecipeNames();
   }
 
-  getMealforCourse(course: Course): string {
+  getMealForCourse(course: Course): string {
     const recipeNames = this.recipeNames[course];
     if (recipeNames && recipeNames.length > 0) {
       return recipeNames.join(', ');;
@@ -76,27 +78,31 @@ export class DayMenuOverviewComponent implements OnInit {
     }
   }
 
-  getRecipesNamesForCourse(course: Course): string[] {
-    const meal = this.dayMenu.meals.find(meal => meal.course === course);
-    let mealRecipes: string[] = [];
-    if (meal === undefined) {
-      return [];
-    }
-    meal.chosenRecipes.forEach(recipe => {
-      mealRecipes.push(recipe.recipeId);
-    });
-    this.recipesService.getRecipesNames(mealRecipes).subscribe({
-      next: (recipesNames: string[]) => {
-        return recipesNames;
-      },
-      error: (error) => {
-        console.error(error);
-        return [];
+  private async loadRecipeNames() {
+
+    this.courses.forEach(async course => {
+      const meal = this.dayMenu.meals.find(meal => meal.course === course);
+      let mealRecipes: ID[] = [];
+      if (meal === undefined) {
+        this.recipeNames[course] = [];
+        return;
       }
+      meal.chosenRecipes.forEach(recipe => {
+        mealRecipes.push(recipe.recipeId);
+      });
 
+      console.log(mealRecipes);
+      this.recipesService.getRecipesNames(mealRecipes).subscribe({
+        next: (recipeNames: string[]) => {
+          this.recipeNames[course] = recipeNames;
+          console.log(recipeNames);
+          console.log("taddyyy");
+        },
+        error: (err: any) => {
+          console.error('Error getting recipe names', err);
+        }
+      });
     });
-    return [];
-
   }
 
 

@@ -572,7 +572,7 @@ export class RecipesService {
 
   }
 
-  deleteVariants(recipeId: string, variantIds: string[]): Observable<IRecipeVariant[]> {
+  deleteVariants(recipeId: ID, variantIds: ID[]): Observable<IRecipeVariant[]> {
 
     this.oldRecipes = this.dummyRecipes;
 
@@ -588,7 +588,7 @@ export class RecipesService {
 
   }
 
-  deleteVariant(recipeId: string, variantId: string): Observable<any> {
+  deleteVariant(recipeId: ID, variantId: ID): Observable<any> {
 
     this.oldRecipes = this.dummyRecipes;
 
@@ -615,7 +615,7 @@ export class RecipesService {
     return of(recipe);
   }
 
-  deleteRecipe(recipeId: string): Observable<any> {
+  deleteRecipe(recipeId: ID): Observable<any> {
 
     this.oldRecipes = this.dummyRecipes;
 
@@ -624,10 +624,12 @@ export class RecipesService {
     return of(true);
   }
 
-  getRecipesNames(recipeIds: string[]): Observable<any> {
+  getRecipesNames(recipeIds: ID[]): Observable<string[]> {
 
     const recipes = this.dummyRecipes.filter(recipe => recipe.id && recipeIds.includes(recipe.id.toString()));
-    return of(recipes.map(recipe => recipe.name));
+    const names = recipes.map(recipe => recipe.name);
+    //  console.log(recipes.map(recipe => recipe.name));
+    return of(names);
 
   }
 }
