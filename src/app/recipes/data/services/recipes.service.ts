@@ -4,6 +4,7 @@ import { FoodRestriction } from '../enums/food-restriction.enum';
 import { Course } from '../enums/courses.enum';
 import { IRecipeVariant } from '../interfaces/recipe-variant.interface';
 import { IRecipe } from '../interfaces/recipe.interface';
+import { ID } from 'src/app/types';
 
 @Injectable({
   providedIn: 'root'
@@ -15,12 +16,12 @@ export class RecipesService {
   oldRecipes: IRecipe[] = [];
   dummyRecipes: IRecipe[] = [
     {
-      id: 1, name: 'Špagety',
+      id: "r1", name: 'Špagety',
       courses: [Course.LUNCH, Course.DINNER],
       variants: [
         {
-          id: 1,
-          recipeId: 1,
+          id: "v1",
+          recipeId: "r1",
           name: 'Špagety s paradajkovou omáčkou',
           ingredients: [
             { name: 'špagety', quantity: 200, unit: 'g', durability: 5 },
@@ -38,8 +39,8 @@ export class RecipesService {
           historyOfChanges: []
         },
         {
-          id: 2,
-          recipeId: 1,
+          id: "v2",
+          recipeId: "r1",
           name: 'Špagety s bazalkovým pestom',
           ingredients: [
             { name: 'špagety', quantity: 200, unit: 'g', durability: 5 },
@@ -59,10 +60,10 @@ export class RecipesService {
       ]
     },
     {
-      id: 2, name: 'Palačinky', courses: [Course.SNACK], variants: [
+      id: "r2", name: 'Palačinky', courses: [Course.SNACK], variants: [
         {
-          id: 3,
-          recipeId: 2,
+          id: "v1",
+          recipeId: "r2",
           name: 'Palačinky s džemom',
           ingredients: [
             {
@@ -89,8 +90,8 @@ export class RecipesService {
           historyOfChanges: []
         },
         {
-          id: 4,
-          recipeId: 2,
+          id: "v2",
+          recipeId: "r2",
           name: 'Palačinky s nutellou',
           ingredients: [
             { name: 'múka', quantity: 200, unit: 'g', durability: 5 },
@@ -107,8 +108,8 @@ export class RecipesService {
           historyOfChanges: []
         },
         {
-          id: 5,
-          recipeId: 2,
+          id: "v3",
+          recipeId: "r2",
           name: 'Palačinky s tvarohom a ovocím',
           ingredients: [
             { name: 'múka', quantity: 200, unit: 'g', durability: 5 },
@@ -128,10 +129,10 @@ export class RecipesService {
       ]
     },
     {
-      id: 3, name: 'Zeleninové Stir Fry', courses: [Course.DINNER, Course.LUNCH], variants: [
+      id: "r3", name: 'Zeleninové Stir Fry', courses: [Course.DINNER, Course.LUNCH], variants: [
         {
-          id: 6,
-          recipeId: 3,
+          id: "v1",
+          recipeId: "r3",
           name: 'Zeleninové Stir Fry s ryžou',
           ingredients: [
             { name: 'brokolica', quantity: 200, unit: 'g', durability: 5 },
@@ -150,10 +151,10 @@ export class RecipesService {
       ]
     },
     {
-      id: 4, name: 'Kapustnica', courses: [Course.DINNER], variants: [
+      id: "r4", name: 'Kapustnica', courses: [Course.DINNER], variants: [
         {
-          id: 7,
-          recipeId: 4,
+          id: "v1",
+          recipeId: "r4",
           name: 'Kapustnica s klobásou',
           ingredients: [
             { name: 'kyslá kapusta', quantity: 500, unit: 'g', durability: 5 },
@@ -173,10 +174,10 @@ export class RecipesService {
       ]
     },
     {
-      id: 5, name: 'Bryndzové halušky', courses: [Course.LUNCH, Course.DINNER], variants: [
+      id: "r5", name: 'Bryndzové halušky', courses: [Course.LUNCH, Course.DINNER], variants: [
         {
-          id: 8,
-          recipeId: 5,
+          id: "v1",
+          recipeId: "r5",
           name: 'Bryndzové halušky s bryndzou a slaninou',
           ingredients: [
             { name: 'zemiaky', quantity: 500, unit: 'g', durability: 5 },
@@ -196,10 +197,10 @@ export class RecipesService {
       ]
     },
     {
-      id: 6, name: 'Guláš', courses: [Course.LUNCH, Course.DINNER], variants: [
+      id: "r6", name: 'Guláš', courses: [Course.LUNCH, Course.DINNER], variants: [
         {
-          id: 9,
-          recipeId: 6,
+          id: "v1",
+          recipeId: "r6",
           name: 'Guláš s knedľou',
           ingredients: [
             { name: 'hovädzie mäso', quantity: 500, unit: 'g', durability: 5 },
@@ -220,10 +221,10 @@ export class RecipesService {
       ]
     },
     {
-      id: 7, name: 'Caesar šalát', courses: [Course.LUNCH, Course.DINNER], variants: [
+      id: "r7", name: 'Caesar šalát', courses: [Course.LUNCH, Course.DINNER], variants: [
         {
-          id: 10,
-          recipeId: 7,
+          id: "v1",
+          recipeId: "r7",
           name: 'Caesar šalát s kuracím mäsom',
           ingredients: [
             { name: 'rímsky šalát', quantity: 200, unit: 'g', durability: 5 },
@@ -243,10 +244,10 @@ export class RecipesService {
       ]
     },
     {
-      id: 8, name: 'Lasagna', courses: [Course.LUNCH, Course.DINNER], variants: [
+      id: "r8", name: 'Lasagna', courses: [Course.LUNCH, Course.DINNER], variants: [
         {
-          id: 11,
-          recipeId: 8,
+          id: "v1",
+          recipeId: "r8",
           name: 'Lasagna s mletým hovädzím mäsom',
           ingredients: [
             { name: 'lasagne pláty', quantity: 200, unit: 'g', durability: 5 },
@@ -266,10 +267,10 @@ export class RecipesService {
       ]
     },
     {
-      id: 9, name: 'Chicken Curry', courses: [Course.LUNCH, Course.DINNER], variants: [
+      id: "r9", name: 'Chicken Curry', courses: [Course.LUNCH, Course.DINNER], variants: [
         {
-          id: 12,
-          recipeId: 9,
+          id: "v1",
+          recipeId: "r9",
           name: 'Chicken Curry s kokosovým mliekom',
           ingredients: [
             { name: 'kuracie prsia', quantity: 300, unit: 'g', durability: 5 },
@@ -289,10 +290,10 @@ export class RecipesService {
       ]
     },
     {
-      id: 10, name: 'Beef Stroganoff', courses: [Course.LUNCH, Course.DINNER], variants: [
+      id: "r10", name: 'Beef Stroganoff', courses: [Course.LUNCH, Course.DINNER], variants: [
         {
-          id: 13,
-          recipeId: 10,
+          id: "v1",
+          recipeId: "r10",
           name: 'Beef Stroganoff s hovädzím mäsom a šampiňónmi',
           ingredients: [
             { name: 'hovädzie mäso', quantity: 300, unit: 'g', durability: 5 },
@@ -312,10 +313,10 @@ export class RecipesService {
       ]
     },
     {
-      id: 11, name: 'Tacos', courses: [Course.LUNCH, Course.DINNER], variants: [
+      id: "r11", name: 'Tacos', courses: [Course.LUNCH, Course.DINNER], variants: [
         {
-          id: 14,
-          recipeId: 11,
+          id: "v1",
+          recipeId: "r11",
           name: 'Tacos s mletým hovädzím mäsom',
           ingredients: [
             { name: 'tortilly', quantity: 200, unit: 'g', durability: 5 },
@@ -333,10 +334,10 @@ export class RecipesService {
       ]
     },
     {
-      id: 12, name: 'Pizza Margherita', courses: [Course.LUNCH, Course.DINNER], variants: [
+      id: "r12", name: 'Pizza Margherita', courses: [Course.LUNCH, Course.DINNER], variants: [
         {
-          id: 15,
-          recipeId: 12,
+          id: "v1",
+          recipeId: "r12",
           name: 'Pizza Margherita s mozzarellou a bazalkou',
           ingredients: [
             { name: 'pizza cesto', quantity: 200, unit: 'g', durability: 5 },
@@ -356,10 +357,10 @@ export class RecipesService {
       ]
     },
     {
-      id: 13, name: 'Sushi', courses: [Course.LUNCH, Course.DINNER], variants: [
+      id: "r13", name: 'Sushi', courses: [Course.LUNCH, Course.DINNER], variants: [
         {
-          id: 16,
-          recipeId: 13,
+          id: "v1",
+          recipeId: "r13",
           name: 'Sushi s lososom a avokádom',
           ingredients: [
             { name: 'sushi ryža', quantity: 200, unit: 'g', durability: 5 },
@@ -380,10 +381,10 @@ export class RecipesService {
       ]
     },
     {
-      id: 14, name: 'Pad Thai', courses: [Course.LUNCH, Course.DINNER], variants: [
+      id: "r14", name: 'Pad Thai', courses: [Course.LUNCH, Course.DINNER], variants: [
         {
-          id: 17,
-          recipeId: 14,
+          id: "v1",
+          recipeId: "r14",
           name: 'Pad Thai s kuracím mäsom a arašidmi',
           ingredients: [
             { name: 'ryžové rezance', quantity: 200, unit: 'g', durability: 5 },
@@ -404,10 +405,10 @@ export class RecipesService {
       ]
     },
     {
-      id: 15, name: 'Miso Soup', courses: [Course.LUNCH, Course.DINNER], variants: [
+      id: "r15", name: 'Miso Soup', courses: [Course.LUNCH, Course.DINNER], variants: [
         {
-          id: 18,
-          recipeId: 15,
+          id: "v1",
+          recipeId: "r15",
           name: 'Miso Soup s tofu a wakame',
           ingredients: [
             { name: 'miso pasta', quantity: 50, unit: 'g', durability: 5 },
@@ -425,10 +426,10 @@ export class RecipesService {
       ]
     },
     {
-      id: 16, name: 'Ratatouille', courses: [Course.LUNCH, Course.DINNER], variants: [
+      id: "r16", name: 'Ratatouille', courses: [Course.LUNCH, Course.DINNER], variants: [
         {
-          id: 19,
-          recipeId: 16,
+          id: "v1",
+          recipeId: "r16",
           name: 'Ratatouille s baklažánom a cuketou',
           ingredients: [
             { name: 'baklažán', quantity: 200, unit: 'g', durability: 5 },
@@ -447,10 +448,10 @@ export class RecipesService {
       ]
     },
     {
-      id: 17, name: 'Falafel', courses: [Course.LUNCH, Course.DINNER], variants: [
+      id: "r17", name: 'Falafel', courses: [Course.LUNCH, Course.DINNER], variants: [
         {
-          id: 20,
-          recipeId: 17,
+          id: "v1",
+          recipeId: "r17",
           name: 'Falafel s cícerom a petržlenom',
           ingredients: [
             { name: 'cícer', quantity: 200, unit: 'g', durability: 5 },
@@ -470,10 +471,10 @@ export class RecipesService {
       ]
     },
     {
-      id: 18, name: 'Biryani', courses: [Course.LUNCH, Course.DINNER], variants: [
+      id: "r18", name: 'Biryani', courses: [Course.LUNCH, Course.DINNER], variants: [
         {
-          id: 21,
-          recipeId: 18,
+          id: "v1",
+          recipeId: "r18",
           name: 'Biryani s kuracím mäsom a jogurtom',
           ingredients: [
             { name: 'basmati ryža', quantity: 200, unit: 'g', durability: 5 },
@@ -493,10 +494,10 @@ export class RecipesService {
       ]
     },
     {
-      id: 19, name: 'Chili con Carne', courses: [Course.LUNCH, Course.DINNER], variants: [
+      id: "r19", name: 'Chili con Carne', courses: [Course.LUNCH, Course.DINNER], variants: [
         {
-          id: 22,
-          recipeId: 19,
+          id: "v1",
+          recipeId: "r19",
           name: 'Chili con Carne s červenou fazuľou',
           ingredients: [
             { name: 'mleté hovädzie mäso', quantity: 300, unit: 'g', durability: 5 },
@@ -516,10 +517,10 @@ export class RecipesService {
       ]
     },
     {
-      id: 20, name: 'Quiche Lorraine', courses: [Course.LUNCH, Course.DINNER], variants: [
+      id: "r20", name: 'Quiche Lorraine', courses: [Course.LUNCH, Course.DINNER], variants: [
         {
-          id: 23,
-          recipeId: 20,
+          id: "v1",
+          recipeId: "r20",
           name: 'Quiche Lorraine s lístkovým cestom a slaninou',
           ingredients: [
             { name: 'lístkové cesto', quantity: 200, unit: 'g', durability: 5 },
@@ -550,7 +551,7 @@ export class RecipesService {
     return of(this.dummyRecipes);
   }
 
-  getRecipe(id: number): Observable<any> {
+  getRecipe(id: ID): Observable<any> {
 
     const recipe = this.dummyRecipes.find(recipe => recipe.id === id);
     return of(recipe || null);
@@ -562,7 +563,7 @@ export class RecipesService {
     return of(null);
   }
 
-  getVariant(recipeId: number, variantId: number): Observable<any> {
+  getVariant(recipeId: ID, variantId: ID): Observable<any> {
 
     const recipe = this.dummyRecipes.find(recipe => recipe.id === recipeId);
     const variant = recipe?.variants.find(variant => variant.id === variantId);
@@ -571,7 +572,7 @@ export class RecipesService {
 
   }
 
-  deleteVariants(recipeId: number, variantIds: number[]): Observable<IRecipeVariant[]> {
+  deleteVariants(recipeId: ID, variantIds: ID[]): Observable<IRecipeVariant[]> {
 
     this.oldRecipes = this.dummyRecipes;
 
@@ -587,7 +588,7 @@ export class RecipesService {
 
   }
 
-  deleteVariant(recipeId: number, variantId: number): Observable<any> {
+  deleteVariant(recipeId: ID, variantId: ID): Observable<any> {
 
     this.oldRecipes = this.dummyRecipes;
 
@@ -614,12 +615,21 @@ export class RecipesService {
     return of(recipe);
   }
 
-  deleteRecipe(recipeId: number): Observable<any> {
+  deleteRecipe(recipeId: ID): Observable<any> {
 
     this.oldRecipes = this.dummyRecipes;
 
     this.dummyRecipes = this.dummyRecipes.filter(recipe => recipe.id !== recipeId);
 
     return of(true);
+  }
+
+  getRecipesNames(recipeIds: ID[]): Observable<string[]> {
+
+    const recipes = this.dummyRecipes.filter(recipe => recipe.id && recipeIds.includes(recipe.id.toString()));
+    const names = recipes.map(recipe => recipe.name);
+    //  console.log(recipes.map(recipe => recipe.name));
+    return of(names);
+
   }
 }

@@ -47,8 +47,8 @@ export class RecipeVariantDetailPage implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      const recipeId = +params['id'];
-      const variantId = +params['variantId'];
+      const recipeId = params['id'];
+      const variantId = params['variantId'];
       this.recipesService.getVariant(recipeId, variantId).subscribe((variant: IRecipeVariant) => {
         this.variant = variant;
       });

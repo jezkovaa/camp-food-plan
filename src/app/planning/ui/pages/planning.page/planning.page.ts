@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { IonHeader, IonToolbar, IonTitle, IonContent, IonLabel, IonButton, IonIcon, IonPopover } from '@ionic/angular/standalone';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { addIcons } from 'ionicons';
 import { add, chevronDown } from 'ionicons/icons';
 import { IPlannedEvent } from 'src/app/planning/data/interfaces/planned-event.interface';
@@ -35,12 +35,13 @@ export class PlanningPage implements OnInit {
 
   get selectedEventText(): string {
     const selectedEvent = this.plannedEvents.find(event => event.id === this.selectedEventId);
-    return selectedEvent?.name ?? 'Select Event';
+    return selectedEvent?.name ?? this.translateService.instant("planning.event.select-event");
   }
 
   @ViewChild(IonPopover) popover!: IonPopover;
 
   constructor(private planningService: EventsService,
+    private translateService: TranslateService,
     private router: Router
   ) {
     addIcons({ add, chevronDown });

@@ -1,10 +1,10 @@
 <ion-grid id="recipe-detail">
   <ion-row>
     <ion-col>
-      {{"recipe-detail.course" | translate}}:
+      {{"recipes.recipe-detail.course" | translate}}:
     </ion-col>
     <ion-col>
-      {{"recipe-detail.variants" | translate}}:
+      {{"recipes.recipe-detail.variants" | translate}}:
     </ion-col>
   </ion-row>
 
@@ -22,7 +22,7 @@
       <ion-button fill="clear" id="choose-course" class="choose-course-button">
         <img src="assets/icon/cutlery.png" class="responsive-icon" />
         <div>
-          {{"recipe-detail.choose-course" | translate}}
+          {{"recipes.recipe-detail.choose-course" | translate}}
         </div>
       </ion-button>
       <ion-popover id="choose-course-popover" trigger="choose-course" triggerAction="click">
@@ -36,24 +36,24 @@
       <ion-button fill="clear" (click)="addVariant()" color="success" class="add-variant-button">
         <ion-icon slot="icon-only" name="add" />
         <div>
-          {{"recipe-detail.add-variant" | translate}}
+          {{"recipes.recipe-detail.add-variant" | translate}}
         </div>
       </ion-button>
     </ion-col>
   </ion-row>
   <ion-row *ngIf="recipe !== null && recipe.variants.length > 1">
-    <ion-searchbar animated="true" placeholder="{{'recipe-detail.searchBar' | translate}}" show-clear-button="always" />
+    <ion-searchbar animated="true" placeholder="{{'searchBar' | translate}}" show-clear-button="always" />
   </ion-row>
   <ion-row *ngIf="(isEditing && recipe.variants.length > 0)" class="ion-align-items-center">
 
     <ion-col>
-      {{"recipe-detail.selected" | translate }} : {{selectedCount}}
+      {{"recipes.recipe-detail.selected" | translate }} : {{selectedCount}}
     </ion-col>
     <ion-col>
       <ion-button (click)="deleteSelected()" color="danger">
         <ion-icon name="trash" />
         <div>
-          {{"recipe-detail.delete-selected" | translate}}
+          {{"recipes.recipe-detail.delete-selected" | translate}}
         </div>
       </ion-button>
     </ion-col>
@@ -71,7 +71,7 @@
     </ion-col>
     <ion-col *ngIf="recipe !== null && recipe.variants.length === 0">
 
-      <p>{{"recipe-detail.no-variants" | translate}}</p>
+      <p>{{"recipes.recipe-detail.no-variants" | translate}}</p>
     </ion-col>
 
 

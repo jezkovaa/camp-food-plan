@@ -4,7 +4,7 @@ import { IRecipeVariant } from "../interfaces/recipe-variant.interface";
 import { IRecipe } from "../interfaces/recipe.interface";
 
 export class Recipe implements IRecipe {
-  id: number | null;
+  id: string | null;
   name: string;
   courses: Course[];
   variants: IRecipeVariant[];

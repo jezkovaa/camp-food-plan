@@ -1,3 +1,4 @@
+import { ID } from "src/app/types";
 import { FoodRestriction } from "../enums/food-restriction.enum";
 
 interface IIngredient {
@@ -20,8 +21,8 @@ interface IHistoryOfChanges {
 }
 
 export interface IRecipeVariant {
-  id: number;
-  recipeId: number;
+  id: ID;
+  recipeId: ID;
   name: string;
   ingredients: IIngredient[];
   proceeding: IProceeding[];

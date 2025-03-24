@@ -67,7 +67,7 @@ export class EventEditPage implements OnInit {
   ngOnInit() {
 
     this.route.params.subscribe(params => {
-      const eventId = +params['id'];
+      const eventId = params['id'];
       this.planningService.getEvent(eventId).subscribe({
         next: (event: IPlannedEvent) => {
           this.event = cloneDeep(event);

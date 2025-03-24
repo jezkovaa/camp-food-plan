@@ -6,7 +6,7 @@ import { IRecipe } from '../../../data/interfaces/recipe.interface';
 import { CommonModule } from '@angular/common';
 import { addIcons } from 'ionicons';
 import { pencil, trash } from 'ionicons/icons';
-import { TranslateModule, TranslateService, TranslateStore } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { RecipesPage } from '../recipes.page/recipes.page';
 import { RecipeDetailComponent } from '../../components/recipe-components/recipe-detail/recipe-detail.component';
 import { AlertService } from '../../services/alert.service';
@@ -26,8 +26,7 @@ import { AlertService } from '../../services/alert.service';
     IonButtons,
     CommonModule, TranslateModule,
     RecipeDetailComponent],
-  standalone: true,
-  providers: [TranslateService, TranslateStore]
+  standalone: true
 })
 export class RecipeDetailPage implements OnInit {
 
@@ -49,7 +48,7 @@ export class RecipeDetailPage implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      const recipeId = +params['id'];
+      const recipeId = params['id'];
       this.recipesService.getRecipe(recipeId).subscribe((recipe: IRecipe) => {
         this.recipe = recipe;
       });

@@ -1,0 +1,18 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>{{"planning.event.menu" | translate }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding-start ion-padding-end ion-padding-top"
+  style="display: flex; gap: 20px">
+  <div style="    gap: 20px;
+  flex-direction: column;
+  display: flex
+;">
+    <div *ngFor="let dayMenu of dayMenus">
+      <app-day-menu-overview [dayMenu]="dayMenu"></app-day-menu-overview>
+    </div>
+  </div>
+
+</ion-content>

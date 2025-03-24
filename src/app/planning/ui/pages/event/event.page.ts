@@ -43,7 +43,7 @@ export class EventPage implements OnInit {
   ngOnInit() {
 
     this.route.params.subscribe(params => {
-      const eventId = +params['id'];
+      const eventId = params['id'];
       this.eventService.getEvent(eventId).subscribe({
         next: (event: IPlannedEvent) => {
           this.event = event;
@@ -66,7 +66,7 @@ export class EventPage implements OnInit {
   }
 
   displayMenu() {
-    //todo
+    this.router.navigate(['tabs/planning/events/', this.event?.id, 'menu']);
   }
 
 

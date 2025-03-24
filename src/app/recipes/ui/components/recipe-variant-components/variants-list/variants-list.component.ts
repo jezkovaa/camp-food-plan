@@ -16,10 +16,10 @@ export class VariantsListComponent implements OnInit {
 
   @Input({ required: true }) variants: IRecipeVariant[] = [];
   @Input() isEditing = false;
-  @Output() selectedCountChanged = new EventEmitter<number[]>();
+  @Output() selectedCountChanged = new EventEmitter<string[]>();
 
 
-  selectedIds: number[] = [];
+  selectedIds: string[] = [];
 
   constructor() { }
 
