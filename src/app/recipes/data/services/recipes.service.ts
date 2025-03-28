@@ -624,10 +624,10 @@ export class RecipesService {
     return of(true);
   }
 
-  getRecipesNames(recipeIds: ID[]): Observable<string[]> {
+  getRecipesNames(recipeIds: ID[]): Observable<Array<{ id: ID, name: string; }>> {
 
-    const recipes = this.dummyRecipes.filter(recipe => recipe.id && recipeIds.includes(recipe.id.toString()));
-    const names = recipes.map(recipe => recipe.name);
+    const recipes = this.dummyRecipes.filter(recipe => recipe.id !== null && recipeIds.includes(recipe.id));
+    const names = recipes.map(recipe => ({ id: recipe.id!, name: recipe.name }));
     //  console.log(recipes.map(recipe => recipe.name));
     return of(names);
 

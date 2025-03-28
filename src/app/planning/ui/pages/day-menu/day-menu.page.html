@@ -1,0 +1,68 @@
+<div id="day-menu-page" class="ion-page">
+  <ion-header [translucent]="true">
+
+    <ion-toolbar class="ion-padding-top">
+      <ion-buttons slot="start">
+        <ion-back-button />
+        <ion-button [disabled]="!previousDateExists" (click)="previousDate()">
+          <ion-icon slot="icon-only" name="chevron-back" />
+        </ion-button>
+      </ion-buttons>
+      <div style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+        <div class="custom-title-1">{{event?.name}}</div>
+        <div class="custom-title-1">{{ dayMenu?.date | date: 'dd.MM.yyyy'}}</div>
+        <ion-button id="date-selection" fill="clear">
+          <ion-icon slot="icon-only" name="calendar" />
+        </ion-button>
+        <ion-popover id="date-selection-popover" trigger="date-selection" triggerAction="click" size="auto">
+          <ng-template>
+            <ion-content class="ion-padding">
+              <ion-datetime [value]="dayMenu?.date?.toISOString()" [min]="event?.dateFrom?.toISOString()"
+                [max]="event?.dateTo?.toISOString()" [locale]="getCurrentLang" presentation="date" />
+            </ion-content>
+
+          </ng-template>
+        </ion-popover>
+      </div>
+
+      <ion-buttons slot="end">
+        <ion-button [disabled]="!nextDateExists" (click)="nextDate()">
+          <ion-icon slot="icon-only" name="chevron-forward" />
+        </ion-button>
+      </ion-buttons>
+
+    </ion-toolbar>
+
+  </ion-header>
+
+  <ion-content [fullscreen]="true" class="ion-padding-start ion-padding-end ion-padding-top">
+    <div style="    gap: 20px;
+    flex-direction: column;
+    display: flex;
+    height: 100%;
+    justify-content: space-around;
+    align-items: center
+  ;">
+      <div *ngFor="let course of courses" style="width: 100%; 
+      display: flex
+  ;">
+        <div *ngIf="courseExists(course)" style="width: 100%;">
+          <app-meal [meal]="getMealForCourse(course)" />
+        </div>
+        <div *ngIf="!courseExists(course)" class="no-meal-container ion-padding">
+          <div>
+            <div style="text-align: center;">{{getCourseName(course)}}</div>
+            <ion-button (click)="addMeal(course)">
+              <ion-icon slot="start" name="add" />
+              <div>
+                {{"planning.day-menu.add-meal" | translate}}
+              </div>
+            </ion-button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </ion-content>
+</div>

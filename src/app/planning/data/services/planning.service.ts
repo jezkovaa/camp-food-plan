@@ -6,6 +6,7 @@ import { IShoppingList } from '../interfaces/shopping-list.interface';
 import { IDayMenu } from '../interfaces/day-menu.interface';
 import { Course } from 'src/app/recipes/data/enums/courses.enum';
 import { ID } from 'src/app/types';
+import { isSameDay } from 'date-fns';
 
 @Injectable({
   providedIn: 'root'
@@ -103,7 +104,7 @@ export class EventsService {
               course: Course.BREAKFAST,
               chosenRecipes: [
                 {
-                  recipeId: 'r1',
+                  recipeId: 'r2',
                   variants: [
                     {
                       variantId: 'v1',
@@ -115,6 +116,20 @@ export class EventsService {
             },
             {
               id: 'c2',
+              course: Course.MORNING_SNACK,
+              chosenRecipes: [
+                {
+                  recipeId: 'r10',
+                  variants: [
+                    {
+                      variantId: 'v1',
+                      portions: 20
+                    }
+                  ]
+                }]
+            },
+            {
+              id: 'c3',
               course: Course.LUNCH,
               chosenRecipes: [
                 {
@@ -129,7 +144,7 @@ export class EventsService {
               ]
             },
             {
-              id: 'c3',
+              id: 'c4',
               course: Course.DINNER,
               chosenRecipes: [
                 {
@@ -299,7 +314,7 @@ export class EventsService {
           ]
         },
         {
-          id: 'd1',
+          id: 'd6',
           date: new Date('2025-07-09'),
           meals: [
             {
@@ -350,7 +365,7 @@ export class EventsService {
           ]
         },
         {
-          id: 'd1',
+          id: 'd7',
           date: new Date('2025-07-10'),
           meals: [
             {
@@ -401,7 +416,7 @@ export class EventsService {
           ]
         },
         {
-          id: 'd1',
+          id: 'd8',
           date: new Date('2025-07-11'),
           meals: [
             {
@@ -452,7 +467,7 @@ export class EventsService {
           ]
         },
         {
-          id: 'd1',
+          id: 'd9',
           date: new Date('2025-07-12'),
           meals: [
             {
@@ -659,7 +674,6 @@ export class EventsService {
 
   }
 
-
   getEventMenu(eventId: string): Observable<IDayMenu[]> {
 
     const menu = this.dummyData.find(event => event.id === eventId)?.menu;
@@ -667,6 +681,32 @@ export class EventsService {
       return of([]);
     }
     return of(menu);
+
+  }
+
+  getEventName(eventId: ID): Observable<string> {
+    const event = this.dummyData.find(event => event.id === eventId);
+    if (event !== undefined) {
+      return of(event.name);
+    }
+    return throwError(() => new Error('Event not found'));
+  }
+
+  getEventMenuById(eventId: ID, dayMenuId: ID): Observable<IDayMenu> {
+    const menu = this.dummyData.find(event => event.id === eventId)?.menu.find(menu => menu.id === dayMenuId);
+    if (menu !== undefined) {
+      return of(menu);
+    }
+    return throwError(() => new Error('getEventMenuById: Menu not found'));
+
+  }
+
+  getEventMenuForDate(eventId: ID, date: Date): Observable<IDayMenu> {
+    const menu = this.dummyData.find(event => event.id === eventId)?.menu.find(menu => isSameDay(menu.date, date));
+    if (menu !== undefined) {
+      return of(menu);
+    }
+    return throwError(() => new Error('getEventMenuForDate: Menu not found'));
 
   }
 }
