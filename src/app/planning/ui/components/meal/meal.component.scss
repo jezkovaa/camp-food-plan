@@ -1,0 +1,10 @@
+#meal {
+  border: 1px solid var(--ion-color-medium);
+  border-radius: 10px;
+  width: 100%;
+
+  ::ng-deep .upper-part {
+    display: flex;
+    justify-content: space-between;
+  }
+}

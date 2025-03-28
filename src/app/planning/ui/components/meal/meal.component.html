@@ -1,0 +1,22 @@
+<div id="meal" class="ion-padding ion-padding-bottom">
+  <div class=" upper-part">
+    <div>{{getCourseName}}</div>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="editMeal()">
+        <ion-icon slot="icon-only" name="pencil" />
+      </ion-button>
+      <ion-button fill="clear" (click)="deleteMeal()">
+        <ion-icon slot="icon-only" name="trash" />
+      </ion-button>
+    </ion-buttons>
+  </div>
+
+  <div *ngFor="let chosenRecipe of recipeNames" style="display: flex;">
+    <div>
+      {{ getPortions(chosenRecipe.id) }}
+      <ion-icon name="people" />
+    </div>
+    <div>
+      {{ chosenRecipe.name }}
+    </div>
+  </div>

@@ -123,7 +123,6 @@ export class EventEditPage implements OnInit {
           this.router.navigate(['/tabs/planning/']);
         },
         () => {
-          console.log('Cancel clicked');
         });
     }
     else if (!isEqual(this.event, this.initEvent)) {
@@ -141,7 +140,7 @@ export class EventEditPage implements OnInit {
           }
         },
         () => {
-          console.log('Cancel clicked');
+          //nothing happens
         });
     }
     else {

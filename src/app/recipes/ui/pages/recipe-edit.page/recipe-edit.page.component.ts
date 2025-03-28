@@ -108,7 +108,7 @@ export class RecipeEditPage implements OnInit {
           this.router.navigate(['/tabs/recipes/']);
         },
         () => {
-          console.log('Cancel clicked');
+          //nothing happens
         });
     }
     else if (!isEqual(this.recipeDetail.recipe, this.initRecipe)) {
@@ -126,7 +126,7 @@ export class RecipeEditPage implements OnInit {
           }
         },
         () => {
-          console.log('Cancel clicked');
+          //nothing happens
         });
     }
     else {

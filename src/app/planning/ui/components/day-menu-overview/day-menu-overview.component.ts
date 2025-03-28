@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { IonRow, IonCol, IonGrid, IonButton, IonIcon } from "@ionic/angular/standalone";
 import { TranslateService } from '@ngx-translate/core';
 import { addIcons } from 'ionicons';
@@ -27,10 +28,11 @@ import { ID } from 'src/app/types';
 export class DayMenuOverviewComponent implements OnInit {
 
   @Input({ required: true }) dayMenu!: IDayMenu;
+  @Input({ required: true }) eventId!: ID;
 
 
   courses = Object.values(Course);
-  recipeNames: { [key in Course]: string[]; } = {} as { [key in Course]: string[]; };
+  recipeNames: { [key in Course]: Array<{ id: ID, name: string; }>; } = {} as { [key in Course]: Array<{ id: ID, name: string; }>; };
 
 
   get getDayName() {
@@ -39,7 +41,8 @@ export class DayMenuOverviewComponent implements OnInit {
   }
 
   constructor(private translateService: TranslateService,
-    private recipesService: RecipesService
+    private recipesService: RecipesService,
+    private router: Router
   ) {
 
     addIcons({ chevronForward });
@@ -55,7 +58,7 @@ export class DayMenuOverviewComponent implements OnInit {
   getMealForCourse(course: Course): string {
     const recipeNames = this.recipeNames[course];
     if (recipeNames && recipeNames.length > 0) {
-      return recipeNames.join(', ');;
+      return recipeNames.map(recipe => recipe.name).join(', ');
     }
     return this.translateService.instant('planning.day-menu-overview.no-recipe');
   }
@@ -78,6 +81,10 @@ export class DayMenuOverviewComponent implements OnInit {
     }
   }
 
+  openDayMenu() {
+    this.router.navigate(['/tabs/planning/events', this.eventId, "menu", this.dayMenu.id]);
+  }
+
   private async loadRecipeNames() {
 
     this.courses.forEach(async course => {
@@ -91,12 +98,9 @@ export class DayMenuOverviewComponent implements OnInit {
         mealRecipes.push(recipe.recipeId);
       });
 
-      console.log(mealRecipes);
       this.recipesService.getRecipesNames(mealRecipes).subscribe({
-        next: (recipeNames: string[]) => {
+        next: (recipeNames: Array<{ id: ID, name: string; }>) => {
           this.recipeNames[course] = recipeNames;
-          console.log(recipeNames);
-          console.log("taddyyy");
         },
         error: (err: any) => {
           console.error('Error getting recipe names', err);

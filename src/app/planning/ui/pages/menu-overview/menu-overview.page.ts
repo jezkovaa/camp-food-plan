@@ -7,6 +7,7 @@ import { IDayMenu } from 'src/app/planning/data/interfaces/day-menu.interface';
 import { ActivatedRoute } from '@angular/router';
 import { EventsService } from 'src/app/planning/data/services/planning.service';
 import { TranslateModule } from '@ngx-translate/core';
+import { ID } from 'src/app/types';
 
 @Component({
   selector: 'app-menu-overview',
@@ -27,6 +28,7 @@ import { TranslateModule } from '@ngx-translate/core';
 export class MenuOverviewPage implements OnInit {
 
   dayMenus: IDayMenu[] = [];
+  eventId: ID | null = null;
 
   constructor(private route: ActivatedRoute,
     private eventService: EventsService
@@ -35,8 +37,11 @@ export class MenuOverviewPage implements OnInit {
   ngOnInit() {
 
     this.route.params.subscribe(params => {
-      const eventId = params['eventId'];
-      this.eventService.getEventMenu(eventId).subscribe({
+      this.eventId = params['eventId'];
+      if (this.eventId === null) {
+        return;
+      }
+      this.eventService.getEventMenu(this.eventId).subscribe({
         next: (dayMenus: IDayMenu[]) => {
           this.dayMenus = dayMenus;
         },

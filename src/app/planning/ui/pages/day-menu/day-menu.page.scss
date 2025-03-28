@@ -1,0 +1,9 @@
+#day-menu-page {
+  ::ng-deep .no-meal-container {
+    width: 100%;
+    justify-content: center;
+    display: flex;
+    // border: 1px solid var(--ion-color-medium);
+    border-radius: 10px;
+  }
+}

@@ -10,9 +10,10 @@
   flex-direction: column;
   display: flex
 ;">
-    <div *ngFor="let dayMenu of dayMenus">
-      <app-day-menu-overview [dayMenu]="dayMenu"></app-day-menu-overview>
+    <div *ngIf="eventId">
+      <div *ngFor="let dayMenu of dayMenus">
+        <app-day-menu-overview [dayMenu]="dayMenu" [eventId]="eventId"></app-day-menu-overview>
+      </div>
     </div>
   </div>
-
 </ion-content>

@@ -28,6 +28,9 @@
   },
   "planning": {
     "title": "Plánovanie",
+    "day-menu": {
+      "add-meal": "Pridať jedlo"
+    },
     "day-menu-overview": {
       "title": "Jídelníček",
       "no-recipe": "-"
