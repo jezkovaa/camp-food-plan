@@ -190,7 +190,7 @@ export class DayMenuPage implements OnInit {
     const dayBefore = this.dayMenu?.date ? new Date(this.dayMenu.date) : null;
     dayBefore?.setDate(dayBefore.getDate() - 1);
     if (this.event?.dateFrom && dayBefore) {
-      this.previousDateExists = !isBefore(dayBefore, this.event.dateFrom);;
+      this.previousDateExists = !isBefore(dayBefore, this.event.dateFrom);
     }
 
     const dayAfter = this.dayMenu?.date ? new Date(this.dayMenu?.date) : null;
