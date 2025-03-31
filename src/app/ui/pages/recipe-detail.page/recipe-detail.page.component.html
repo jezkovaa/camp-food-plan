@@ -1,0 +1,32 @@
+<div id="recipe-detail" class="ion-page">
+  <ion-header>
+    <ion-toolbar>
+      <ion-buttons slot="start" class="ion-padding-end">
+        <ion-back-button defaultHref="/recipes" text="" />
+      </ion-buttons>
+      <div>
+        <div class="ion-padding-top">{{"recipes.recipe" | translate }}</div>
+        <div style="display: flex; justify-content: space-between;">
+          <div style="display: flex; align-items: center;">
+            <div class="header-recipe-name"> {{ recipe?.name }}</div>
+            <ion-button fill="clear" (click)="editRecipe()">
+              <ion-icon slot="icon-only" name="pencil" />
+            </ion-button>
+
+          </div>
+          <ion-button fill="clear" color="danger" (click)="deleteRecipe()">
+            <ion-icon slot="icon-only" name="trash" />
+          </ion-button>
+        </div>
+      </div>
+    </ion-toolbar>
+
+  </ion-header>
+
+  <ion-content>
+    <div *ngIf="recipe !== null ">
+      <app-recipe-detail [recipe]="recipe" [isChoosing]="isPlanningRoute" [course]="course"
+        (portionsChanged)="portionsChanged($event)" />
+    </div>
+  </ion-content>
+</div>

@@ -1,0 +1,17 @@
+<div id="recipe-variant" [ngClass]="{'with-border': isEditing || isChoosing}">
+  <ion-button class="ion-justify-space-between" style="    flex-grow: 1;
+    text-align: start;" [ngClass]="{'no-border': isEditing || isChoosing}" fill="outline" size="large" expand="block"
+    (click)="openVariant()" [disabled]="isEditing || isChoosing">
+    <div class="ion-text-start recipe-name">
+      {{variant.name}}
+    </div>
+
+    <div class="recipe-variants-container">
+      <app-restriction [inputRestrictions]="variant.restrictions"></app-restriction>
+    </div>
+
+  </ion-button>
+  <div *ngIf="isEditing || isChoosing" class="to-delete-checkbox ion-padding-end">
+    <ion-checkbox (ionChange)=" checkboxClick($event)" />
+  </div>
+</div>

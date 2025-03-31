@@ -29,7 +29,13 @@
   "planning": {
     "title": "Plánovanie",
     "day-menu": {
-      "add-meal": "Pridať jedlo"
+      "add-meal": "Pridať jedlo",
+      "portions": {
+        "title": "Porcie",
+        "entry": "Zadejte počet porcí",
+        "confirm": "Potvrdit",
+        "cancel": "Zrušit"
+      }
     },
     "day-menu-overview": {
       "title": "Jídelníček",
@@ -61,9 +67,9 @@
       "unsaved-changes": "Neuložené zmeny",
       "unsaved-changes-message": "Máte neuložené zmeny. Naozaj chcete pokračovať?"
     },
+    "choose-recipe": "Zvolit",
     "new-recipe": "Nový recept",
     "recipe": "Recept",
-    "variant": "Varianta",
     "recipe-detail": {
       "delete-variants": "Vymazať varianty",
       "delete-variants-message": "Naozaj chcete vymazať všetky varianty receptu?",
@@ -73,7 +79,8 @@
       "add-variant": "Pridať variantu",
       "selected": "Vybrané",
       "delete-selected": "Vymazať vybrané",
-      "no-variants": "Žiadne varianty"
+      "no-variants": "Žiadne varianty",
+      "choose-variants": "Zvolit varianty"
     },
     "recipe-variant-detail": {
       "delete-variant": "Vymazať variantu",
@@ -84,6 +91,7 @@
       "no-history-of-changes": "Žiadne zmeny"
     },
     "title": "Recepty",
+    "variant": "Varianta",
     "variants": "varianty"
   },
   "searchBar": "Hľadať..."

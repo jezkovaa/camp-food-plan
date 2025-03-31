@@ -1,0 +1,5 @@
+<ion-list id="recipes-list">
+  <div *ngFor="let recipe of recipes">
+    <app-recipe [recipe]="recipe" [isChoosing]="isChoosing" />
+  </div>
+</ion-list>

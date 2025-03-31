@@ -1,0 +1,23 @@
+#recipe-variant {
+
+  display: flex;
+  align-items: center;
+
+  &.with-border {
+    border: 1px solid black;
+    border-radius: 30px;
+  }
+
+  ::ng-deep .no-border {
+    --border-width: 0px;
+  }
+
+  ::ng-deep .button {
+    display: flex;
+
+    .span {
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+}
