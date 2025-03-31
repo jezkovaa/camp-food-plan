@@ -69,7 +69,7 @@ export class RecipeEditPage implements OnInit {
       }
       else {
         this.isCreating = true;
-        this.recipe = new Recipe(this.translateService.instant('recipes.new-recipe'));
+        this.recipe = new Recipe();
         this.initRecipe = cloneDeep(this.recipe);
       }
     });

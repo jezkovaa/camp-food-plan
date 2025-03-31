@@ -19,7 +19,7 @@
         <div style="display: flex; justify-content: space-between;">
           <div style="display: flex; align-items: center;">
             <div *ngIf="recipe" class="header-recipe-name">
-              <ion-textarea [(ngModel)]="recipe.name" />
+              <ion-textarea [(ngModel)]="recipe.name" placeholder="{{'recipes.new-recipe' |translate}}" />
             </div>
           </div>
 
