@@ -9,9 +9,9 @@ export class Recipe implements IRecipe {
   courses: Course[];
   variants: IRecipeVariant[];
 
-  constructor(name: string) {
+  constructor() {
     this.id = null;
-    this.name = name;
+    this.name = "";
     this.courses = [];
     this.variants = [];
   }
