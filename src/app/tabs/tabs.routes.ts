@@ -1,6 +1,16 @@
 import { Routes } from '@angular/router';
 import { TabsPage } from './tabs.page';
-import { RecipeDetailPage } from '../recipes/ui/pages/recipe-detail.page/recipe-detail.page.component';
+import { RecipeDetailPage } from '../ui/pages/recipe-detail.page/recipe-detail.page.component';
+import { RecipesPage } from '../ui/pages/recipes.page/recipes.page';
+import { ChooseRecipePage } from '../ui/pages/choose-recipe.page/choose-recipe.page';
+import { RecipeEditPage } from '../ui/pages/recipe-edit.page/recipe-edit.page.component';
+import { RecipeVariantDetailPage } from '../ui/pages/recipe-variant-detail.page/recipe-variant-detail.page.component';
+import { PlanningPage } from '../ui/pages/planning.page/planning.page';
+import { EventEditPage } from '../ui/pages/event-edit.page/event-edit.page';
+import { EventPage } from '../ui/pages/event.page/event.page';
+import { ShoppingListsPage } from '../ui/pages/shopping-lists.page/shopping-lists.page';
+import { MenuOverviewPage } from '../ui/pages/menu-overview.page/menu-overview.page';
+import { DayMenuPage } from '../ui/pages/day-menu.page/day-menu.page';
 
 export const routes: Routes = [
   {
@@ -10,59 +20,60 @@ export const routes: Routes = [
       {
         path: 'recipes',
         loadComponent: () =>
-          import('../recipes/ui/pages/recipes.page/recipes.page').then((m) => m.RecipesPage),
+          RecipesPage
       },
       {
         path: 'recipes/new',
-        loadComponent: () =>
-          import('../recipes/ui/pages/recipe-edit.page/recipe-edit.page.component').then((m) => m.RecipeEditPage),
+        component: RecipeEditPage
       },
       {
-        path: 'recipes/:id',
-        component: RecipeDetailPage,
+        path: 'recipes/:recipeId',
+        component: RecipeDetailPage
       },
       {
-        path: 'recipes/:id/variants/:variantId',
-        loadComponent: () =>
-          import('../recipes/ui/pages/recipe-variant-detail.page/recipe-variant-detail.page.component').then((m) => m.RecipeVariantDetailPage),
+        path: 'recipes/:recipeId/variants/:variantId',
+        component: RecipeVariantDetailPage
       },
       {
-        path: 'recipes/:id/edit',
-        loadComponent: () => import('../recipes/ui/pages/recipe-edit.page/recipe-edit.page.component').then((m) => m.RecipeEditPage),
+        path: 'recipes/:recipeId/edit',
+        component: RecipeEditPage
       },
       {
         path: 'planning',
-        loadComponent: () =>
-          import('../planning/ui/pages/planning.page/planning.page').then((m) => m.PlanningPage),
+        component: PlanningPage
       },
       {
         path: 'planning/events/new',
-        loadComponent: () =>
-          import('../planning/ui/pages/event-edit.page/event-edit.page').then((m) => m.EventEditPage),
+        component: EventEditPage
       },
       {
-        path: 'planning/events/:id',
-        loadComponent: () =>
-          import('../planning/ui/pages/event/event.page').then((m) => m.EventPage)
+        path: 'planning/events/:eventId',
+        component: EventPage
       },
       {
-        path: 'planning/events/:id/edit',
-        loadComponent: () =>
-          import('../planning/ui/pages/event-edit.page/event-edit.page').then((m) => m.EventEditPage),
+        path: 'planning/events/:eventId/edit',
+        component: EventEditPage
       },
       {
         path: 'planning/events/:eventId/shopping-lists',
-        loadComponent: () =>
-          import('../planning/ui/pages/shopping-lists/shopping-lists.page').then((m) => m.ShoppingListsPage),
+        component: ShoppingListsPage
 
       },
       {
         path: 'planning/events/:eventId/menu',
-        loadComponent: () => import('../planning/ui/pages/menu-overview/menu-overview.page').then(m => m.MenuOverviewPage)
+        component: MenuOverviewPage
       },
       {
         path: 'planning/events/:eventId/menu/:dayMenuId',
-        loadComponent: () => import('../planning/ui/pages/day-menu/day-menu.page').then(m => m.DayMenuPage)
+        component: DayMenuPage
+      },
+      {
+        path: 'planning/events/:eventId/menu/:dayMenuId/:course',
+        component: ChooseRecipePage
+      },
+      {
+        path: 'planning/events/:eventId/menu/:dayMenuId/:course/recipe/:recipeId',
+        component: RecipeDetailPage
       },
       {
         path: '',

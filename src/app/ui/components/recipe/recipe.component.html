@@ -1,0 +1,38 @@
+<div class="recipe">
+  <!-- Main Button -->
+  <ion-button class="main-button" fill="clear" size="large" (click)="openRecipe()" [disabled]="isEditing || isChoosing"
+    [ngClass]="{ 'full-width': !isChoosing, 'reduced-width': isChoosing }">
+
+    <div class="recipe-button-container" style="display: flex
+    ;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;">
+      <div class="ion-text-start recipe-name">
+        {{ recipe.name }}
+      </div>
+
+      <div class="recipe-variants-container">
+        <div class="recipe-variant-count">
+          <div class="recipe-variant-count">
+            {{"recipes.variants" | translate }}:
+          </div>
+          <div class="recipe-variant-count">
+            {{ recipe.variants.length }}
+          </div>
+        </div>
+        <div class="recipe-variants">
+          <div *ngFor="let variant of recipe.variants">
+            <app-restriction [inputRestrictions]="variant.restrictions"></app-restriction>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </ion-button>
+
+  <!-- Choose Button -->
+  <ion-button *ngIf="isChoosing" (click)="openRecipe()" size="small" class="choose-button">
+    {{"recipes.choose-recipe" | translate}}
+  </ion-button>
+</div>
