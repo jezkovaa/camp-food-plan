@@ -30,6 +30,11 @@
     "title": "Plánovanie",
     "day-menu": {
       "add-meal": "Pridať jedlo",
+      "alert": {
+        "delete-confirm": "Potvrzení vymazání",
+        "delete-confirm-message": "Naozaj chcete vymazať toto jedlo?",
+        "delete-title": "Vymazanie jedla"
+      },
       "portions": {
         "title": "Porcie",
         "entry": "Zadejte počet porcí",

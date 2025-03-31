@@ -47,7 +47,7 @@
       display: flex
   ;">
         <div *ngIf="courseExists(course)" style="width: 100%;">
-          <app-meal [meal]="getMealForCourse(course)" />
+          <app-meal [meal]="getMealForCourse(course)" (deleteMealEvent)="deleteMeal($event)" />
         </div>
         <div *ngIf="!courseExists(course)" class="no-meal-container ion-padding">
           <div>
