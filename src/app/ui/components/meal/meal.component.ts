@@ -7,7 +7,8 @@ import { RecipesService } from 'src/app/data/services/recipes.service';
 import { ID } from 'src/app/types';
 import { IonButtons, IonButton, IonIcon } from "@ionic/angular/standalone";
 import { addIcons } from 'ionicons';
-import { pencil, people, trash } from 'ionicons/icons';
+import { chevronDown, eye, pencil, people, trash } from 'ionicons/icons';
+import { IDayMealRecipeNames } from 'src/app/data/interfaces/day-meal-names.interface';
 
 @Component({
   selector: 'app-meal',
@@ -25,13 +26,16 @@ import { pencil, people, trash } from 'ionicons/icons';
   ]
 
 })
+
 export class MealComponent implements OnInit {
 
 
   @Input({ required: true }) meal!: IDayMeal;
   @Output() deleteMealEvent = new EventEmitter<ID>();
 
-  recipeNames: Array<{ id: ID, name: string; }> = [];
+  recipeNames: IDayMealRecipeNames[] = [];
+
+  detailsVisible = false;
 
   get getCourseName(): string {
     switch (this.meal.course) {
@@ -52,11 +56,15 @@ export class MealComponent implements OnInit {
 
   }
 
+  get getIcon(): string {
+    return this.detailsVisible ? 'chevron-up' : 'chevron-down';
+  }
+
   constructor(private recipesService: RecipesService,
     private translateService: TranslateService
   ) {
 
-    addIcons({ pencil, trash, people });
+    addIcons({ pencil, trash, people, chevronDown });
 
   }
 
@@ -67,15 +75,13 @@ export class MealComponent implements OnInit {
 
   ngOnChanges() {
     this.getRecipeNames();
+
   }
 
   getRecipeNames() {
-    let recipeIds: ID[] = [];
-    this.meal.chosenRecipes.forEach(recipe => {
-      recipeIds.push(recipe.recipeId);
-    });
-    this.recipesService.getRecipesNames(recipeIds).subscribe({
-      next: (recipeNames: Array<{ id: ID, name: string; }>) => {
+
+    this.recipesService.getNames(this.meal.chosenRecipes).subscribe({
+      next: (recipeNames: IDayMealRecipeNames[]) => {
         this.recipeNames = recipeNames;
       },
       error: (error) => {
@@ -93,6 +99,11 @@ export class MealComponent implements OnInit {
     this.deleteMealEvent.emit(this.meal.id);
   }
 
+  viewMeal() {
+    //todo
+    this.detailsVisible = !this.detailsVisible;
+  }
+
   getPortions(recipeId: ID): number {
     const usedRecipe = this.meal.chosenRecipes.find(recipe => recipe.recipeId === recipeId);
     if (usedRecipe === undefined) {
@@ -104,4 +115,20 @@ export class MealComponent implements OnInit {
     });
     return portions;
   }
+
+  getPortionsForVariant(recipeId: ID, variantId: ID): number {
+    const usedRecipe = this.meal.chosenRecipes.find(recipe => recipe.recipeId === recipeId);
+    if (usedRecipe === undefined) {
+      throw new Error('Meal with given recipe id not found - should not happen');
+    }
+    const usedVariant = usedRecipe.variants.find(variant => variant.variantId === variantId);
+    if (usedVariant === undefined) {
+      throw new Error('Meal with given recipe id and variant id not found - should not happen');
+    }
+    return usedVariant.portions;
+  }
+
 }
+
+
+

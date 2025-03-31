@@ -743,6 +743,18 @@ export class PlanningService {
     return of(dayMenu);
   }
 
+  getMeal(eventId: ID, dayMenuId: ID, mealId: ID): Observable<IDayMeal> {
+    const dayMenu = this.dummyData.find(event => event.id === eventId)?.menu.find(menu => menu.id === dayMenuId);
+    if (dayMenu === undefined) {
+      return throwError(() => new Error('Menu not found'));
+    }
+    const meal = dayMenu.meals.find(meal => meal.id === mealId);
+    if (meal === undefined) {
+      return throwError(() => new Error('Meal not found'));
+    }
+    return of(meal);
+  }
+
   private addChosenRecipesToMenu(menu: IDayMenu, course: Course, chosenRecipes: IDayMealRecipe[]): void {
     menu.meals.push({
       id: 'c' + (menu.meals.length + 1),
