@@ -190,7 +190,10 @@ export class DayMenuPage implements OnInit {
             this.dayMenu = dayMenu;
           },
           error: (error: any) => {
-            console.error('Error deleting meal:', error);
+            this.alertService.presentAlert(
+              this.translateService.instant('planning.day-menu.alert.error-title'),
+              this.translateService.instant('planning.day-menu.alert.error-message')
+            );
           }
         });
       },
