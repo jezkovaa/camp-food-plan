@@ -11,6 +11,7 @@ import { EventPage } from '../ui/pages/event.page/event.page';
 import { ShoppingListsPage } from '../ui/pages/shopping-lists.page/shopping-lists.page';
 import { MenuOverviewPage } from '../ui/pages/menu-overview.page/menu-overview.page';
 import { DayMenuPage } from '../ui/pages/day-menu.page/day-menu.page';
+import { MealDetailPage } from '../ui/pages/meal-detail.page/meal-detail.page';
 
 export const routes: Routes = [
   {
@@ -74,6 +75,10 @@ export const routes: Routes = [
       {
         path: 'planning/events/:eventId/menu/:dayMenuId/:course/recipe/:recipeId',
         component: RecipeDetailPage
+      },
+      {
+        path: 'planning/events/:eventId/menu/:dayMenuId/:mealId',
+        component: MealDetailPage
       },
       {
         path: '',

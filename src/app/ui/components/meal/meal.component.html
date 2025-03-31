@@ -8,15 +8,35 @@
       <ion-button fill="clear" (click)="deleteMeal()">
         <ion-icon slot="icon-only" name="trash" />
       </ion-button>
+      <ion-button fill="clear" (click)="viewMeal()">
+        <ion-icon slot="icon-only" [name]="getIcon" />
+      </ion-button>
     </ion-buttons>
   </div>
 
-  <div *ngFor="let chosenRecipe of recipeNames" style="display: flex;">
-    <div>
-      {{ getPortions(chosenRecipe.id) }}
-      <ion-icon name="people" />
+  <div *ngIf="detailsVisible">
+    <div *ngFor="let chosenRecipe of recipeNames" style="display: flex; flex-direction: column;
+    gap: 5px;">
+      <div *ngFor="let chosenVariant of chosenRecipe.variants" style="display: flex; gap: 10px">
+        <div style="display: flex;">
+          {{ getPortionsForVariant(chosenRecipe.id, chosenVariant.variantId) }}
+          <ion-icon name="people" />
+        </div>
+        <div>
+          {{ chosenRecipe.name }} - {{chosenVariant.variantName}}
+        </div>
+      </div>
     </div>
-    <div>
-      {{ chosenRecipe.name }}
+  </div>
+  <div *ngIf="!detailsVisible">
+    <div *ngFor="let chosenRecipe of recipeNames" style="display: flex;
+    gap: 5px;">
+      <div>
+        {{ getPortions(chosenRecipe.id) }}
+        <ion-icon name="people" />
+      </div>
+      <div>
+        {{ chosenRecipe.name }}
+      </div>
     </div>
   </div>

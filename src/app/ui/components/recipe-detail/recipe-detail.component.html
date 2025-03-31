@@ -55,7 +55,7 @@
           {{"recipes.recipe-detail.delete-selected" | translate}}
         </div>
       </ion-button>
-      <ion-button *ngIf="isChoosing" (click)="chooseSelected()" color="primary">
+      <ion-button [disabled]="selectedCount === 0" *ngIf="isChoosing" (click)="chooseSelected()" color="primary">
         <div>
           {{"recipes.recipe-detail.choose-variants" | translate}}
         </div>

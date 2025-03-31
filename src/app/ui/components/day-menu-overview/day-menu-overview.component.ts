@@ -89,16 +89,12 @@ export class DayMenuOverviewComponent implements OnInit {
 
     this.courses.forEach(async course => {
       const meal = this.dayMenu.meals.find(meal => meal.course === course);
-      let mealRecipes: ID[] = [];
       if (meal === undefined) {
         this.recipeNames[course] = [];
         return;
       }
-      meal.chosenRecipes.forEach(recipe => {
-        mealRecipes.push(recipe.recipeId);
-      });
 
-      this.recipesService.getRecipesNames(mealRecipes).subscribe({
+      this.recipesService.getNames(meal.chosenRecipes).subscribe({
         next: (recipeNames: Array<{ id: ID, name: string; }>) => {
           this.recipeNames[course] = recipeNames;
         },

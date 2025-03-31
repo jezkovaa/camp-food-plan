@@ -5,6 +5,8 @@ import { Course } from '../enums/courses.enum';
 import { IRecipeVariant } from '../interfaces/recipe-variant.interface';
 import { IRecipe } from '../interfaces/recipe.interface';
 import { ID } from 'src/app/types';
+import { IDayMealRecipeNames } from '../interfaces/day-meal-names.interface';
+import { IDayMealRecipe } from '../interfaces/day-menu.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -632,12 +634,27 @@ export class RecipesService {
     return of(true);
   }
 
-  getRecipesNames(recipeIds: ID[]): Observable<Array<{ id: ID, name: string; }>> {
+  getNames(chosenRecipes: IDayMealRecipe[]): Observable<IDayMealRecipeNames[]> {
+    const filteredRecipes = this.dummyRecipes
+      .filter(recipe =>
+        chosenRecipes.some(chosenRecipe => chosenRecipe.recipeId === recipe.id) // Filter recipes by recipeId
+      )
+      .map(recipe => ({
+        id: recipe.id!,
+        name: recipe.name,
+        variants: recipe.variants
+          .filter(variant =>
+            chosenRecipes.some(chosenRecipe =>
+              chosenRecipe.recipeId === recipe.id &&
+              chosenRecipe.variants.some(chosenVariant => chosenVariant.variantId === variant.id)
+            )
+          ) // Filter variants by variantId
+          .map(variant => ({
+            variantId: variant.id,
+            variantName: variant.name
+          }))
+      }));
 
-    const recipes = this.dummyRecipes.filter(recipe => recipe.id !== null && recipeIds.includes(recipe.id));
-    const names = recipes.map(recipe => ({ id: recipe.id!, name: recipe.name }));
-    //  console.log(recipes.map(recipe => recipe.name));
-    return of(names);
-
+    return of(filteredRecipes);
   }
 }

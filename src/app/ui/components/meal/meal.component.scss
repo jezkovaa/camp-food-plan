@@ -2,6 +2,7 @@
   border: 1px solid var(--ion-color-medium);
   border-radius: 10px;
   width: 100%;
+  transition: all 0.5s ease-in-out;
 
   ::ng-deep .upper-part {
     display: flex;
