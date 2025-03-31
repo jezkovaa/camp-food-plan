@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { IDayMeal } from 'src/app/data/interfaces/day-menu.interface';
 import { Course } from 'src/app/data/enums/courses.enum';
@@ -29,6 +29,7 @@ export class MealComponent implements OnInit {
 
 
   @Input({ required: true }) meal!: IDayMeal;
+  @Output() deleteMealEvent = new EventEmitter<ID>();
 
   recipeNames: Array<{ id: ID, name: string; }> = [];
 
@@ -89,7 +90,7 @@ export class MealComponent implements OnInit {
   }
 
   deleteMeal() {
-    //todo
+    this.deleteMealEvent.emit(this.meal.id);
   }
 
   getPortions(recipeId: ID): number {

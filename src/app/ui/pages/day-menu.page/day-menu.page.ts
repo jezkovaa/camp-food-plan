@@ -14,6 +14,7 @@ import { forkJoin, switchMap, throwError } from 'rxjs';
 import { MealComponent } from '../../components/meal/meal.component';
 import { IPlannedEvent } from 'src/app/data/interfaces/planned-event.interface';
 import { isAfter, isBefore } from 'date-fns';
+import { AlertService } from '../../services/alert.service';
 
 @Component({
   selector: 'app-day-menu',
@@ -70,8 +71,8 @@ export class DayMenuPage implements OnInit {
   constructor(private route: ActivatedRoute,
     private planningService: PlanningService,
     private router: Router,
-    private translateService: TranslateService
-  ) {
+    private translateService: TranslateService,
+    private alertService: AlertService) {
 
     addIcons({ chevronBack, chevronForward, add, calendar });
 
@@ -171,6 +172,35 @@ export class DayMenuPage implements OnInit {
     const nextDate = new Date(date);
     nextDate.setDate(nextDate.getDate() - 1);
     this.redirectToMenu(nextDate);
+  }
+
+  deleteMeal(mealId: ID) {
+    if (this.dayMenu === null || this.eventId === null) {
+      return;
+    }
+    this.alertService.presentConfirm(
+      this.translateService.instant('planning.day-menu.alert.delete-confirm'),
+      this.translateService.instant('planning.day-menu.alert.delete-confirm-message'),
+      () => {
+        if (this.dayMenu === null || this.eventId === null) {
+          return;
+        }
+        this.planningService.deleteMealFromMenu(this.eventId, this.dayMenu.id, mealId).subscribe({
+          next: (dayMenu: IDayMenu) => {
+            this.dayMenu = dayMenu;
+          },
+          error: (error: any) => {
+            this.alertService.presentAlert(
+              this.translateService.instant('planning.day-menu.alert.error-title'),
+              this.translateService.instant('planning.day-menu.alert.error-message')
+            );
+          }
+        });
+      },
+      () => {
+        // User cancelled the deletion
+      });
+
   }
 
   private redirectToMenu(date: Date) {
