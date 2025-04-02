@@ -1,6 +1,6 @@
 <div id="recipe-variant-detail" class="ion-page">
   <ion-header>
-    <ion-toolbar class=" ion-padding-end" style="display: flex;">
+    <ion-toolbar style="display: flex;">
       <ion-buttons slot="start" class="ion-padding-end">
         <ion-back-button defaultHref="/recipes" text="" />
       </ion-buttons>
@@ -20,11 +20,11 @@
             <div class="header-variant-name custom-title-2"> {{ variant?.name }}</div>
 
           </div>
-          <div class="right">
-            <ion-button fill="solid" shape="round">
+          <div class="right buttons-container">
+            <ion-button shape="round">
               <ion-icon slot="icon-only" name="pencil" />
             </ion-button>
-            <ion-button fill="solid" (click)="deleteVariant()">
+            <ion-button (click)="deleteVariant()" shape="round">
               <ion-icon slot="icon-only" name="trash" />
             </ion-button>
 
