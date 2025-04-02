@@ -1,18 +1,27 @@
 <div id="recipes" class="ion-page">
-  <ion-header [translucent]="true">
+  <ion-header>
     <ion-toolbar class="ion-align-items-stretch">
-      <ion-buttons slot="start" class="ion-padding-end">
+      <ion-buttons slot="start" class="ion-padding-end background-secondary">
         <ion-back-button defaultHref="/recipes" text="" />
       </ion-buttons>
-      <ion-title>{{"recipes.title" | translate }}</ion-title>
+      <ion-title class="background-secondary">
+        <div style="
+         
+          width: fit-content;
+          padding: 0.5rem; border-radius: 1rem;
+          width: 100%;">
+          {{"recipes.title" | translate}}
+        </div>
+      </ion-title>
       <ion-buttons slot="end">
-        <ion-button (click)="createRecipe()">
-          <ion-icon slot="icon-only" fill="solid" color="success" name="add" />
+        <ion-button style="margin-right: 8px;" (click)="createRecipe()" fill="solid" shape="round">
+          <ion-icon slot="icon-only" name="add" />
         </ion-button>
       </ion-buttons>
     </ion-toolbar>
     <ion-toolbar>
-      <ion-searchbar animated="true" placeholder="{{'searchBar' | translate}}" show-clear-button="always" />
+      <!-- <ion-searchbar class=" searchbar background-secondary" animated="true" placeholder="{{'searchbar' | translate}}"
+        show-clear-button="always" /> -->
     </ion-toolbar>
   </ion-header>
 

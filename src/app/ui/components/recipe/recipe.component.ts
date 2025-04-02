@@ -19,6 +19,17 @@ export class RecipeComponent implements OnInit {
   @Input() isEditing = false;
   @Input() isChoosing = false;
 
+  get existingVariantsRestrictions() {
+    let existingRestriction = false;
+    this.recipe.variants.forEach(variant => {
+      if (variant.restrictions.length > 0) {
+        existingRestriction = true;
+        return;
+      }
+    });
+    return existingRestriction;
+  }
+
   constructor(private router: Router,
     private route: ActivatedRoute,
   ) { }

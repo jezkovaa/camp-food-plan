@@ -3,11 +3,11 @@
     <ion-toolbar>
       <div class="upper-part ion-justify-content-end">
         <ion-buttons slot="end">
-          <ion-button (click)="saveEvent()" color="tertiary">
-            <ion-icon slot="icon-only" fill="solid" name="save" />
+          <ion-button (click)="saveEvent()" fill="solid" shape="round">
+            <ion-icon slot="icon-only" name="save" />
           </ion-button>
-          <ion-button (click)="closeEvent()" color="danger">
-            <ion-icon slot="icon-only" fill="solid" name="close-circle" />
+          <ion-button (click)=" closeEvent()" fill="solid" shape="round">
+            <ion-icon slot="icon-only" name="close-circle" />
           </ion-button>
         </ion-buttons>
       </div>
@@ -28,7 +28,7 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-content>
+  <ion-content class="ion-padding">
     <div *ngIf="event !== null" class="content">
       <ion-button fill="clear" id="choose-date">
         <ion-icon slot="start" name="calendar" />

@@ -3,25 +3,13 @@
   ion-toolbar {
     display: flex;
     justify-content: space-between;
-
   }
 
   ::ng-deep .toolbar-content {
     display: flex !important;
   }
 
-
   ::ng-deep .button-inner {
     justify-content: flex-start !important;
   }
-
-  ion-header {
-    //display: flex;
-    // flex-direction: column;
-    //align-items: center;
-    //justify-content: center;
-    padding-right: 8px;
-    backdrop-filter: none !important;
-  }
-
 }

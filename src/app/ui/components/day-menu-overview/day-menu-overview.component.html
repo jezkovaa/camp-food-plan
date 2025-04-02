@@ -1,4 +1,4 @@
-<div id="day-menu-overview" class="ion-padding">
+<div id="day-menu-overview">
   <div style="width: 55px">{{getDayName}}</div>
   <ion-grid>
     <div *ngFor="let course of courses">
@@ -14,7 +14,7 @@
       </ion-row>
     </div>
   </ion-grid>
-  <ion-button (click)="openDayMenu()">
+  <ion-button (click)="openDayMenu()" shape="round">
     <ion-icon slot="icon-only" name="chevron-forward" />
   </ion-button>
 </div>

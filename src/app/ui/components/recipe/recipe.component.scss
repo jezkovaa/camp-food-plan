@@ -1,7 +1,7 @@
 .recipe {
 
-  border: 1px var(--ion-color-medium) solid;
-  border-radius: 30px;
+  box-shadow: var(--box-shadow);
+  border-radius: var(--border-radius);
   display: flex;
   flex-direction: row;
 
@@ -18,6 +18,8 @@
 
     font-weight: bold;
     flex: 1;
+    text-transform: none;
+    max-width: 80%;
   }
 
   ::ng-deep .recipe-variants-container {
@@ -27,12 +29,21 @@
 
   ::ng-deep .recipe-variant-count {
     margin-bottom: 5px;
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    background-color: var(--ion-color-primary);
+    padding: var(--padding-var);
+    border-radius: var(--border-radius);
+    text-transform: lowercase;
+    color: white;
   }
 
   ::ng-deep .recipe-variants {
     display: flex;
     align-items: center;
     gap: 2px;
+    justify-content: flex-end;
   }
 
   ::ng-deep .choose-button {

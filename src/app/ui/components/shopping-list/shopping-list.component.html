@@ -6,9 +6,9 @@
         gap: 10px;
         align-items: center;
         flex-wrap: wrap;
-        border: 1px solid #d3d3d3;
+        box-shadow: var(--box-shadow);
         padding: 10px;
-        border-radius: 10px;
+        border-radius: var(--border-radius);
 ">
   <ion-label class="list-name custom-title-4">
     {{list.name}}
@@ -16,10 +16,10 @@
   <ion-grid>
     <ion-row>
       <ion-col class="wrap-text custom-label">
-        {{"event.date" | translate}}:
+        {{"planning.event.date" | translate}}:
       </ion-col>
       <ion-col class="wrap-text custom-label">
-        {{"event.shopping-lists.minimum-count" | translate}}:
+        {{"planning.event.shopping-lists.minimum-count" | translate}}:
       </ion-col>
     </ion-row>
     <ion-row>

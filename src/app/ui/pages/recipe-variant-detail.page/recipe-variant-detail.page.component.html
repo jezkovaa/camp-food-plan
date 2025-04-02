@@ -17,13 +17,14 @@
         </div>
         <div class="lower-part-of-row">
           <div class="left">
-            <div class="header-variant-name"> {{ variant?.name }}</div>
-            <ion-button fill="clear">
-              <ion-icon slot="icon-only" name="pencil" />
-            </ion-button>
+            <div class="header-variant-name custom-title-2"> {{ variant?.name }}</div>
+
           </div>
           <div class="right">
-            <ion-button fill="clear" color="danger" (click)="deleteVariant()">
+            <ion-button fill="solid" shape="round">
+              <ion-icon slot="icon-only" name="pencil" />
+            </ion-button>
+            <ion-button fill="solid" (click)="deleteVariant()">
               <ion-icon slot="icon-only" name="trash" />
             </ion-button>
 
@@ -34,7 +35,7 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-content>
+  <ion-content class="ion-padding">
 
     <div *ngIf="variant !== null">
       <app-recipe-variant-detail [variant]="variant" />

@@ -35,6 +35,8 @@ export class AlertService {
     });
 
     await alert.present();
+    let result = await alert.onDidDismiss();
+    console.log(result);
   }
 
   async presentConfirm(header: string, message: string, confirmHandler: () => void, cancelHandler: () => void = () => { }) {
@@ -45,6 +47,8 @@ export class AlertService {
     });
 
     await alert.present();
+    let result = await alert.onDidDismiss();
+    console.log(result);
   }
 
   async deleteSuccess() {

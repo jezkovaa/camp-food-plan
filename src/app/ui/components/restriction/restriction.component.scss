@@ -3,8 +3,9 @@
 .restriction-icons {
   display: flex;
   gap: 2px;
-  border: 2px solid #ccc;
+  box-shadow: var(--box-shadow);
   width: 100%;
-  border-radius: 30%;
+  border-radius: var(--border-radius);
   padding: 5px;
+  background-color: var(--ion-color-warning-tint);
 }
