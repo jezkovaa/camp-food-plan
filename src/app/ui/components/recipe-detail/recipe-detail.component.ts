@@ -92,7 +92,11 @@ export class RecipeDetailComponent implements OnInit {
   }
 
   async chooseCourse() {
-    await this.popover.present();
+    try {
+      await this.popover.present();
+    } catch (error) {
+      console.error('Error presenting popover:', error);
+    }
   }
 
   async chooseSelected() {
