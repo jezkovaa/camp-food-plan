@@ -19,6 +19,9 @@
     "delete-confirm-message-variants": "Naozaj chcete vymazať všetky varianty receptu?",
     "delete-confirm": "Potvrzení vymazání"
   },
+  "buttons": {
+    "apply": "Použiť"
+  },
   "courses": {
     "BREAKFAST": "Raňajky",
     "MORNING-SNACK": "Desiata",
