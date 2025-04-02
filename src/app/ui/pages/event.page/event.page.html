@@ -6,8 +6,9 @@
       </ion-buttons>
 
       <div class="my-toolbar-content">
-        <ion-label>{{"planning.event.select-event" | translate}}</ion-label>
-        <ion-button (click)="editEvent()" fill="clear">
+        <ion-label *ngIf="event === null">{{"planning.event.select-event" | translate}}</ion-label>
+        <ion-label *ngIf="event !== null" class="custom-title-2">{{event.name}}</ion-label>
+        <ion-button (click)="editEvent()" fill="clear" size="small">
           <ion-icon slot="icon-only" name="pencil" />
         </ion-button>
       </div>
@@ -29,7 +30,7 @@
 
   <ion-content [fullscreen]="true">
     <div class="content ion-padding-start ion-padding-end">
-      <div>
+      <div style="font-weight: bold;">
         <ion-icon name="calendar" class="event-icon" />
         <ion-label>
           {{event?.dateFrom | date: 'dd.MM.yyyy'}} - {{event?.dateTo | date: 'dd.MM.yyyy'}}
@@ -45,7 +46,7 @@
       </ion-button>
 
       <ion-button (click)="shoppingLists()" class="content-button">
-        {{"planning.event.shopping-lists" | translate}}
+        {{"planning.event.shopping-lists.title" | translate}}
       </ion-button>
     </div>
   </ion-content>
