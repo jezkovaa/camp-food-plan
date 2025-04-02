@@ -1,32 +1,65 @@
 .recipe-variant-detail {
 
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
   ::ng-deep .group {
-    border: 1px solid black;
-    border-radius: 30px
+    //border: 1px solid black;
+    border-radius: var(--border-radius);
+    //border: 1px solid var(--ion-color-medium);
+    box-shadow: var(--box-shadow);
+  }
+
+
+  ::ng-deep ingredients {
+    background-color: var(--ion-color-secondary);
+    padding: auto;
   }
 
   ::ng-deep ion-list {
-    border-radius: 30px;
+    border-radius: var(--border-radius);
   }
 
   ::ng-deep .grid {
     display: flex;
     flex-direction: column;
     gap: 10px;
+
+    ion-row:nth-child(odd) {
+      .order {
+        background-color: var(--ion-color-secondary);
+        /* Background color for odd rows */
+      }
+    }
+
+    ion-row:nth-child(even) {
+
+      .order {
+        background-color: var(--ion-color-secondary);
+        //color: var(--ion-color-primary-contrast);
+        /* Background color for even rows */
+      }
+    }
   }
 
   ::ng-deep .order {
     flex-grow: 0 !important;
 
-    border-radius: 50%;
+    border-radius: var(--border-radius);
     width: 36px;
     height: 36px;
     padding: 8px;
 
     background: #fff;
-    border: 1px solid black;
-    color: black;
+    background-color: var(--ion-color-primary-tint);
+    color: var(--ion-color-primary);
     text-align: center;
+
+    :nth-child(even) {
+      background-color: black;
+      color: white;
+    }
   }
 
   ::ng-deep .description {

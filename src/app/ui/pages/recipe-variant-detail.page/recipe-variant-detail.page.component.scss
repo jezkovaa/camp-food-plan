@@ -11,8 +11,11 @@
     gap: 12px;
   }
 
-  .header-variant-name {
 
+  .header-variant-name {
+    background-color: var(--ion-color-secondary);
+    padding: var(--padding-var);
+    border-radius: var(--border-radius);
     font-weight: bold;
   }
 
@@ -20,7 +23,7 @@
   ::ng-deep .second-row {
     display: flex;
     flex-direction: column;
-    padding-top: 0.5em;
+    // padding-top: 0.5em;
 
 
   }
@@ -29,7 +32,7 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    margin-top: -15px;
+    //  margin-top: -15px;
 
   }
 
@@ -37,5 +40,10 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
+  }
+
+  ::ng-deep .right {
+    display: flex;
+    flex-wrap: nowrap;
   }
 }

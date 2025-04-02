@@ -3,11 +3,11 @@
     <ion-toolbar>
       <div class="upper-part ion-justify-content-end">
         <ion-buttons slot="end">
-          <ion-button (click)="saveRecipe()" color="tertiary">
-            <ion-icon slot="icon-only" fill="solid" name="save" />
+          <ion-button (click)="saveRecipe()" fill="clear">
+            <ion-icon slot="icon-only" name="save" color="primary" />
           </ion-button>
-          <ion-button (click)="closeRecipe()" color="danger">
-            <ion-icon slot="icon-only" fill="solid" name="close-circle" />
+          <ion-button (click)="closeRecipe()" fill="clear" shape="round">
+            <ion-icon slot="icon-only" name="close-circle" color="primary" />
           </ion-button>
         </ion-buttons>
       </div>
@@ -16,10 +16,10 @@
       </ion-buttons>
       <div>
         <div class="ion-padding-top">{{"recipes.recipe" | translate }}</div>
-        <div style="display: flex; justify-content: space-between;">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
           <div style="display: flex; align-items: center;">
             <div *ngIf="recipe" class="header-recipe-name">
-              <ion-textarea [(ngModel)]="recipe.name" placeholder="{{'recipes.new-recipe' |translate}}" />
+              <ion-textarea rows="1" [(ngModel)]="recipe.name" placeholder="{{'recipes.new-recipe' |translate}}" />
             </div>
           </div>
 

@@ -1,13 +1,13 @@
 <div id="recipes" class="ion-page">
-  <ion-header [translucent]="true">
+  <ion-header>
     <ion-toolbar class="ion-align-items-stretch">
       <ion-buttons slot="start" class="ion-padding-end">
         <ion-back-button defaultHref="/recipes" text="" />
       </ion-buttons>
       <ion-title>{{"recipes.title" | translate }}</ion-title>
       <ion-buttons slot="end">
-        <ion-button (click)="createRecipe()">
-          <ion-icon slot="icon-only" fill="solid" color="success" name="add" />
+        <ion-button (click)="createRecipe()" fill="solid" shape="round" color="primary">
+          <ion-icon slot="icon-only" name="add" />
         </ion-button>
       </ion-buttons>
     </ion-toolbar>
@@ -16,7 +16,7 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-content [fullscreen]="true" class="ion-padding">
+  <ion-content class="ion-padding">
     <app-recipes-list [recipes]=" recipes" [isChoosing]="true" />
   </ion-content>
 </div>

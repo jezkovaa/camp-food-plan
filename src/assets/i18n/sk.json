@@ -52,11 +52,16 @@
       "select-event": "Vyberte udalosť",
       "load-participants": "Načítať účastníkov",
       "display-menu": "Zobraziť jídelníček",
-      "shopping-lists": "Nákupné zoznamy",
       "empty-name": "Zadejte názov...",
       "choose-date": "Vyberte dátum",
       "menu": "Jídelníček",
-      "title": "Udalosť"
+      "title": "Udalosť",
+      "shopping-lists": {
+        "title": "Nákupné zoznamy",
+        "minimum-count": "Počet položiek",
+        "minimum": "Minimálny počet nákupov",
+        "getPDF": "Získať PDF"
+      }
     },
     "no-planned-events": "Nemáte naplánované žiadne udalosti",
     "choose-or-create": "Vyberte alebo vytvorte novú udalosť"

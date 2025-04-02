@@ -4,8 +4,8 @@
   align-items: center;
 
   &.with-border {
-    border: 1px solid black;
-    border-radius: 30px;
+    box-shadow: var(--box-shadow);
+    border-radius: var(--border-radius);
   }
 
   ::ng-deep .no-border {
@@ -19,5 +19,10 @@
       display: flex;
       justify-content: space-between;
     }
+  }
+
+  ::ng-deep .variant-name {
+    text-transform: none;
+    max-width: 80%;
   }
 }

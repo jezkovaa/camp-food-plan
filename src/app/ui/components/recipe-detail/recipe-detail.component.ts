@@ -91,8 +91,12 @@ export class RecipeDetailComponent implements OnInit {
 
   }
 
-  chooseCourse() {
-    this.popover.present();
+  async chooseCourse() {
+    try {
+      await this.popover.present();
+    } catch (error) {
+      console.error('Error presenting popover:', error);
+    }
   }
 
   async chooseSelected() {
@@ -107,7 +111,7 @@ export class RecipeDetailComponent implements OnInit {
         selectedIds: this.selectedIds
       },
     });
-    modal.present();
+    await modal.present();
 
     modal.onDidDismiss().then((eventDetail) => {
       const result: IDayMealRecipeVariant[] | undefined = eventDetail.data;

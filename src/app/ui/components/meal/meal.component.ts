@@ -96,6 +96,8 @@ export class MealComponent implements OnInit {
   }
 
   deleteMeal() {
+    const buttonElement = document.activeElement as HTMLElement;
+    buttonElement.blur(); // Remove focus from the button
     this.deleteMealEvent.emit(this.meal.id);
   }
 

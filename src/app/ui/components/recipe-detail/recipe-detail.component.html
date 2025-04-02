@@ -1,28 +1,35 @@
 <ion-grid id="recipe-detail">
   <ion-row>
-    <ion-col>
+    <ion-col class="centered-col">
       {{"recipes.recipe-detail.course" | translate}}:
     </ion-col>
-    <ion-col>
+    <ion-col class="centered-col">
       {{"recipes.recipe-detail.variants" | translate}}:
     </ion-col>
   </ion-row>
 
   <ion-row>
-    <ion-col class="wrap-text">
+    <ion-col class="wrap-text custom-title-3 centered-col">
       {{ getCourseNames(recipe.courses) }}
     </ion-col>
-    <ion-col>
+    <ion-col class="custom-title-3 centered-col">
       {{recipe.variants.length}}
     </ion-col>
   </ion-row>
   <ion-row *ngIf="isEditing">
     <ion-col>
-      <ion-button fill="clear" id="choose-course" class="choose-course-button">
-        <img src="assets/icon/cutlery.png" class="responsive-icon" />
-        <div>
-          {{"recipes.recipe-detail.choose-course" | translate}}
+      <ion-button id="choose-course" class="choose-course-button">
+
+        <div style="display: flex; gap: 10px; align-items: center;">
+          <img src="assets/icon/cutlery.svg" class="responsive-icon color-filter" />
+          <div>
+            {{"recipes.recipe-detail.choose-course" | translate}}
+          </div>
         </div>
+
+
+
+
       </ion-button>
       <ion-popover id="choose-course-popover" trigger="choose-course" triggerAction="click">
         <ng-template>
@@ -32,8 +39,8 @@
       </ion-popover>
     </ion-col>
     <ion-col>
-      <ion-button fill="clear" (click)="addVariant()" color="success" class="add-variant-button">
-        <ion-icon slot="icon-only" name="add" />
+      <ion-button (click)="addVariant()">
+        <ion-icon slot="start" name="add" />
         <div>
           {{"recipes.recipe-detail.add-variant" | translate}}
         </div>
@@ -49,8 +56,8 @@
       {{"recipes.recipe-detail.selected" | translate }} : {{selectedCount}}
     </ion-col>
     <ion-col>
-      <ion-button *ngIf="isEditing" (click)="deleteSelected()" color="danger">
-        <ion-icon name="trash" />
+      <ion-button *ngIf="isEditing" (click)="deleteSelected()">
+        <ion-icon name="trash" fill="solid" />
         <div>
           {{"recipes.recipe-detail.delete-selected" | translate}}
         </div>

@@ -1,8 +1,8 @@
-<div id="recipe-variant" [ngClass]="{'with-border': isEditing || isChoosing}">
+<div id="recipe-variant" class='with-border'>
   <ion-button class="ion-justify-space-between" style="    flex-grow: 1;
-    text-align: start;" [ngClass]="{'no-border': isEditing || isChoosing}" fill="outline" size="large" expand="block"
-    (click)="openVariant()" [disabled]="isEditing || isChoosing">
-    <div class="ion-text-start recipe-name">
+    text-align: start;" class='no-border' fill="outline" size="large" expand="block" (click)="openVariant()"
+    [disabled]="isEditing || isChoosing">
+    <div class="ion-text-start variant-name">
       {{variant.name}}
     </div>
 

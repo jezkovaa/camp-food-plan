@@ -48,11 +48,23 @@
 .custom-title-3 {
   font-size: 1.1em;
   font-weight: bold;
+  background-color: var(--ion-color-secondary);
+  color: var(--ion-color-secondary-contrast);
+  padding: var(--padding-var);
+  border-radius: var(--border-radius);
+  width: fit-content;
+  align-content: center;
 }
 
 .custom-title-4 {
-  // font-size: 1.2em;
-  font-weight: bold;
+  font-size: 1.2em;
+  //  font-weight: bold;
+  background-color: var(--ion-color-primary);
+  color: var(--ion-color-primary-contrast);
+  padding: var(--padding-var);
+  align-content: center;
+
+  border-radius: var(--border-radius);
 
 }
 
