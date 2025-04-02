@@ -1,7 +1,13 @@
 <div class="recipe-variant-detail">
-  <div class="ingredients group ion-padding-start ion-padding-end ion-padding-top">
-    <ion-label class="custom">{{"recipes.recipe-variant-detail.ingredients" | translate}}</ion-label>
-    <ion-list style="margin-top: 5px">
+  <div class="ingredients group ion-padding-start ion-padding-end ion-padding-top"
+    [ngClass]="{ 'ion-padding-bottom': !ingredientsVisible }">
+    <div class="top-part">
+      <ion-label class="custom">{{"recipes.recipe-variant-detail.ingredients" | translate}}</ion-label>
+      <ion-button (click)="toggleIngredients()" fill="clear" size="small">
+        <ion-icon slot="icon-only" [name]="getIcon(ingredientsVisible)" />
+      </ion-button>
+    </div>
+    <ion-list *ngIf="ingredientsVisible" style="margin-top: 5px">
       <ion-reorder-group [disabled]="isEditing" (ionItemReorder)="handleReorder($any($event))">
         <div *ngFor="let ingredient of variant.ingredients">
           <ion-item>
@@ -14,26 +20,38 @@
     </ion-list>
   </div>
 
-  <div class="proceeding group ion-padding-start ion-padding-end ion-padding-top">
-    <ion-label class="custom">{{"recipes.recipe-variant-detail.proceeding" | translate}}</ion-label>
-    <ion-grid class="grid">
-      <ion-row *ngFor="let item of variant.proceeding">
+  <div class="proceeding group ion-padding-start ion-padding-end ion-padding-top"
+    [ngClass]="{ 'ion-padding-bottom': !proceedingVisible }">
+    <div class="top-part">
+      <ion-label class="custom">{{"recipes.recipe-variant-detail.proceeding" | translate}}</ion-label>
+      <ion-button (click)="toggleProceeding()" fill="clear" size="small">
+        <ion-icon slot="icon-only" [name]="getIcon(proceedingVisible)" />
+      </ion-button>
+    </div>
+    <ion-grid *ngIf="proceedingVisible" class="grid">
+      <ion-row *ngFor="let item of variant.proceeding" class="ion-align-items-center">
         <ion-col class="order">
           {{ item.order }}
         </ion-col>
-        <ion-col class="description">
+        <ion-col class="description ion-text-wrap">
           {{ item.description }}
         </ion-col>
       </ion-row>
     </ion-grid>
   </div>
 
-  <div class="history-of-changes group ion-padding-start ion-padding-end ion-padding-top">
-    <ion-label class="custom">{{"recipes.recipe-variant-detail.history-of-changes" | translate}}</ion-label>
-    <div *ngIf="variant.historyOfChanges.length === 0">
-      <p>{{"recipes.recipe-variant-detail.no-history-of-changes" | translate}}</p>
+  <div class="history-of-changes group ion-padding-start ion-padding-end ion-padding-top"
+    [ngClass]="{ 'ion-padding-bottom': !changesVisible }">
+    <div class="top-part">
+      <ion-label class="custom">{{"recipes.recipe-variant-detail.history-of-changes" | translate}}</ion-label>
+      <ion-button (click)="toggleChanges()" fill="clear" size="small">
+        <ion-icon slot="icon-only" [name]="getIcon(changesVisible)" />
+      </ion-button>
     </div>
-    <div *ngIf="variant.historyOfChanges.length > 0">
+    <div *ngIf="changesVisible && variant.historyOfChanges.length === 0">
+      <p style="padding-left: 16px;">{{"recipes.recipe-variant-detail.no-history-of-changes" | translate}}</p>
+    </div>
+    <div *ngIf="changesVisible && variant.historyOfChanges.length > 0">
       <div *ngFor="let change of variant.historyOfChanges">
         <div>
           {{ change.date | date: "dd.MM.yyyy" }}
