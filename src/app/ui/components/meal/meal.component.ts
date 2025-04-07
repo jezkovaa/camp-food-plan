@@ -48,7 +48,7 @@ export class MealComponent implements OnInit {
       case Course.SNACK:
         return this.translateService.instant('courses.SNACK');
       case Course.MORNING_SNACK:
-        return this.translateService.instant('courses.MORNING-SNACK');
+        return this.translateService.instant('courses.MORNING_SNACK');
       default:
         return '';
 

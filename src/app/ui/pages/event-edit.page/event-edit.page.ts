@@ -68,16 +68,22 @@ export class EventEditPage implements OnInit {
 
     this.route.params.subscribe(params => {
       const eventId = params['eventId'];
-      this.planningService.getEvent(eventId).subscribe({
-        next: (event: IPlannedEvent) => {
-          this.event = cloneDeep(event);
-          this.initEvent = event;
-        },
-        error: (err: any) => {
-          this.isCreating = true;
-          this.event = new PlannedEvent();
-        }
-      });
+      if (eventId) {
+        this.isCreating = false;
+        this.planningService.getEvent(eventId).subscribe({
+          next: (event: IPlannedEvent) => {
+            this.event = cloneDeep(event);
+            this.initEvent = event;
+          },
+          error: (err: any) => {
+            console.error('Error getting event', err);
+          }
+        });
+      } else {
+        this.isCreating = true;
+        this.event = new PlannedEvent();
+      }
+
     });
   }
 

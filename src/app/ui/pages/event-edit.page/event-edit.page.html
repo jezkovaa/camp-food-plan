@@ -3,26 +3,23 @@
     <ion-toolbar>
       <div class="upper-part ion-justify-content-end">
         <ion-buttons slot="end">
-          <ion-button (click)="saveEvent()" fill="solid" shape="round">
+          <ion-button (click)="saveEvent()" fill="clear" shape="round">
             <ion-icon slot="icon-only" name="save" />
           </ion-button>
-          <ion-button (click)=" closeEvent()" fill="solid" shape="round">
+          <ion-button (click)=" closeEvent()" fill="clear" shape="round">
             <ion-icon slot="icon-only" name="close-circle" />
           </ion-button>
         </ion-buttons>
       </div>
-      <ion-buttons slot="start" class="ion-padding-end">
+      <ion-buttons slot="start">
         <ion-back-button defaultHref="/planning" text="" />
       </ion-buttons>
       <div>
-        <div class="ion-padding-top">{{"planning.event.title" | translate }}</div>
-        <div style="display: flex; justify-content: space-between;">
-          <div style="display: flex; align-items: center;">
-            <div *ngIf="event" class="header-event-name">
-              <ion-textarea [(ngModel)]="event.name" placeholder="{{'planning.event.empty-name' |translate }}" />
-            </div>
+        <div class="ion-padding-bottom" style="display: flex; justify-content: space-between;">
+          <div *ngIf="event" class="header-event-name">
+            <ion-textarea rows="1" [(ngModel)]="event.name" placeholder="{{'planning.event.empty-name' |translate }}"
+              label-placement="stacked" label="{{'planning.event.title' | translate }}" />
           </div>
-
         </div>
       </div>
     </ion-toolbar>

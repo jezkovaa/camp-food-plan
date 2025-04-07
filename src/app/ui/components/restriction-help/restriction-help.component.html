@@ -1,0 +1,13 @@
+<div class="ion-padding" style="display: flex; flex-direction: column; gap: 5px">
+  <ion-label style="font-weight: bold;">{{"food-restriction.available-for" |
+    translate}}</ion-label>
+  <div class="restriction-container" style="display: flex; flex-direction: column; gap: 5px">
+    <div *ngFor=" let restriction of restrictions" style="display: flex; align-items: center; gap: 5px">
+      <ion-checkbox *ngIf="isSelectable" [checked]="getValue(restriction)"
+        (ionChange)="checkboxClick(restriction, $event)"></ion-checkbox>
+      <app-restriction [inputRestrictions]="[restriction]"></app-restriction>
+      <div>{{getRestrictionText(restriction)}}</div>
+    </div>
+  </div>
+
+</div>

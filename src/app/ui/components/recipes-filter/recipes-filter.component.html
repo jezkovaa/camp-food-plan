@@ -1,0 +1,23 @@
+<div id="recipes-filter" class="ion-padding">
+  <ion-label class="custom-title-2">{{"filter.title" | translate}}</ion-label>
+  <div class="courses">
+    <div>{{"filter.course" |translate}}</div>
+    <ion-list id="course-list">
+      <div *ngFor="let course of courses">
+        <ion-item>
+          <ion-checkbox slot="start" [checked]="courseValue(course)" (ionChange)=" checkboxClick($event, course)" />
+          <ion-label>{{ getCourseName(course) }}</ion-label>
+        </ion-item>
+      </div>
+    </ion-list>
+  </div>
+  <div class="food-restrictions">
+    <app-restriction-help [isSelectable]="true" [selectedRestrictions]="selectedRestrictions"
+      (selectedRestrictionsChanged)="selectedRestrictionsChanged($event)"></app-restriction-help>
+  </div>
+  <div style="display:flex; justify-content: flex-end;">
+    <ion-button (click)="applyFilter()" color="primary">
+      {{ "buttons.apply" | translate }}
+    </ion-button>
+  </div>
+</div>

@@ -12,4 +12,15 @@
   ::ng-deep .button-inner {
     justify-content: flex-start !important;
   }
+
+  ::ng-deep .filters-container {
+    max-height: 200px;
+    /* Adjust height as needed */
+    overflow-y: auto;
+    display: flex;
+    flex-direction: row;
+    /* Stack chips vertically */
+
+    /* Adds space between chips */
+  }
 }

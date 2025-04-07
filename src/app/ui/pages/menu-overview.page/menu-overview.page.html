@@ -10,10 +10,22 @@
   flex-direction: column;
   display: flex
 ;">
-    <div *ngIf="eventId">
-      <div *ngFor="let dayMenu of dayMenus">
-        <app-day-menu-overview [dayMenu]="dayMenu" [eventId]="eventId"></app-day-menu-overview>
+    <div *ngIf="event !== null">
+      <div *ngIf="event.dateFrom && event.dateTo">
+        <div *ngFor="let date of dates">
+          <div *ngIf="getMenuForDate(date) !== null">
+            <app-day-menu-overview [dayMenu]="getMenuForDate(date)!" [eventId]="event.id"
+              [date]="date"></app-day-menu-overview>
+          </div>
+          <div *ngIf="!getMenuForDate(date)" style="text-align: center;">
+            <app-day-menu-overview [dayMenu]="null" [eventId]="event.id" [date]="date"></app-day-menu-overview>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
+
+
+
 </ion-content>
