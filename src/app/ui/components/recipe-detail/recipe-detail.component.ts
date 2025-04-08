@@ -17,6 +17,10 @@ import { PlanningService } from 'src/app/data/services/planning.service';
 import { ID } from 'src/app/types';
 import { IDayMeal, IDayMealRecipe, IDayMealRecipeVariant, IDayMenu } from 'src/app/data/interfaces/day-menu.interface';
 import { ActivatedRoute, Router } from '@angular/router';
+import { SearchbarWithButtonsComponent } from "../searchbar-with-buttons/searchbar-with-buttons.component";
+import { IFilter } from 'src/app/data/interfaces/filter.interface';
+import { IFilterOptions } from 'src/app/data/interfaces/filter-options.interface';
+import { SortOption } from 'src/app/data/enums/sort-options.enum';
 
 @Component({
   selector: 'app-recipe-detail',
@@ -30,14 +34,13 @@ import { ActivatedRoute, Router } from '@angular/router';
     IonGrid,
     IonRow,
     IonCol,
-    IonSearchbar,
-
     VariantsListComponent,
     RecipeVariantDetailComponent,
-
     TranslateModule,
     CommonModule,
-    CourseListComponent]
+    CourseListComponent,
+    SearchbarWithButtonsComponent
+  ]
 })
 export class RecipeDetailComponent implements OnInit {
 
@@ -45,6 +48,10 @@ export class RecipeDetailComponent implements OnInit {
   @Input() isEditing = false;
   @Input() isChoosing = false;
   @Input() course: Course = Course.BREAKFAST;
+
+  @Input() searchValue = '';
+  @Input() filter: IFilterOptions | null = null;
+  @Input() sortOption: SortOption = SortOption.NAME_ASC;
 
 
   @Output() portionsChanged = new EventEmitter<IDayMeal>();
@@ -57,7 +64,7 @@ export class RecipeDetailComponent implements OnInit {
   public alertButtons = ['OK', 'Cancel'];
 
   ngOnInit(): void {
-    console.log(this.course);
+
   }
 
   get selectedCount(): number {
@@ -100,6 +107,8 @@ export class RecipeDetailComponent implements OnInit {
   }
 
   async chooseSelected() {
+    const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
+    buttonElement.blur();
     if (this.recipe.id === null) {
       return;
     }
@@ -131,6 +140,8 @@ export class RecipeDetailComponent implements OnInit {
 
   addVariant() {
     //todo
+    const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
+    buttonElement.blur();
   }
 
 
@@ -139,12 +150,16 @@ export class RecipeDetailComponent implements OnInit {
     this.selectedIds = selectedIds;
   }
 
-  deleteSelected() {
+  async deleteSelected() {
+    const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
+    buttonElement.blur();
 
-    this.alertService.presentConfirm(
+    await this.alertService.presentConfirm(
       this.translateService.instant('recipe-detail.delete-variants'),
       this.translateService.instant('recipe-detail.delete-variants-message'),
       () => {
+        const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
+        buttonElement.blur();
         if (this.recipe.id) {
           this.recipesService.deleteVariants(this.recipe.id, this.selectedIds).subscribe({
             next: (variants) => {
@@ -163,6 +178,18 @@ export class RecipeDetailComponent implements OnInit {
   selectedCoursesChange(courses: Course[]) {
     this.recipe.courses = courses;
     this.popover.dismiss();
+  }
+
+  searchValueChanged(searchValue: string) {
+    this.searchValue = searchValue;
+  }
+
+  filterChanged(filter: IFilterOptions) {
+    this.filter = filter;
+  }
+
+  sortOptionChanged(sortOption: SortOption) {
+    this.sortOption = sortOption;
   }
 
 };

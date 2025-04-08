@@ -59,6 +59,8 @@ export class PlanningPage implements OnInit {
   }
 
   createEvent() {
+    const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
+    buttonElement.blur();
     this.router.navigate(['tabs/planning/events/new']);
   }
 

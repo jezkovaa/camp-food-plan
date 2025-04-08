@@ -8,6 +8,8 @@ import { ActivatedRoute } from '@angular/router';
 import { PlanningService } from 'src/app/data/services/planning.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { ID } from 'src/app/types';
+import { IPlannedEvent } from 'src/app/data/interfaces/planned-event.interface';
+import { isBefore, isSameDay } from 'date-fns';
 
 @Component({
   selector: 'app-menu-overview',
@@ -27,8 +29,8 @@ import { ID } from 'src/app/types';
 })
 export class MenuOverviewPage implements OnInit {
 
-  dayMenus: IDayMenu[] = [];
-  eventId: ID | null = null;
+  event: IPlannedEvent | null = null;
+  dates: Date[] = [];
 
   constructor(private route: ActivatedRoute,
     private planningService: PlanningService
@@ -37,13 +39,16 @@ export class MenuOverviewPage implements OnInit {
   ngOnInit() {
 
     this.route.params.subscribe(params => {
-      this.eventId = params['eventId'];
-      if (this.eventId === null) {
+      let eventId = params['eventId'];
+      if (eventId === null) {
         return;
       }
-      this.planningService.getEventMenu(this.eventId).subscribe({
-        next: (dayMenus: IDayMenu[]) => {
-          this.dayMenus = dayMenus;
+      this.planningService.getEvent(eventId).subscribe({
+        next: (event: IPlannedEvent) => {
+          this.event = event;
+          if (event.dateFrom && event.dateTo) {
+            this.dates = this.datesInRange(event.dateFrom, event.dateTo);
+          }
         },
         error: (error: any) => {
           console.error(error);
@@ -51,5 +56,31 @@ export class MenuOverviewPage implements OnInit {
       });
 
     });
+  }
+
+  datesInRange(startDate: Date, endDate: Date): Date[] {
+    const dates: Date[] = [];
+    const currentDate = new Date(startDate);
+
+    while (isBefore(currentDate, endDate) || isSameDay(currentDate, endDate)) {
+      dates.push(new Date(currentDate));
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+
+    return dates;
+  }
+
+  getMenuForDate(date: Date): IDayMenu | null {
+    if (this.event?.menu) {
+      const menu = this.event.menu.find((menu: IDayMenu) => {
+        if (menu.date) {
+          const menuDate = new Date(menu.date);
+          return isSameDay(menuDate, date);
+        }
+        return null;
+      });
+      return menu || null;
+    }
+    return null;
   }
 }

@@ -10,6 +10,7 @@ import { IDayMenu } from 'src/app/data/interfaces/day-menu.interface';
 import { Course } from 'src/app/data/enums/courses.enum';
 import { RecipesService } from 'src/app/data/services/recipes.service';
 import { ID } from 'src/app/types';
+import { PlanningService } from 'src/app/data/services/planning.service';
 
 @Component({
   selector: 'app-day-menu-overview',
@@ -27,8 +28,9 @@ import { ID } from 'src/app/types';
 })
 export class DayMenuOverviewComponent implements OnInit {
 
-  @Input({ required: true }) dayMenu!: IDayMenu;
+  @Input({ required: true }) dayMenu!: IDayMenu | null;
   @Input({ required: true }) eventId!: ID;
+  @Input({ required: true }) date!: Date;
 
 
   courses = Object.values(Course);
@@ -36,14 +38,15 @@ export class DayMenuOverviewComponent implements OnInit {
 
 
   get getDayName() {
-    const formattedDate = new Intl.DateTimeFormat(this.translateService.currentLang, { weekday: 'long', day: 'numeric', month: 'numeric' }).format(this.dayMenu.date);
+    const formattedDate = new Intl.DateTimeFormat(this.translateService.currentLang, { weekday: 'long', day: 'numeric', month: 'numeric' }).format(this.date);
     return formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1);
   }
 
   constructor(private translateService: TranslateService,
     private recipesService: RecipesService,
-    private router: Router
-  ) {
+    private router: Router,
+    private planningService: PlanningService) { // Inject the PlanningService here
+
 
     addIcons({ chevronForward });
     this.loadRecipeNames = this.loadRecipeNames.bind(this);
@@ -75,19 +78,37 @@ export class DayMenuOverviewComponent implements OnInit {
       case Course.SNACK:
         return this.translateService.instant('courses.SNACK');
       case Course.MORNING_SNACK:
-        return this.translateService.instant('courses.MORNING-SNACK');
+        return this.translateService.instant('courses.MORNING_SNACK');
       default:
         return this.translateService.instant('courses.BREAKFAST');;
     }
   }
 
   openDayMenu() {
-    this.router.navigate(['/tabs/planning/events', this.eventId, "menu", this.dayMenu.id]);
+    const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
+    buttonElement.blur();
+    if (this.dayMenu === null) {
+      this.planningService.createDayMenu(this.eventId, this.date).subscribe({
+        next: (dayMenu: IDayMenu) => {
+          this.router.navigate(['/tabs/planning/events', this.eventId, "menu", dayMenu.id]);
+        },
+        error: (err: any) => {
+          console.error('Error creating day menu', err);
+        }
+      });
+    }
+    else {
+      this.router.navigate(['/tabs/planning/events', this.eventId, "menu", this.dayMenu.id]);
+    }
   }
 
   private async loadRecipeNames() {
 
     this.courses.forEach(async course => {
+      if (this.dayMenu === null) {
+        this.recipeNames[course] = [];
+        return;
+      }
       const meal = this.dayMenu.meals.find(meal => meal.course === course);
       if (meal === undefined) {
         this.recipeNames[course] = [];

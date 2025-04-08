@@ -80,6 +80,8 @@ export class RecipeDetailPage implements OnInit {
   }
 
   editRecipe() {
+    const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
+    buttonElement.blur();
     if (this.recipe === null) {
       return;
     }
@@ -88,6 +90,8 @@ export class RecipeDetailPage implements OnInit {
 
 
   async deleteRecipe() {
+    const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
+    buttonElement.blur();
     if (this.recipe === null) {
       return;
     }
@@ -97,10 +101,12 @@ export class RecipeDetailPage implements OnInit {
       message += this.translateService.instant('alert.delete-confirm-message-variants');
     }
 
-    this.alertService.presentConfirm(
+    await this.alertService.presentConfirm(
       this.translateService.instant('alert.delete-confirm'),
       message,
       () => {
+        const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
+        buttonElement.blur();
         if (this.recipe && this.recipe.id) {
           this.recipesService.deleteRecipe(this.recipe.id).subscribe({
             next: async () => {

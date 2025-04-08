@@ -1,0 +1,4 @@
+export enum FilterType {
+  FOOD_RESTRICTION = 'FOOD_RESTRICTION',
+  COURSE = 'COURSE'
+}

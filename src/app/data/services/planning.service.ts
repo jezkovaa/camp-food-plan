@@ -64,7 +64,7 @@ export class PlanningService {
               ]
             },
             {
-              id: 'd2',
+              id: 'c2',
               course: Course.LUNCH,
               chosenRecipes: [
                 {
@@ -79,7 +79,7 @@ export class PlanningService {
               ]
             },
             {
-              id: 'd3',
+              id: 'c3',
               course: Course.DINNER,
               chosenRecipes: [
                 {
@@ -623,11 +623,11 @@ export class PlanningService {
       return of(existingEvent);
     }
     else {
-      let lastId = this.dummyData[(this.dummyData.length - 1)]?.id;
+      let lastId = this.dummyData[(this.dummyData.length - 1)]?.id[1];
       if (lastId === undefined) {
         lastId = '0';
       }
-      event.id = (parseInt(lastId) + 1).toString();
+      event.id = 'e' + (parseInt(lastId) + 1).toString();
       this.dummyData.push(event);
 
       return of(event);
@@ -766,5 +766,19 @@ export class PlanningService {
   private updateExistingMeal(meal: IDayMeal, chosenRecipes: IDayMealRecipe[]): void {
     meal.chosenRecipes = meal.chosenRecipes.concat(chosenRecipes);
     //todo not sure
+  }
+
+  createDayMenu(eventId: ID, date: Date): Observable<IDayMenu> {
+    const event = this.dummyData.find(event => event.id === eventId);
+    if (event === undefined) {
+      return throwError(() => new Error('Event not found'));
+    }
+    const newMenu: IDayMenu = {
+      id: 'd' + (event.menu.length + 1),
+      date: date,
+      meals: []
+    };
+    event.menu.push(newMenu);
+    return of(newMenu);
   }
 }

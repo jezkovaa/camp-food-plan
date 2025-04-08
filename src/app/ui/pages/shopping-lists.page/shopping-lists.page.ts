@@ -73,5 +73,7 @@ export class ShoppingListsPage implements OnInit {
 
   getPDF() {
     //todo
+    const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
+    buttonElement.blur();
   }
 }

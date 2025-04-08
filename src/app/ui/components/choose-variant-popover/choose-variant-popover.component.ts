@@ -56,11 +56,14 @@ export class ChooseVariantPopoverComponent implements OnInit {
   }
 
   cancel() {
+    const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
+    buttonElement.blur();
     this.modalController.dismiss();
   }
 
   confirm() {
-
+    const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
+    buttonElement.blur();
     this.modalController.dismiss(this.selectedItems);
   }
 

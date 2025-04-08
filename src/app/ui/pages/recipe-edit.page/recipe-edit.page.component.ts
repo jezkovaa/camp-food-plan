@@ -76,14 +76,16 @@ export class RecipeEditPage implements OnInit {
   }
 
   async saveRecipe() {
+    const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
+    buttonElement.blur();
     const same = isEqual(this.recipeDetail.recipe, this.initRecipe);
     if (same && this.isCreating) {
-      this.alertService.presentAlert(
+      await this.alertService.presentAlert(
         this.translateService.instant('recipes.alert.empty-recipe'),
         this.translateService.instant('recipes.alert.empty-recipe-message'));
     }
     else if (same) {
-      this.alertService.presentAlert(
+      await this.alertService.presentAlert(
         this.translateService.instant('recipes.alert.no-changes'),
         this.translateService.instant('recipes.alert.no-changes-message'));
     }
@@ -100,24 +102,33 @@ export class RecipeEditPage implements OnInit {
   }
 
   async closeRecipe() {
+    const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
+    buttonElement.blur();
 
     if (this.isCreating) {
-      this.alertService.presentConfirm(
+      await this.alertService.presentConfirm(
         this.translateService.instant('recipes.alert.cancel-creation'),
         this.translateService.instant('recipes.alert.cancel-creation-message'),
         () => {
+          const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
+          buttonElement.blur();
           this.router.navigate(['/tabs/recipes/']);
         },
         () => {
+          const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
+          buttonElement.blur();
           //nothing happens
         });
     }
     else if (!isEqual(this.recipeDetail.recipe, this.initRecipe)) {
 
-      this.alertService.presentConfirm(
+      await this.alertService.presentConfirm(
         this.translateService.instant('recipes.alert.unsaved-changes'),
         this.translateService.instant('recipes.alert.unsaved-changes-message'),
         () => {
+
+          const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
+          buttonElement.blur();
           this.recipe = this.initRecipe;
           if (this.recipe?.id) {
             this.router.navigate(['/tabs/recipes/', this.recipe?.id]);
@@ -127,6 +138,8 @@ export class RecipeEditPage implements OnInit {
           }
         },
         () => {
+          const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
+          buttonElement.blur();
           //nothing happens
         });
     }

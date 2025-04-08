@@ -29,6 +29,8 @@ export class ShoppingListComponent implements OnInit {
 
   openList() {
     //todd
+    const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
+    buttonElement.blur();
   }
 
 }

@@ -58,19 +58,27 @@ export class EventPage implements OnInit {
 
   editEvent() {
     //todo
+    const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
+    buttonElement.blur();
   }
 
 
   loadParticipants() {
     //todo
+    const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
+    buttonElement.blur();
   }
 
   displayMenu() {
+    const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
+    buttonElement.blur();
     this.router.navigate(['tabs/planning/events/', this.event?.id, 'menu']);
   }
 
 
   shoppingLists() {
+    const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
+    buttonElement.blur();
     this.router.navigate(['tabs/planning/events/', this.event?.id, 'shopping-lists']);
   }
 

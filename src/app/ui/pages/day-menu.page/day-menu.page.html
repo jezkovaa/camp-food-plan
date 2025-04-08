@@ -17,8 +17,9 @@
         <ion-popover id="date-selection-popover" trigger="date-selection" triggerAction="click" size="auto">
           <ng-template>
             <ion-content class="ion-padding">
-              <ion-datetime [value]="dayMenu?.date?.toISOString()" [min]="event?.dateFrom?.toISOString()"
-                [max]="event?.dateTo?.toISOString()" [locale]="getCurrentLang" presentation="date" />
+              <ion-datetime #datepicker [value]="dayMenu?.date?.toISOString()" [min]="getDateFromISOString"
+                [max]="getDateToISOString" [locale]="getCurrentLang" presentation="date"
+                (ionChange)="dateChanged($event)" />
             </ion-content>
 
           </ng-template>

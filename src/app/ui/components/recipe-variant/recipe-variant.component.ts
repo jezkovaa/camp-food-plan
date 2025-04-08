@@ -24,6 +24,8 @@ export class RecipeVariantComponent {
 
 
   openVariant() {
+    const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
+    buttonElement.blur();
     this.router.navigate(['/tabs/recipes', this.variant.recipeId, 'variants', this.variant.id]);
   }
 

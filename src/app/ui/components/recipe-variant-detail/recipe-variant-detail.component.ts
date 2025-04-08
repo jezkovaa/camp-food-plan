@@ -37,14 +37,20 @@ export class RecipeVariantDetailComponent implements OnInit {
   }
 
   toggleProceeding() {
+    const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
+    buttonElement.blur();
     this.proceedingVisible = !this.proceedingVisible;
   }
 
   toggleIngredients() {
+    const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
+    buttonElement.blur();
     this.ingredientsVisible = !this.ingredientsVisible;
   }
 
   toggleChanges() {
+    const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
+    buttonElement.blur();
     this.changesVisible = !this.changesVisible;
   }
 

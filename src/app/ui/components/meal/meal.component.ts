@@ -48,7 +48,7 @@ export class MealComponent implements OnInit {
       case Course.SNACK:
         return this.translateService.instant('courses.SNACK');
       case Course.MORNING_SNACK:
-        return this.translateService.instant('courses.MORNING-SNACK');
+        return this.translateService.instant('courses.MORNING_SNACK');
       default:
         return '';
 
@@ -92,16 +92,21 @@ export class MealComponent implements OnInit {
 
 
   editMeal() {
+    const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
+    buttonElement.blur();
     //todo
   }
 
   deleteMeal() {
+
     const buttonElement = document.activeElement as HTMLElement;
     buttonElement.blur(); // Remove focus from the button
     this.deleteMealEvent.emit(this.meal.id);
   }
 
   viewMeal() {
+    const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
+    buttonElement.blur();
     //todo
     this.detailsVisible = !this.detailsVisible;
   }

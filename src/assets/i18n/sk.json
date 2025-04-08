@@ -24,10 +24,21 @@
   },
   "courses": {
     "BREAKFAST": "Raňajky",
-    "MORNING-SNACK": "Desiata",
+    "MORNING_SNACK": "Desiata",
     "LUNCH": "Obed",
     "DINNER": "Večera",
     "SNACK": "Olovrant"
+  },
+  "filter": {
+    "title": "Filtrovat",
+    "course": "Chod"
+  },
+  "food-restriction": {
+    "VEGAN": "Vegan",
+    "VEGETARIAN": "Vegetarián",
+    "LACTOSE_INTOLERANT": "Laktózová intolerancia",
+    "GLUTEN_FREE": "Glutenová intolerancia",
+    "available-for": "Vhodné pre"
   },
   "planning": {
     "title": "Plánovanie",
@@ -107,5 +118,9 @@
     "variant": "Varianta",
     "variants": "varianty"
   },
-  "searchBar": "Hľadať..."
+  "searchBar": "Hľadať...",
+  "sort-options": {
+    "NAME_ASC": "Názov (A-Z)",
+    "NAME_DESC": "Názov (Z-A)"
+  }
 }
