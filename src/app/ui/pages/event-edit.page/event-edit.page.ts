@@ -91,7 +91,7 @@ export class EventEditPage implements OnInit {
   async saveEvent() {
     const same = isEqual(this.event, this.initEvent);
     if (this.isCreating) { //creating new event and nothing filled
-      if (this.event && this.validateEvent()) {
+      if (this.event && await this.validateEvent()) {
         this.planningService.saveEvent(this.event).subscribe({
           next: (res: IPlannedEvent) => {
             this.router.navigate(['/tabs/planning/events/', res.id]);
@@ -103,12 +103,12 @@ export class EventEditPage implements OnInit {
       }
     }
     else if (same) { // no changes
-      this.alertService.presentAlert(
+      await this.alertService.presentAlert(
         this.translateService.instant('alert.no-changes'),
         this.translateService.instant('alert.no-changes-message'));
     }
     else if (this.event) { //saving changes
-      this.planningService.saveEvent(this.event).subscribe({
+      await this.planningService.saveEvent(this.event).subscribe({
         next: (res: IPlannedEvent) => {
           this.router.navigate(['/tabs/planning/events/', res.id]);
         },
@@ -120,23 +120,31 @@ export class EventEditPage implements OnInit {
   }
 
   async closeEvent() {
+    const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
+    buttonElement.blur();
 
     if (this.isCreating) {
-      this.alertService.presentConfirm(
+      await this.alertService.presentConfirm(
         this.translateService.instant('alert.cancel-creation'),
         this.translateService.instant('alert.cancel-creation-message'),
         () => {
+          const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
+          buttonElement.blur();
           this.router.navigate(['/tabs/planning/']);
         },
         () => {
+          const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
+          buttonElement.blur();
         });
     }
     else if (!isEqual(this.event, this.initEvent)) {
 
-      this.alertService.presentConfirm(
+      await this.alertService.presentConfirm(
         this.translateService.instant('alert.unsaved-changes'),
         this.translateService.instant('alert.unsaved-changes-message'),
         () => {
+          const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
+          buttonElement.blur();
           this.event = this.initEvent;
           if (this.event?.id) {
             this.router.navigate(['/tabs/planning/events/', this.event?.id]);
@@ -146,6 +154,8 @@ export class EventEditPage implements OnInit {
           }
         },
         () => {
+          const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
+          buttonElement.blur();
           //nothing happens
         });
     }
@@ -171,7 +181,7 @@ export class EventEditPage implements OnInit {
     }
   }
 
-  private validateEvent(): boolean {
+  private async validateEvent(): Promise<boolean> {
 
     let message: string[] = [];
     let messageTitle: string[] = [];
@@ -186,7 +196,7 @@ export class EventEditPage implements OnInit {
     }
 
     if (message.length > 0) {
-      this.alertService.presentAlert(messageTitle.join(', '), message.join(', '));
+      await this.alertService.presentAlert(messageTitle.join(', '), message.join(', '));
       return false;
     }
     return true;

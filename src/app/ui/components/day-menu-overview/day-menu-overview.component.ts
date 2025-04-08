@@ -85,6 +85,8 @@ export class DayMenuOverviewComponent implements OnInit {
   }
 
   openDayMenu() {
+    const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
+    buttonElement.blur();
     if (this.dayMenu === null) {
       this.planningService.createDayMenu(this.eventId, this.date).subscribe({
         next: (dayMenu: IDayMenu) => {
@@ -96,7 +98,7 @@ export class DayMenuOverviewComponent implements OnInit {
       });
     }
     else {
-      this.router.navigate(['/tabs/planning/events', this.eventId, "menu",]);
+      this.router.navigate(['/tabs/planning/events', this.eventId, "menu", this.dayMenu.id]);
     }
   }
 

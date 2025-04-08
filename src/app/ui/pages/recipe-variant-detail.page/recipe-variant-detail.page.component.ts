@@ -60,10 +60,14 @@ export class RecipeVariantDetailPage implements OnInit {
 
 
   async deleteVariant() {
-    this.alertService.presentConfirm(
+    const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
+    buttonElement.blur();
+    await this.alertService.presentConfirm(
       this.translateService.instant('recipe-variant-detail.delete-variant'),
       this.translateService.instant('recipe-variant-detail.delete-variant-message'),
       () => {
+        const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
+        buttonElement.blur();
         if (this.variant === null) {
           return;
         }

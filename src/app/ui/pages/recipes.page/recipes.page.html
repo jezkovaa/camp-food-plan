@@ -19,56 +19,9 @@
         </ion-button>
       </ion-buttons>
     </ion-toolbar>
-    <ion-toolbar>
-      <ion-searchbar class=" searchbar background-secondary" animated="true" placeholder="{{'searchBar' | translate}}"
-        show-clear-button="always" />
-      <div style="display: flex; justify-content: space-between;">
-        <div class="filters-container">
-          <ion-chip *ngFor="let filter of appliedFilters" style="display: flex;
-              gap: 3px; min-width: 70px">
-            <ion-label *ngIf="!isFoodRestrictionFilter(filter.type)" style="    text-overflow: ellipsis;
-              overflow: hidden;
-              white-space: nowrap;
-              
-    ">{{ filter.name }}</ion-label>
-            <app-restriction *ngIf="isFoodRestrictionFilter(filter.type)"
-              [inputRestrictions]="getFilterValue(filter.value)"></app-restriction>
-            <button (click)="removeFilter(filter)" size="small" style="background-color: transparent;">
-              <ion-icon name="close-circle"></ion-icon>
-            </button>
-          </ion-chip>
-        </div>
-        <div class="buttons-container" style="justify-content: flex-end;">
-          <ion-button shape="round" id="help-button-click" size="small">
-            <ion-icon name="help" slot="icon-only" color="primary" />
-          </ion-button>
-          <ion-popover trigger="help-button-click" trigger-action="click">
-            <ng-template>
-              <app-restriction-help></app-restriction-help>
-            </ng-template>
-          </ion-popover>
-
-          <ion-button id="filter-button-click" shape="round" size="small">
-            <ion-icon name="options" slot="icon-only" color="primary" />
-          </ion-button>
-          <ion-popover #filterPopover trigger="filter-button-click" trigger-action="click">
-            <ng-template>
-              <app-recipes-filter [filter]="filter" (filterChanged)="filterChanged($event)" />
-            </ng-template>
-          </ion-popover>
-
-          <ion-button shape="round" size="small" id="sort-button-click">
-            <ion-icon src="assets/icon/sort.svg" slot="icon-only" color="primary" />
-          </ion-button>
-          <ion-popover #sortPopover trigger="sort-button-click" trigger-action="click">
-            <ng-template>
-              <app-sort-options (optionChanged)="sortOptionChanged($event)"></app-sort-options>
-            </ng-template>
-          </ion-popover>
-        </div>
-      </div>
-
-    </ion-toolbar>
+    <app-searchbar-with-buttons [filter]="filter" [searchValue]="searchValue" [sortOption]="sortOption"
+      (searchValueChangedEvent)="searchValueChanged($event)" (filterChangedEvent)="filterChanged($event)"
+      (sortOptionChangedEvent)="sortOptionChanged($event)" />
   </ion-header>
 
   <ion-content [fullscreen]="true" class="ion-padding">

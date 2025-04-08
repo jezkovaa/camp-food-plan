@@ -50,6 +50,8 @@ export class SelectEventComponent implements OnInit {
 
 
   selectItem(item: IPlannedEvent) {
+    const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
+    buttonElement.blur();
     this.selectionChange.emit(item.id);
   }
 

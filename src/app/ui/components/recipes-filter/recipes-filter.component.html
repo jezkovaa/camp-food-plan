@@ -1,6 +1,6 @@
 <div id="recipes-filter" class="ion-padding">
   <ion-label class="custom-title-2">{{"filter.title" | translate}}</ion-label>
-  <div class="courses">
+  <div class="courses" *ngIf="isRecipesPage">
     <div>{{"filter.course" |translate}}</div>
     <ion-list id="course-list">
       <div *ngFor="let course of courses">

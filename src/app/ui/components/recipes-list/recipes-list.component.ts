@@ -49,7 +49,7 @@ export class RecipesListComponent implements OnInit, OnChanges {
   }
 
   private applySearchValue() {
-    this.filteredRecipes.filter(recipe => recipe.name.toLowerCase().includes(this.searchValue.toLowerCase()));
+    this.filteredRecipes = this.filteredRecipes.filter(recipe => recipe.name.toLowerCase().includes(this.searchValue.toLowerCase()));
   }
 
   private filterRecipes() {

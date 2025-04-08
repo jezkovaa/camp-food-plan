@@ -1,0 +1,37 @@
+<ion-toolbar>
+  <ion-searchbar class="searchbar" animated="true" placeholder="{{'searchBar' | translate}}"
+    show-clear-button="always" />
+  <div style="display: flex; justify-content: space-between;">
+    <div class="filters-container">
+      <ion-chip *ngFor="let filter of appliedFilters" style="display: flex;
+          gap: 3px; min-width: 70px">
+        <ion-label *ngIf="!isFoodRestrictionFilter(filter.type)" style="    text-overflow: ellipsis;
+          overflow: hidden;
+          white-space: nowrap;
+          
+">{{ filter.name }}</ion-label>
+        <app-restriction *ngIf="isFoodRestrictionFilter(filter.type)"
+          [inputRestrictions]="getFilterValue(filter.value)"></app-restriction>
+        <button (click)="removeFilter(filter)" size="small" style="background-color: transparent;">
+          <ion-icon name="close-circle"></ion-icon>
+        </button>
+      </ion-chip>
+    </div>
+    <div class="buttons-container" style="justify-content: flex-end;">
+      <ion-button shape="round" (click)="helpButtonClicked($event)" size="small">
+        <ion-icon name="help" slot="icon-only" color="primary" />
+      </ion-button>
+
+
+      <ion-button (click)="filterButtonClicked($event)" shape="round" size="small">
+        <ion-icon name="options" slot="icon-only" color="primary" />
+      </ion-button>
+
+      <ion-button shape="round" size="small" (click)="sortButtonClicked($event)">
+        <ion-icon src="assets/icon/sort.svg" slot="icon-only" color="primary" />
+      </ion-button>
+
+    </div>
+  </div>
+
+</ion-toolbar>

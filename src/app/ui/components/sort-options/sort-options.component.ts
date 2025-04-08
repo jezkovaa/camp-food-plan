@@ -41,6 +41,8 @@ export class SortOptionsComponent implements OnInit {
   }
 
   selectOption(option: SortOption) {
+    const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
+    buttonElement.blur();
     this.optionChanged.emit(option);
   }
 }

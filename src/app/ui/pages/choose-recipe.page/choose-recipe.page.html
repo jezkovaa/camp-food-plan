@@ -11,12 +11,13 @@
         </ion-button>
       </ion-buttons>
     </ion-toolbar>
-    <ion-toolbar>
-      <ion-searchbar animated="true" placeholder="{{'searchBar' | translate}}" show-clear-button="always" />
-    </ion-toolbar>
+    <app-searchbar-with-buttons [filter]="filter" [searchValue]="searchValue" [sortOption]="sortOption"
+      (searchValueChangedEvent)="searchValueChanged($event)" (filterChangedEvent)="filterChanged($event)"
+      (sortOptionChangedEvent)="sortOptionChanged($event)" />
   </ion-header>
 
   <ion-content class="ion-padding">
-    <app-recipes-list [recipes]=" recipes" [isChoosing]="true" />
+    <app-recipes-list [recipes]="recipes" [sortOption]="sortOption" [searchValue]="searchValue" [filter]="filter"
+      [isChoosing]="true" />
   </ion-content>
 </div>

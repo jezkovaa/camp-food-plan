@@ -48,7 +48,9 @@
     </ion-col>
   </ion-row>
   <ion-row *ngIf="recipe !== null && recipe.variants.length > 1">
-    <ion-searchbar animated="true" placeholder="{{'searchBar' | translate}}" show-clear-button="always" />
+    <app-searchbar-with-buttons class="searchbar" [filter]="filter" [searchValue]="searchValue" [isRecipesPage]="false"
+      [sortOption]="sortOption" (searchValueChangedEvent)="searchValueChanged($event)"
+      (filterChangedEvent)="filterChanged($event)" (sortOptionChangedEvent)="sortOptionChanged($event)" />
   </ion-row>
   <ion-row *ngIf="((isEditing || isChoosing) && recipe.variants.length > 0)" class="ion-align-items-center">
 
@@ -70,11 +72,12 @@
     </ion-col>
 
   </ion-row>
-  <ion-row>
-    <ion-col *ngIf="variantsListToBeDisplayed">
-      <app-variants-list [variants]="recipe.variants" [isEditing]="isEditing" [isChoosing]="isChoosing"
-        (selectedCountChanged)="selectedCountChanged($event)" />
-    </ion-col>
+  <ion-row *ngIf="variantsListToBeDisplayed">
+
+    <app-variants-list [variants]="recipe.variants" [filter]="filter" [searchValue]="searchValue"
+      [sortOption]="sortOption" [isEditing]="isEditing" [isChoosing]="isChoosing"
+      (selectedCountChanged)="selectedCountChanged($event)" />
+
   </ion-row>
   <ion-row>
     <ion-col *ngIf="!(isEditing || isChoosing) && recipe.variants.length === 1 ">

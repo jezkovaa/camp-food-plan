@@ -19,27 +19,29 @@ import { Course } from 'src/app/data/enums/courses.enum';
 import { FoodRestriction } from 'src/app/data/enums/food-restriction.enum';
 import { RestrictionComponent } from "../../components/restriction/restriction.component";
 import { clone, cloneDeep } from 'lodash';
+import { SearchbarWithButtonsComponent } from '../../components/searchbar-with-buttons/searchbar-with-buttons.component';
 
 
 @Component({
   selector: 'app-recipes',
   templateUrl: 'recipes.page.html',
   styleUrls: ['recipes.page.scss'],
-  imports: [IonLabel, IonChip, IonPopover, IonIcon,
+  imports: [
+    IonIcon,
     IonHeader,
     IonToolbar,
     IonTitle,
     IonContent,
     IonButton,
     IonButtons,
-    IonSearchbar,
     IonBackButton,
+
     TranslateModule,
     CommonModule,
     RecipesListComponent,
-    RestrictionHelpComponent,
-    SortOptionsComponent,
-    RecipesFilterComponent, RestrictionComponent],
+
+    SearchbarWithButtonsComponent
+  ],
   standalone: true
 })
 export class RecipesPage implements OnInit {
@@ -50,15 +52,12 @@ export class RecipesPage implements OnInit {
   filter: IFilterOptions | null = null;
   appliedFilters: IFilter[] = [];
 
-  @ViewChild("sortPopover") sortPopover!: IonPopover;
-  @ViewChild("filterPopover") filterPopover!: IonPopover;
 
   constructor(
     private recipesService: RecipesService,
-    private translateService: TranslateService,
     private router: Router
   ) {
-    addIcons({ add, options, help, closeCircle });
+
   }
 
   ngOnInit(): void {
@@ -72,67 +71,25 @@ export class RecipesPage implements OnInit {
   }
 
   createRecipe() {
+    const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
+    buttonElement.blur();
     this.router.navigate(['tabs', 'recipes', 'new']);
   }
 
   sortOptionChanged(option: SortOption) {
     this.sortOption = option;
-    this.sortPopover.dismiss();
+
+  }
+
+  searchValueChanged(value: string) {
+
+    this.searchValue = value;
   }
 
   filterChanged(filter: IFilterOptions) {
     this.filter = filter;
-    this.appliedFilters = [];
-    if (this.filter) {
-      if (this.filter.courses.length > 0) {
-        this.filter.courses.forEach((course) => {
-          this.appliedFilters.push({
-            name: this.translateService.instant(`courses.${course}`),
-            type: FilterType.COURSE,
-            value: course
-          });
-        });
-      }
-      if (this.filter.restrictions.length > 0) {
-        this.filter.restrictions.forEach((restriction) => {
-          this.appliedFilters.push({
-            name: this.translateService.instant(`food-restriction.${restriction}`),
-            type: FilterType.FOOD_RESTRICTION,
-            value: restriction
-          });
-        });
-      }
-    }
-    this.filterPopover.dismiss();
   }
 
-  removeFilter(filter: IFilter) {
-    if (filter.type === FilterType.COURSE) {
-      if (Object.values(Course).includes(filter.value as Course) && this.filter?.courses.includes(filter.value as Course)) {
-        if (this.filter?.courses) {
-          this.filter.courses = this.filter.courses.filter((_, i) => i !== this.filter!.courses!.indexOf(filter.value as Course));
-          this.filter = cloneDeep(this.filter);
-        }
-      }
-    } else if (Object.values(FoodRestriction).includes(filter.value as FoodRestriction) && this.filter?.restrictions.includes(filter.value as FoodRestriction)) {
-      if (this.filter?.restrictions) {
-        this.filter.restrictions = this.filter.restrictions.filter((_, i) => i !== this.filter!.restrictions!.indexOf(filter.value as FoodRestriction));
-        this.filter = cloneDeep(this.filter);
-      }
-    }
-    this.appliedFilters.splice(this.appliedFilters.indexOf(filter), 1);
 
-  }
 
-  isFoodRestrictionFilter(type: FilterType): boolean {
-    return type === FilterType.FOOD_RESTRICTION;
-  }
-
-  getFilterValue(value: Course | FoodRestriction): FoodRestriction[] {
-    if (Object.values(FoodRestriction).includes(value as FoodRestriction)) {
-      return [value as FoodRestriction];
-    }
-    return [];
-
-  }
 }

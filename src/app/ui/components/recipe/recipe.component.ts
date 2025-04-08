@@ -35,10 +35,12 @@ export class RecipeComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log("isChoosing:", this.isChoosing);
+
   }
 
   openRecipe() {
+    const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
+    buttonElement.blur();
     if (this.isChoosing) {
 
       this.router.navigate(['./recipe', this.recipe.id], { relativeTo: this.route });

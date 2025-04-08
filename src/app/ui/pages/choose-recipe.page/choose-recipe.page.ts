@@ -9,6 +9,10 @@ import { ID } from 'src/app/types';
 import { Course } from 'src/app/data/enums/courses.enum';
 import { RecipesService } from 'src/app/data/services/recipes.service';
 import { Recipe } from 'src/app/data/models/recipe';
+import { IFilter } from 'src/app/data/interfaces/filter.interface';
+import { SortOption } from 'src/app/data/enums/sort-options.enum';
+import { SearchbarWithButtonsComponent } from '../../components/searchbar-with-buttons/searchbar-with-buttons.component';
+import { IFilterOptions } from 'src/app/data/interfaces/filter-options.interface';
 
 @Component({
   selector: 'app-choose-recipe',
@@ -24,13 +28,14 @@ import { Recipe } from 'src/app/data/models/recipe';
     IonButtons,
     IonIcon,
     IonBackButton,
-    IonSearchbar,
+
 
     CommonModule,
     FormsModule,
     TranslateModule,
 
-    RecipesListComponent]
+    RecipesListComponent,
+    SearchbarWithButtonsComponent]
 })
 export class ChooseRecipePage implements OnInit {
 
@@ -40,6 +45,9 @@ export class ChooseRecipePage implements OnInit {
 
   recipes: Recipe[] = [];
 
+  searchValue = '';
+  filter: IFilterOptions | null = null;
+  sortOption = SortOption.NAME_ASC;
 
 
   constructor(private route: ActivatedRoute,
@@ -60,7 +68,21 @@ export class ChooseRecipePage implements OnInit {
   }
 
   createRecipe() {
+    const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
+    buttonElement.blur();
     this.router.navigate(['tabs', 'recipes', 'new']);
+  }
+
+  sortOptionChanged(option: SortOption) {
+    this.sortOption = option;
+  }
+
+  searchValueChanged(value: string) {
+    this.searchValue = value;
+  }
+
+  filterChanged(filter: IFilterOptions) {
+    this.filter = filter;
   }
 
 

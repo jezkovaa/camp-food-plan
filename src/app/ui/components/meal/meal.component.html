@@ -1,15 +1,18 @@
-<div id="meal" class="ion-padding-bottom">
+<div id="meal" class="ion-padding" style="display: flex
+;
+    flex-direction: column;
+    gap: 10px;">
   <div class=" upper-part">
     <div class="custom-title-3">{{getCourseName}}
     </div>
     <ion-buttons slot="end">
-      <ion-button fill="clear" (click)="editMeal()">
+      <ion-button fill="clear" size="small" (click)="editMeal()">
         <ion-icon slot="icon-only" name="pencil" />
       </ion-button>
-      <ion-button fill="clear" (click)="deleteMeal()">
+      <ion-button fill="clear" size="small" (click)="deleteMeal()">
         <ion-icon slot="icon-only" name="trash" />
       </ion-button>
-      <ion-button fill="clear" (click)="viewMeal()">
+      <ion-button fill="clear" size="small" (click)="viewMeal()">
         <ion-icon slot="icon-only" [name]="getIcon" />
       </ion-button>
     </ion-buttons>
@@ -19,7 +22,7 @@
     <div *ngFor="let chosenRecipe of recipeNames" style="display: flex; flex-direction: column;
     gap: 5px;">
       <div *ngFor="let chosenVariant of chosenRecipe.variants" style="display: flex; gap: 10px">
-        <div style="display: flex;">
+        <div style="display: flex; gap: 5px">
           {{ getPortionsForVariant(chosenRecipe.id, chosenVariant.variantId) }}
           <ion-icon name="people" />
         </div>

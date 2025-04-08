@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonToolbar, IonButtons, IonBackButton, IonButton, IonIcon, IonPopover, IonDatetime, IonDatetimeButton, IonModal } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonToolbar, IonButtons, IonBackButton, IonButton, IonIcon, IonPopover, IonDatetime, IonDatetimeButton, IonModal, AlertController } from '@ionic/angular/standalone';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { addIcons } from 'ionicons';
 import { add, calendar, chevronBack, chevronForward } from 'ionicons/icons';
@@ -41,9 +41,12 @@ import { AlertService } from '../../services/alert.service';
 
 export class DayMenuPage implements OnInit {
 
+  @ViewChild('datepicker') datepicker!: IonDatetime;
+
   dayMenu: IDayMenu | null = null;
   eventId: ID | null = null;
   event: IPlannedEvent | null = null;
+
 
   previousDateExists: boolean = false;
   nextDateExists: boolean = false;
@@ -60,10 +63,6 @@ export class DayMenuPage implements OnInit {
   }
 
 
-
-
-
-
   get getCurrentLang() {
     return this.translateService.currentLang;
   }
@@ -72,39 +71,20 @@ export class DayMenuPage implements OnInit {
     private planningService: PlanningService,
     private router: Router,
     private translateService: TranslateService,
-    private alertService: AlertService) {
+    private alertService: AlertService,
+    private alertController: AlertController) {
 
     addIcons({ chevronBack, chevronForward, add, calendar });
 
   }
 
   ngOnInit() {
+    this.init();
 
-    this.route.paramMap.pipe(
-      switchMap(params => {
-        this.eventId = params.get('eventId');
-        const dayMenuId = params.get('dayMenuId');
-        if (this.eventId === null) {
-          return throwError(() => new Error('Event ID is null'));
-        }
-        if (dayMenuId === null) {
-          return throwError(() => new Error('Day menu ID is null'));
-        }
-        return forkJoin({
-          dayMenu: this.planningService.getEventMenuById(this.eventId, dayMenuId),
-          event: this.planningService.getEvent(this.eventId)
-        });
-      })
-    ).subscribe({
-      next: ({ dayMenu, event }: { dayMenu: IDayMenu, event: IPlannedEvent; }) => {
-        this.dayMenu = dayMenu;
-        this.event = event;
-        this.initDates();
-      },
-      error: (error: any) => {
-        console.error(error);
-      }
-    });
+  }
+
+  ngOnChanges() {
+    this.init();
   }
 
   courseExists(course: Course): boolean {
@@ -115,6 +95,8 @@ export class DayMenuPage implements OnInit {
   }
 
   addMeal(course: Course) {
+    const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
+    buttonElement.blur();
     if (this.dayMenu === null || this.eventId === null) {
       return;
     }
@@ -154,6 +136,8 @@ export class DayMenuPage implements OnInit {
   }
 
   nextDate() {
+    const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
+    buttonElement.blur();
     const date = this.dayMenu?.date;
     if (date === undefined) {
       return;
@@ -164,7 +148,8 @@ export class DayMenuPage implements OnInit {
   }
 
   previousDate() {
-
+    const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
+    buttonElement.blur();
     const date = this.dayMenu?.date;
     if (date === undefined) {
       return;
@@ -174,14 +159,59 @@ export class DayMenuPage implements OnInit {
     this.redirectToMenu(nextDate);
   }
 
-  deleteMeal(mealId: ID) {
+  async deleteMeal(mealId: ID) {
     if (this.dayMenu === null || this.eventId === null) {
       return;
     }
-    this.alertService.presentConfirm(
+
+    const alert = await this.alertController.create({
+      header: this.translateService.instant('planning.day-menu.alert.delete-confirm'),
+      message: this.translateService.instant('planning.day-menu.alert.delete-confirm-message'),
+      buttons: [
+        {
+          text: this.translateService.instant('alert.cancel'),
+          role: 'cancel',
+          handler: () => {
+            const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
+            buttonElement.blur();
+            // User cancelled the deletion
+          }
+        },
+        {
+          text: 'OK',
+          handler: () => {
+            const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
+            buttonElement.blur();
+            if (this.dayMenu === null || this.eventId === null) {
+              return;
+            }
+            this.planningService.deleteMealFromMenu(this.eventId, this.dayMenu.id, mealId).subscribe({
+              next: (dayMenu: IDayMenu) => {
+                this.dayMenu = dayMenu;
+              },
+              error: async (error: any) => {
+                await this.alertService.presentAlert(
+                  this.translateService.instant('planning.day-menu.alert.error-title'),
+                  this.translateService.instant('planning.day-menu.alert.error-message')
+                );
+              }
+            });
+          },
+        }
+      ]
+    });
+    const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
+    buttonElement.blur();
+    await alert.present();
+    let result = await alert.onDidDismiss();
+
+
+    /*await this.alertService.presentConfirm(
       this.translateService.instant('planning.day-menu.alert.delete-confirm'),
       this.translateService.instant('planning.day-menu.alert.delete-confirm-message'),
       () => {
+        const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
+        buttonElement.blur();
         if (this.dayMenu === null || this.eventId === null) {
           return;
         }
@@ -189,8 +219,8 @@ export class DayMenuPage implements OnInit {
           next: (dayMenu: IDayMenu) => {
             this.dayMenu = dayMenu;
           },
-          error: (error: any) => {
-            this.alertService.presentAlert(
+          error: async (error: any) => {
+            await this.alertService.presentAlert(
               this.translateService.instant('planning.day-menu.alert.error-title'),
               this.translateService.instant('planning.day-menu.alert.error-message')
             );
@@ -198,8 +228,10 @@ export class DayMenuPage implements OnInit {
         });
       },
       () => {
+        const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
+        buttonElement.blur();
         // User cancelled the deletion
-      });
+      });*/
   }
   getDateFromISOString() {
     return this.event?.dateFrom?.toISOString();
@@ -207,6 +239,54 @@ export class DayMenuPage implements OnInit {
 
   getDateToISOString() {
     return this.event?.dateTo?.toISOString();
+  }
+
+  async dateChanged(e: any) {
+    await this.datepicker.confirm(true);
+    const date = e.detail.value;
+
+    if (this.eventId === null) {
+      return;
+    }
+
+    this.planningService.getEventMenuForDate(this.eventId, date).subscribe({
+
+      next: (dayMenu: IDayMenu) => {
+        this.router.navigate(['tabs/planning/events', this.eventId, 'menu', dayMenu.id]);
+      },
+      error: (error: any) => {
+        console.error(error);
+      }
+
+    });
+  }
+
+  private init() {
+    this.route.paramMap.pipe(
+      switchMap(params => {
+        this.eventId = params.get('eventId');
+        const dayMenuId = params.get('dayMenuId');
+        if (this.eventId === null) {
+          return throwError(() => new Error('Event ID is null'));
+        }
+        if (dayMenuId === null) {
+          return throwError(() => new Error('Day menu ID is null'));
+        }
+        return forkJoin({
+          dayMenu: this.planningService.getEventMenuById(this.eventId, dayMenuId),
+          event: this.planningService.getEvent(this.eventId)
+        });
+      })
+    ).subscribe({
+      next: ({ dayMenu, event }: { dayMenu: IDayMenu, event: IPlannedEvent; }) => {
+        this.dayMenu = dayMenu;
+        this.event = event;
+        this.initDates();
+      },
+      error: (error: any) => {
+        console.error(error);
+      }
+    });
   }
 
   private redirectToMenu(date: Date) {
@@ -237,5 +317,6 @@ export class DayMenuPage implements OnInit {
     if (this.event?.dateTo && dayAfter) {
       this.nextDateExists = !isAfter(dayAfter, this.event.dateTo);
     }
+
   }
 }

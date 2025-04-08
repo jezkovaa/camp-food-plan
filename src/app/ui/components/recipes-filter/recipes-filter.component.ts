@@ -23,6 +23,8 @@ export class RecipesFilterComponent implements OnInit {
 
   @Input() filter: IFilterOptions | null = null;
 
+  @Input() isRecipesPage = true;
+
 
   @Output() filterChanged = new EventEmitter<IFilterOptions>();
 
@@ -54,6 +56,8 @@ export class RecipesFilterComponent implements OnInit {
 
 
   applyFilter() {
+    const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
+    buttonElement.blur();
     this.filter = {
       courses: this.selectedCourses,
       restrictions: this.selectedRestrictions

@@ -2,13 +2,17 @@
   <ion-button class="ion-justify-space-between" style="    flex-grow: 1;
     text-align: start;" class='no-border' fill="outline" size="large" expand="block" (click)="openVariant()"
     [disabled]="isEditing || isChoosing">
-    <div class="ion-text-start variant-name">
-      {{variant.name}}
+    <div style="display: flex; justify-content: space-between;     width: 100%;
+    align-items: center">
+      <div class="ion-text-start variant-name">
+        {{variant.name}}
+      </div>
+
+      <div class="recipe-variants-container">
+        <app-restriction [inputRestrictions]="variant.restrictions"></app-restriction>
+      </div>
     </div>
 
-    <div class="recipe-variants-container">
-      <app-restriction [inputRestrictions]="variant.restrictions"></app-restriction>
-    </div>
 
   </ion-button>
   <div *ngIf="isEditing || isChoosing" class="to-delete-checkbox ion-padding-end">

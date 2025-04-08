@@ -45,6 +45,8 @@ export class CourseListComponent implements OnInit {
   }
 
   applyCourses() {
+    const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
+    buttonElement.blur();
     this.selectedCoursesChange.emit(this.selectedCourses);
   }
 

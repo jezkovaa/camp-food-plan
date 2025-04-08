@@ -64,7 +64,7 @@ export class PlanningService {
               ]
             },
             {
-              id: 'd2',
+              id: 'c2',
               course: Course.LUNCH,
               chosenRecipes: [
                 {
@@ -79,7 +79,7 @@ export class PlanningService {
               ]
             },
             {
-              id: 'd3',
+              id: 'c3',
               course: Course.DINNER,
               chosenRecipes: [
                 {
