@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonBackButton } from '@ionic/angular/standalone';
 import { ActivatedRoute } from '@angular/router';
 import { IDayMeal } from 'src/app/data/interfaces/day-menu.interface';
 import { PlanningService } from 'src/app/data/services/planning.service';
@@ -11,7 +11,7 @@ import { PlanningService } from 'src/app/data/services/planning.service';
   templateUrl: './meal-detail.page.html',
   styleUrls: ['./meal-detail.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
+  imports: [IonBackButton, IonButtons, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
 })
 export class MealDetailPage implements OnInit {
 

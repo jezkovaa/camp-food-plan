@@ -1,6 +1,9 @@
 <div id="recipe-edit-page" class="ion-page">
   <ion-header>
     <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-back-button defaultHref="/recipes" text="" />
+      </ion-buttons>
       <div class="upper-part ion-justify-content-end">
         <ion-buttons slot="end">
           <ion-button (click)="saveRecipe()" fill="clear">
@@ -11,9 +14,7 @@
           </ion-button>
         </ion-buttons>
       </div>
-      <ion-buttons slot="start">
-        <ion-back-button defaultHref="/recipes" text="" />
-      </ion-buttons>
+
       <div>
         <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
           <div style="display: flex; align-items: center;">

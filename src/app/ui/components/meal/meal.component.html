@@ -21,13 +21,16 @@
   <div *ngIf="detailsVisible">
     <div *ngFor="let chosenRecipe of recipeNames" style="display: flex; flex-direction: column;
     gap: 5px;">
-      <div *ngFor="let chosenVariant of chosenRecipe.variants" style="display: flex; gap: 10px">
+      <div *ngFor="let chosenVariant of chosenRecipe.variants" style="display: flex; gap: 10px; align-items: center;">
         <div style="display: flex; gap: 5px">
           {{ getPortionsForVariant(chosenRecipe.id, chosenVariant.variantId) }}
           <ion-icon name="people" />
         </div>
         <div>
           {{ chosenRecipe.name }} - {{chosenVariant.variantName}}
+        </div>
+        <div>
+          <app-restriction [inputRestrictions]="chosenVariant.variantRestrictions"></app-restriction>
         </div>
       </div>
     </div>

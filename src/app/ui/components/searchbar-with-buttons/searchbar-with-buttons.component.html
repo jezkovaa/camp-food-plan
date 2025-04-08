@@ -1,6 +1,6 @@
 <ion-toolbar>
-  <ion-searchbar class="searchbar" animated="true" placeholder="{{'searchBar' | translate}}"
-    show-clear-button="always" />
+  <ion-searchbar class="searchbar" animated="true" placeholder="{{'searchBar' | translate}}" show-clear-button="always"
+    (search)="onSearchValueChange($event)" />
   <div style="display: flex; justify-content: space-between;">
     <div class="filters-container">
       <ion-chip *ngFor="let filter of appliedFilters" style="display: flex;
