@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { IonHeader, IonToolbar, IonTitle, IonContent, IonLabel, IonButton, IonIcon, IonPopover } from '@ionic/angular/standalone';
+import { IonHeader, IonToolbar, IonTitle, IonContent, IonLabel, IonButton, IonIcon, IonPopover, IonButtons, IonBackButton } from '@ionic/angular/standalone';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { addIcons } from 'ionicons';
 import { add, chevronDown } from 'ionicons/icons';
@@ -14,7 +14,7 @@ import { Router } from '@angular/router';
   selector: 'app-planning',
   templateUrl: 'planning.page.html',
   styleUrls: ['planning.page.scss'],
-  imports: [IonPopover,
+  imports: [IonBackButton, IonButtons, IonPopover,
     IonButton,
     IonLabel,
     IonHeader,
@@ -33,10 +33,6 @@ export class PlanningPage implements OnInit {
   plannedEvents: IPlannedEvent[] = [];
   selectedEventId: string = '';
 
-  get selectedEventText(): string {
-    const selectedEvent = this.plannedEvents.find(event => event.id === this.selectedEventId);
-    return selectedEvent?.name ?? this.translateService.instant("planning.event.select-event");
-  }
 
   @ViewChild(IonPopover) popover!: IonPopover;
 

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonToolbar, IonLabel, IonButton, IonButtons, IonCol, IonGrid, IonRow, IonPopover, IonSearchbar } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonToolbar, IonLabel, IonButton, IonButtons, IonCol, IonGrid, IonRow, IonPopover, IonSearchbar, IonBackButton } from '@ionic/angular/standalone';
 import { TranslateModule } from '@ngx-translate/core';
 import { ActivatedRoute } from '@angular/router';
 import { PlanningService } from 'src/app/data/services/planning.service';
@@ -14,7 +14,7 @@ import { ShoppingListComponent } from '../../components/shopping-list/shopping-l
   templateUrl: './shopping-lists.page.html',
   styleUrls: ['./shopping-lists.page.scss'],
   standalone: true,
-  imports: [
+  imports: [IonBackButton,
     IonRow,
     IonGrid,
     IonCol,
@@ -75,5 +75,12 @@ export class ShoppingListsPage implements OnInit {
     //todo
     const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
     buttonElement.blur();
+  }
+
+  getEventDate() {
+    if (this.event?.dateFrom?.getFullYear() === this.event?.dateTo?.getFullYear()) {
+      return `${this.event?.dateFrom?.toLocaleDateString('default', { day: 'numeric', month: 'numeric' })} - ${this.event?.dateTo?.toLocaleDateString('default', { day: 'numeric', month: 'numeric', year: 'numeric' })}`;
+    }
+    return `${this.event?.dateFrom?.toLocaleDateString('default', { day: 'numeric', month: 'numeric', year: 'numeric' })} - ${this.event?.dateTo?.toLocaleDateString('default', { day: 'numeric', month: 'numeric', year: 'numeric' })}`;
   }
 }

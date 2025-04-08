@@ -18,7 +18,6 @@ import { ID } from 'src/app/types';
 import { IDayMeal, IDayMealRecipe, IDayMealRecipeVariant, IDayMenu } from 'src/app/data/interfaces/day-menu.interface';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SearchbarWithButtonsComponent } from "../searchbar-with-buttons/searchbar-with-buttons.component";
-import { IFilter } from 'src/app/data/interfaces/filter.interface';
 import { IFilterOptions } from 'src/app/data/interfaces/filter-options.interface';
 import { SortOption } from 'src/app/data/enums/sort-options.enum';
 

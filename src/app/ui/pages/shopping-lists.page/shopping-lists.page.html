@@ -1,6 +1,9 @@
 <div id="shopping-lists-page" class="ion-page">
   <ion-header class="ion-padding-start ion-padding-end">
     <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-back-button defaultHref="/recipes" text="" />
+      </ion-buttons>
       <ion-label class="shopping-lists-title">
         <div class=" custom-title-2">{{"planning.event.shopping-lists.title" | translate}}</div>
         <div>
@@ -8,7 +11,7 @@
         </div>
       </ion-label>
       <ion-buttons slot="end">
-        <ion-button (click)="getPDF()" fill="solid" class="ion-text-wrap"
+        <ion-button (click)="getPDF()" fill="solid" color="primary" shape="round" class="ion-text-wrap"
           style="max-width: 150px">{{"planning.event.shopping-lists.getPDF"
           |translate}}</ion-button>
       </ion-buttons>
@@ -28,7 +31,7 @@
 
       <ion-row>
         <ion-col class="align-center custom-title-3">
-          {{event?.dateFrom | date: 'dd.MM.yyyy'}} - {{event?.dateTo | date: 'dd.MM.yyyy'}}
+          {{getEventDate()}}
         </ion-col>
         <ion-col class="align-center custom-title-3">
           {{shoppingLists.length}}

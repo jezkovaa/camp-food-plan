@@ -651,7 +651,8 @@ export class RecipesService {
           ) // Filter variants by variantId
           .map(variant => ({
             variantId: variant.id,
-            variantName: variant.name
+            variantName: variant.name,
+            variantRestrictions: variant.restrictions
           }))
       }));
 

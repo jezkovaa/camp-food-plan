@@ -9,6 +9,7 @@ import { IonButtons, IonButton, IonIcon } from "@ionic/angular/standalone";
 import { addIcons } from 'ionicons';
 import { chevronDown, eye, pencil, people, trash } from 'ionicons/icons';
 import { IDayMealRecipeNames } from 'src/app/data/interfaces/day-meal-names.interface';
+import { RestrictionComponent } from '../restriction/restriction.component';
 
 @Component({
   selector: 'app-meal',
@@ -22,7 +23,9 @@ import { IDayMealRecipeNames } from 'src/app/data/interfaces/day-meal-names.inte
 
 
     CommonModule,
-    TranslateModule
+    TranslateModule,
+
+    RestrictionComponent
   ]
 
 })

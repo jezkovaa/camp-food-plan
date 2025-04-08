@@ -1,20 +1,16 @@
 <div id="day-menu-overview" class="ion-padding">
-  <div style="width: 55px">{{getDayName}}</div>
+  <div class="custom-title-3" style="white-space: pre-wrap;">{{getDayName}}</div>
   <ion-grid>
-    <div *ngFor="let course of courses">
-      <ion-row>
-        <ion-col size="4" class="overflow-hidden" style="display: block; max-width: 150px">
-          {{getCourseName(course)}}
-        </ion-col>
-        <ion-col size="8">
-          <div [title]="getMealForCourse(course)" class="overflow-hidden" style="display: block; max-width: 150px">
-            {{ getMealForCourse(course) }}
-          </div>
-        </ion-col>
-      </ion-row>
-    </div>
+    <ion-list *ngFor=" let course of courses">
+      <ion-item>
+        <ion-label position="stacked">{{getCourseName(course)}}</ion-label>
+        <ion-text>
+          <p>{{getMealForCourse(course)}}</p>
+        </ion-text>
+      </ion-item>
+    </ion-list>
   </ion-grid>
   <ion-button (click)="openDayMenu()" shape="round">
     <ion-icon slot="icon-only" name="chevron-forward" />
   </ion-button>
-</div>  
+</div>

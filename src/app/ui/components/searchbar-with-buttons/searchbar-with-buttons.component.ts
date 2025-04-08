@@ -115,6 +115,11 @@ export class SearchbarWithButtonsComponent implements OnInit {
     }
   }
 
+  onSearchValueChange(event: any) {
+    this.searchValue = event.target.value;
+    this.searchValueChangedEvent.emit(this.searchValue);
+  }
+
   filterChanged(filter: IFilterOptions) {
 
     this.filter = filter;

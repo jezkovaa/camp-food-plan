@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { IonRow, IonCol, IonGrid, IonButton, IonIcon } from "@ionic/angular/standalone";
+import { IonRow, IonCol, IonGrid, IonButton, IonIcon, IonList, IonItem, IonLabel, IonText } from "@ionic/angular/standalone";
 import { TranslateService } from '@ngx-translate/core';
 import { addIcons } from 'ionicons';
 import { chevronForward } from 'ionicons/icons';
@@ -17,7 +17,7 @@ import { PlanningService } from 'src/app/data/services/planning.service';
   templateUrl: './day-menu-overview.component.html',
   styleUrls: ['./day-menu-overview.component.scss'],
   standalone: true,
-  imports: [
+  imports: [IonText, IonLabel, IonItem, IonList,
     IonIcon,
     IonButton,
     IonCol,
@@ -38,8 +38,9 @@ export class DayMenuOverviewComponent implements OnInit {
 
 
   get getDayName() {
-    const formattedDate = new Intl.DateTimeFormat(this.translateService.currentLang, { weekday: 'long', day: 'numeric', month: 'numeric' }).format(this.date);
-    return formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1);
+    const formattedDate = new Intl.DateTimeFormat(this.translateService.currentLang, { weekday: 'long' }).format(this.date);
+    const formattedDay = new Intl.DateTimeFormat(this.translateService.currentLang, { day: 'numeric', month: 'numeric' }).format(this.date);
+    return formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1) + '\n' + formattedDay;
   }
 
   constructor(private translateService: TranslateService,

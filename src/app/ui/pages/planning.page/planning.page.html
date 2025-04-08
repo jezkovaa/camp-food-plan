@@ -1,6 +1,9 @@
 <div id="planning-home" class="ion-page">
   <ion-header>
     <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-back-button defaultHref="/planning" text="" />
+      </ion-buttons>
       <ion-title> {{ "planning.title" | translate}}</ion-title>
     </ion-toolbar>
   </ion-header>
@@ -16,9 +19,9 @@
       </ion-button>
       <ion-button id="showPopover" color="light">
         <ion-icon slot="end" name="chevron-down"></ion-icon>
-        {{selectedEventText}}</ion-button>
+        {{"planning.event.select-event" | translate }}</ion-button>
       <ion-popover trigger="showPopover" show-backdrop="true" showBackdrop="true">
-        <app-select-event *ngIf="plannedEvents.length !== 0" title="{{'planning.event.select-event' | translate}}"
+        <app-select-event *ngIf="plannedEvents.length !== 0"
           (selectionChange)="selectionChanged($event)"></app-select-event>
       </ion-popover>
 

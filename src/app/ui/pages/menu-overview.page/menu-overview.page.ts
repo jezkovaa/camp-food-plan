@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonBackButton } from '@ionic/angular/standalone';
 import { DayMenuOverviewComponent } from "../../components/day-menu-overview/day-menu-overview.component";
 import { IDayMenu } from 'src/app/data/interfaces/day-menu.interface';
 import { ActivatedRoute } from '@angular/router';
@@ -16,7 +16,7 @@ import { isBefore, isSameDay } from 'date-fns';
   templateUrl: './menu-overview.page.html',
   styleUrls: ['./menu-overview.page.scss'],
   standalone: true,
-  imports: [
+  imports: [IonBackButton, IonButtons,
     IonContent,
     IonHeader,
     IonTitle,
