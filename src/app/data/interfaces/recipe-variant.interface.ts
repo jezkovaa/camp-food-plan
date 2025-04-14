@@ -1,20 +1,21 @@
 import { ID } from "src/app/types";
 import { FoodRestriction } from "../enums/food-restriction.enum";
+import { Units } from "../enums/units.enum";
 
-interface IIngredient {
+export interface IIngredient {
   name: string;
-  unit: string;
-  quantity: number;
-  durability: number;
+  unit: Units | null;
+  quantity: number | null;
+  durability: number | null;
 }
 
-interface IProceeding {
+export interface IProceeding {
 
   order: number;
   description: string;
 }
 
-interface IHistoryOfChanges {
+export interface IHistoryOfChanges {
 
   date: Date;
   changes: string;

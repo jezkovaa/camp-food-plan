@@ -4,4 +4,11 @@
   gap: 20px;
   box-shadow: var(--box-shadow);
   border-radius: var(--border-radius);
+
+  ::ng-deep .course-name {
+    background-color: var(--ion-color-primary);
+    padding: var(--padding-var);
+    border-radius: 30px;
+    color: var(--ion-color-primary-contrast);
+  }
 }

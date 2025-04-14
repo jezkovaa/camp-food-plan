@@ -2,7 +2,7 @@
   <div class="ingredients group ion-padding-start ion-padding-end ion-padding-top"
     [ngClass]="{ 'ion-padding-bottom': !ingredientsVisible }">
     <div class="top-part">
-      <ion-label class="custom">{{"recipes.recipe-variant-detail.ingredients" | translate}}</ion-label>
+      <ion-label class="custom">{{"recipes.variant.ingredients.title" | translate}}</ion-label>
       <ion-button (click)="toggleIngredients()" fill="clear" size="small">
         <ion-icon slot="icon-only" [name]="getIcon(ingredientsVisible)" />
       </ion-button>
@@ -23,7 +23,7 @@
   <div class="proceeding group ion-padding-start ion-padding-end ion-padding-top"
     [ngClass]="{ 'ion-padding-bottom': !proceedingVisible }">
     <div class="top-part">
-      <ion-label class="custom">{{"recipes.recipe-variant-detail.proceeding" | translate}}</ion-label>
+      <ion-label class="custom">{{"recipes.variant.proceeding.title" | translate}}</ion-label>
       <ion-button (click)="toggleProceeding()" fill="clear" size="small">
         <ion-icon slot="icon-only" [name]="getIcon(proceedingVisible)" />
       </ion-button>
@@ -43,13 +43,13 @@
   <div class="history-of-changes group ion-padding-start ion-padding-end ion-padding-top"
     [ngClass]="{ 'ion-padding-bottom': !changesVisible }">
     <div class="top-part">
-      <ion-label class="custom">{{"recipes.recipe-variant-detail.history-of-changes" | translate}}</ion-label>
+      <ion-label class="custom">{{"recipes.variant.history-of-changes" | translate}}</ion-label>
       <ion-button (click)="toggleChanges()" fill="clear" size="small">
         <ion-icon slot="icon-only" [name]="getIcon(changesVisible)" />
       </ion-button>
     </div>
     <div *ngIf="changesVisible && variant.historyOfChanges.length === 0">
-      <p style="padding-left: 16px;">{{"recipes.recipe-variant-detail.no-history-of-changes" | translate}}</p>
+      <p style="padding-left: 16px;">{{"recipes.variant.no-history-of-changes" | translate}}</p>
     </div>
     <div *ngIf="changesVisible && variant.historyOfChanges.length > 0">
       <div *ngFor="let change of variant.historyOfChanges">

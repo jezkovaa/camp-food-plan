@@ -14,14 +14,14 @@ export class AlertService {
     private translateService: TranslateService
   ) { }
 
-  async presentAlert(header: string, message: string, buttons: string[] = ['OK']) {
+  async presentAlert(header: string, message: string, buttons: string[] = ['OK']): Promise<HTMLIonAlertElement> {
     const alert = await this.alertController.create({
       header,
       message,
       buttons: buttons
     });
 
-    await alert.present();
+    return alert;
   }
 
   async presentAlertWithInputs(header: string, inputs: any,
@@ -38,7 +38,7 @@ export class AlertService {
     let result = await alert.onDidDismiss();
   }
 
-  async presentConfirm(header: string, message: string, confirmHandler: () => void, cancelHandler: () => void = () => { }) {
+  async presentConfirm(header: string, message: string, confirmHandler: () => void, cancelHandler: () => void = () => { }): Promise<HTMLIonAlertElement> {
     const alert = await this.alertController.create({
       header,
       message,
@@ -46,22 +46,23 @@ export class AlertService {
     });
     const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
     buttonElement.blur();
-    await alert.present();
-    let result = await alert.onDidDismiss();
+    return alert;
   }
 
-  async deleteSuccess() {
-    await this.presentAlert(
+  async deleteSuccess(): Promise<HTMLIonAlertElement> {
+    const alert = await this.presentAlert(
       this.translateService.instant('alert.delete-success'),
       this.translateService.instant('alert.delete-success-message')
     );
+    return alert;
   };
 
-  async deleteError(err: any) {
-    await this.presentAlert(
+  async deleteError(err: any): Promise<HTMLIonAlertElement> {
+    const alert = await this.presentAlert(
       this.translateService.instant('alert.delete-error'),
       this.translateService.instant('alert.delete-error-message') + err
     );
+    return alert;
   }
 
   private okCancelButtons(confirmHandler: (inputValues: any) => void, cancelHandler: () => void) {

@@ -1,0 +1,38 @@
+<div id="variant-edit-page" class="ion-page">
+  <ion-header>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-back-button defaultHref="/recipes" text="" />
+      </ion-buttons>
+      <div class="ion-justify-content-end ion-padding-top ion-padding-bottom" style="display: flex; ">
+        <ion-buttons slot="end" class="buttons-container">
+          <ion-button (click)="saveVariant()" shape="round" size="small">
+            <ion-icon slot="icon-only" name="save" color="primary" />
+          </ion-button>
+          <ion-button (click)="closeVariant()" shape="round" size="small">
+            <ion-icon slot="icon-only" name="close-circle" color="primary" />
+          </ion-button>
+        </ion-buttons>
+      </div>
+
+      <div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+          <div style="display: flex; align-items: center;">
+            <div *ngIf="variant" class="header-variant-name">
+              <ion-textarea rows="1" [(ngModel)]="variant.name" name="variantName"
+                label="{{'recipes.variant.name' | translate }}" labelPlacement="stacked"
+                placeholder="{{'recipes.variant.enter-name' |  translate }}"></ion-textarea>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content class="ion-padding-start ion-padding-end">
+    <div *ngIf="variant !== null">
+      <app-variant-edit [variant]="variant" />
+    </div>
+  </ion-content>
+</div>

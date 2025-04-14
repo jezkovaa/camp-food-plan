@@ -7,6 +7,7 @@ import { IRecipe } from '../interfaces/recipe.interface';
 import { ID } from 'src/app/types';
 import { IDayMealRecipeNames } from '../interfaces/day-meal-names.interface';
 import { IDayMealRecipe } from '../interfaces/day-menu.interface';
+import { Units } from '../enums/units.enum';
 
 @Injectable({
   providedIn: 'root'
@@ -26,10 +27,10 @@ export class RecipesService {
           recipeId: "r1",
           name: 'Špagety s paradajkovou omáčkou',
           ingredients: [
-            { name: 'špagety', quantity: 200, unit: 'g', durability: 5 },
-            { name: 'paradajková omáčka', quantity: 150, unit: 'ml', durability: 5 },
-            { name: 'cesnak', quantity: 2, unit: 'strúčiky', durability: 5 },
-            { name: 'oregano', quantity: 1, unit: 'čajová lyžička', durability: 5 }
+            { name: 'špagety', quantity: 200, unit: Units.GRAMS, durability: 5 },
+            { name: 'paradajková omáčka', quantity: 150, unit: Units.MILLILITERS, durability: 5 },
+            { name: 'cesnak', quantity: 2, unit: Units.PIECES, durability: 5 },
+            { name: 'oregano', quantity: 1, unit: Units.TEASPOONS, durability: 5 }
           ],
           restrictions: [FoodRestriction.VEGAN],
           proceeding: [
@@ -45,10 +46,10 @@ export class RecipesService {
           recipeId: "r1",
           name: 'Špagety s bazalkovým pestom',
           ingredients: [
-            { name: 'špagety', quantity: 200, unit: 'g', durability: 5 },
-            { name: 'bazalkové pesto', quantity: 100, unit: 'g', durability: 5 },
-            { name: 'parmezán', quantity: 50, unit: 'g', durability: 5 },
-            { name: 'cesnak', quantity: 2, unit: 'strúčiky', durability: 5 }
+            { name: 'špagety', quantity: 200, unit: Units.GRAMS, durability: 5 },
+            { name: 'bazalkové pesto', quantity: 100, unit: Units.GRAMS, durability: 5 },
+            { name: 'parmezán', quantity: 50, unit: Units.GRAMS, durability: 5 },
+            { name: 'cesnak', quantity: 2, unit: Units.PIECES, durability: 5 }
           ],
           restrictions: [FoodRestriction.VEGETARIAN],
           proceeding: [
@@ -71,17 +72,17 @@ export class RecipesService {
             {
               name: 'múka',
               quantity: 200,
-              unit: 'g',
+              unit: Units.GRAMS,
               durability: 2
             },
             {
               name: 'mlieko',
               quantity: 300,
-              unit: 'ml',
+              unit: Units.MILLILITERS,
               durability: 3
             },
-            { name: 'vajcia', quantity: 2, unit: 'ks', durability: 5 },
-            { name: 'džem', quantity: 100, unit: 'g', durability: 5 }
+            { name: 'vajcia', quantity: 2, unit: Units.PIECES, durability: 5 },
+            { name: 'džem', quantity: 100, unit: Units.GRAMS, durability: 5 }
           ],
           restrictions: [FoodRestriction.VEGETARIAN, FoodRestriction.GLUTEN_FREE],
           proceeding: [
@@ -96,10 +97,10 @@ export class RecipesService {
           recipeId: "r2",
           name: 'Palačinky s nutellou',
           ingredients: [
-            { name: 'múka', quantity: 200, unit: 'g', durability: 5 },
-            { name: 'mlieko', quantity: 300, unit: 'ml', durability: 5 },
-            { name: 'vajcia', quantity: 2, unit: 'ks', durability: 5 },
-            { name: 'nutella', quantity: 100, unit: 'g', durability: 5 }
+            { name: 'múka', quantity: 200, unit: Units.GRAMS, durability: 5 },
+            { name: 'mlieko', quantity: 300, unit: Units.MILLILITERS, durability: 5 },
+            { name: 'vajcia', quantity: 2, unit: Units.PIECES, durability: 5 },
+            { name: 'nutella', quantity: 100, unit: Units.GRAMS, durability: 5 }
           ],
           restrictions: [FoodRestriction.VEGETARIAN, FoodRestriction.VEGAN],
           proceeding: [
@@ -114,11 +115,11 @@ export class RecipesService {
           recipeId: "r2",
           name: 'Palačinky s tvarohom a ovocím',
           ingredients: [
-            { name: 'múka', quantity: 200, unit: 'g', durability: 5 },
-            { name: 'mlieko', quantity: 300, unit: 'ml', durability: 5 },
-            { name: 'vajcia', quantity: 2, unit: 'ks', durability: 5 },
-            { name: 'tvaroh', quantity: 150, unit: 'g', durability: 5 },
-            { name: 'ovocie', quantity: 100, unit: 'g', durability: 5 }
+            { name: 'múka', quantity: 200, unit: Units.GRAMS, durability: 5 },
+            { name: 'mlieko', quantity: 300, unit: Units.MILLILITERS, durability: 5 },
+            { name: 'vajcia', quantity: 2, unit: Units.PIECES, durability: 5 },
+            { name: 'tvaroh', quantity: 150, unit: Units.GRAMS, durability: 5 },
+            { name: 'ovocie', quantity: 100, unit: Units.GRAMS, durability: 5 }
           ],
           restrictions: [FoodRestriction.VEGETARIAN],
           proceeding: [
@@ -137,10 +138,10 @@ export class RecipesService {
           recipeId: "r3",
           name: 'Zeleninové Stir Fry s ryžou',
           ingredients: [
-            { name: 'brokolica', quantity: 200, unit: 'g', durability: 5 },
-            { name: 'mrkva', quantity: 150, unit: 'g', durability: 5 },
-            { name: 'paprika', quantity: 150, unit: 'g', durability: 5 },
-            { name: 'sójová omáčka', quantity: 50, unit: 'ml', durability: 5 }
+            { name: 'brokolica', quantity: 200, unit: Units.GRAMS, durability: 5 },
+            { name: 'mrkva', quantity: 150, unit: Units.GRAMS, durability: 5 },
+            { name: 'paprika', quantity: 150, unit: Units.GRAMS, durability: 5 },
+            { name: 'sójová omáčka', quantity: 50, unit: Units.MILLILITERS, durability: 5 }
           ],
           restrictions: [FoodRestriction.VEGAN, FoodRestriction.GLUTEN_FREE],
           proceeding: [
@@ -159,11 +160,11 @@ export class RecipesService {
           recipeId: "r4",
           name: 'Kapustnica s klobásou',
           ingredients: [
-            { name: 'kyslá kapusta', quantity: 500, unit: 'g', durability: 5 },
-            { name: 'klobása', quantity: 200, unit: 'g', durability: 5 },
-            { name: 'zemiaky', quantity: 300, unit: 'g', durability: 5 },
-            { name: 'cesnak', quantity: 3, unit: 'strúčiky', durability: 5 },
-            { name: 'bobkový list', quantity: 2, unit: 'ks', durability: 5 }
+            { name: 'kyslá kapusta', quantity: 500, unit: Units.GRAMS, durability: 5 },
+            { name: 'klobása', quantity: 200, unit: Units.GRAMS, durability: 5 },
+            { name: 'zemiaky', quantity: 300, unit: Units.GRAMS, durability: 5 },
+            { name: 'cesnak', quantity: 3, unit: Units.PIECES, durability: 5 },
+            { name: 'bobkový list', quantity: 2, unit: Units.PIECES, durability: 5 }
           ],
           restrictions: [],
           proceeding: [
@@ -182,10 +183,10 @@ export class RecipesService {
           recipeId: "r5",
           name: 'Bryndzové halušky s bryndzou a slaninou',
           ingredients: [
-            { name: 'zemiaky', quantity: 500, unit: 'g', durability: 5 },
-            { name: 'múka', quantity: 200, unit: 'g', durability: 5 },
-            { name: 'bryndza', quantity: 250, unit: 'g', durability: 5 },
-            { name: 'slanina', quantity: 100, unit: 'g', durability: 5 }
+            { name: 'zemiaky', quantity: 500, unit: Units.GRAMS, durability: 5 },
+            { name: 'múka', quantity: 200, unit: Units.GRAMS, durability: 5 },
+            { name: 'bryndza', quantity: 250, unit: Units.GRAMS, durability: 5 },
+            { name: 'slanina', quantity: 100, unit: Units.GRAMS, durability: 5 }
           ],
           restrictions: [],
           proceeding: [
@@ -205,11 +206,11 @@ export class RecipesService {
           recipeId: "r6",
           name: 'Guláš s knedľou',
           ingredients: [
-            { name: 'hovädzie mäso', quantity: 500, unit: 'g', durability: 5 },
-            { name: 'cibuľa', quantity: 200, unit: 'g', durability: 5 },
-            { name: 'paprika', quantity: 150, unit: 'g', durability: 5 },
-            { name: 'paradajkový pretlak', quantity: 100, unit: 'g', durability: 5 },
-            { name: 'cesnak', quantity: 3, unit: 'strúčiky', durability: 5 }
+            { name: 'hovädzie mäso', quantity: 500, unit: Units.GRAMS, durability: 5 },
+            { name: 'cibuľa', quantity: 200, unit: Units.GRAMS, durability: 5 },
+            { name: 'paprika', quantity: 150, unit: Units.GRAMS, durability: 5 },
+            { name: 'paradajkový pretlak', quantity: 100, unit: Units.GRAMS, durability: 5 },
+            { name: 'cesnak', quantity: 3, unit: Units.PIECES, durability: 5 }
           ],
           restrictions: [],
           proceeding: [
@@ -229,11 +230,11 @@ export class RecipesService {
           recipeId: "r7",
           name: 'Caesar šalát s kuracím mäsom',
           ingredients: [
-            { name: 'rímsky šalát', quantity: 200, unit: 'g', durability: 5 },
-            { name: 'kuracie prsia', quantity: 150, unit: 'g', durability: 5 },
-            { name: 'parmezán', quantity: 50, unit: 'g', durability: 5 },
-            { name: 'krutóny', quantity: 50, unit: 'g', durability: 5 },
-            { name: 'caesar dressing', quantity: 50, unit: 'ml', durability: 5 }
+            { name: 'rímsky šalát', quantity: 200, unit: Units.GRAMS, durability: 5 },
+            { name: 'kuracie prsia', quantity: 150, unit: Units.GRAMS, durability: 5 },
+            { name: 'parmezán', quantity: 50, unit: Units.GRAMS, durability: 5 },
+            { name: 'krutóny', quantity: 50, unit: Units.GRAMS, durability: 5 },
+            { name: 'caesar dressing', quantity: 50, unit: Units.MILLILITERS, durability: 5 }
           ],
           restrictions: [],
           proceeding: [
@@ -252,11 +253,11 @@ export class RecipesService {
           recipeId: "r8",
           name: 'Lasagna s mletým hovädzím mäsom',
           ingredients: [
-            { name: 'lasagne pláty', quantity: 200, unit: 'g', durability: 5 },
-            { name: 'mleté hovädzie mäso', quantity: 300, unit: 'g', durability: 5 },
-            { name: 'paradajková omáčka', quantity: 200, unit: 'ml', durability: 5 },
-            { name: 'bešamel', quantity: 200, unit: 'ml', durability: 5 },
-            { name: 'parmezán', quantity: 100, unit: 'g', durability: 5 }
+            { name: 'lasagne pláty', quantity: 200, unit: Units.GRAMS, durability: 5 },
+            { name: 'mleté hovädzie mäso', quantity: 300, unit: Units.GRAMS, durability: 5 },
+            { name: 'paradajková omáčka', quantity: 200, unit: Units.MILLILITERS, durability: 5 },
+            { name: 'bešamel', quantity: 200, unit: Units.MILLILITERS, durability: 5 },
+            { name: 'parmezán', quantity: 100, unit: Units.GRAMS, durability: 5 }
           ],
           restrictions: [],
           proceeding: [
@@ -275,11 +276,11 @@ export class RecipesService {
           recipeId: "r9",
           name: 'Chicken Curry s kokosovým mliekom',
           ingredients: [
-            { name: 'kuracie prsia', quantity: 300, unit: 'g', durability: 5 },
-            { name: 'kokosové mlieko', quantity: 200, unit: 'ml', durability: 5 },
-            { name: 'kari pasta', quantity: 50, unit: 'g', durability: 5 },
-            { name: 'cibuľa', quantity: 100, unit: 'g', durability: 5 },
-            { name: 'cesnak', quantity: 2, unit: 'strúčiky', durability: 5 }
+            { name: 'kuracie prsia', quantity: 300, unit: Units.GRAMS, durability: 5 },
+            { name: 'kokosové mlieko', quantity: 200, unit: Units.MILLILITERS, durability: 5 },
+            { name: 'kari pasta', quantity: 50, unit: Units.GRAMS, durability: 5 },
+            { name: 'cibuľa', quantity: 100, unit: Units.GRAMS, durability: 5 },
+            { name: 'cesnak', quantity: 2, unit: Units.PIECES, durability: 5 }
           ],
           restrictions: [FoodRestriction.VEGETARIAN, FoodRestriction.VEGAN],
           proceeding: [
@@ -298,11 +299,11 @@ export class RecipesService {
           recipeId: "r10",
           name: 'Beef Stroganoff s hovädzím mäsom a šampiňónmi',
           ingredients: [
-            { name: 'hovädzie mäso', quantity: 300, unit: 'g', durability: 5 },
-            { name: 'šampiňóny', quantity: 150, unit: 'g', durability: 5 },
-            { name: 'cibuľa', quantity: 100, unit: 'g', durability: 5 },
-            { name: 'smotana', quantity: 200, unit: 'ml', durability: 5 },
-            { name: 'horčica', quantity: 50, unit: 'g', durability: 5 }
+            { name: 'hovädzie mäso', quantity: 300, unit: Units.GRAMS, durability: 5 },
+            { name: 'šampiňóny', quantity: 150, unit: Units.GRAMS, durability: 5 },
+            { name: 'cibuľa', quantity: 100, unit: Units.GRAMS, durability: 5 },
+            { name: 'smotana', quantity: 200, unit: Units.MILLILITERS, durability: 5 },
+            { name: 'horčica', quantity: 50, unit: Units.GRAMS, durability: 5 }
           ],
           restrictions: [],
           proceeding: [
@@ -321,10 +322,10 @@ export class RecipesService {
           recipeId: "r11",
           name: 'Tacos s mletým hovädzím mäsom',
           ingredients: [
-            { name: 'tortilly', quantity: 200, unit: 'g', durability: 5 },
-            { name: 'mleté hovädzie mäso', quantity: 300, unit: 'g', durability: 5 },
-            { name: 'salsa', quantity: 100, unit: 'g', durability: 5 },
-            { name: 'šalát', quantity: 100, unit: 'g', durability: 5 }
+            { name: 'tortilly', quantity: 200, unit: Units.GRAMS, durability: 5 },
+            { name: 'mleté hovädzie mäso', quantity: 300, unit: Units.GRAMS, durability: 5 },
+            { name: 'salsa', quantity: 100, unit: Units.GRAMS, durability: 5 },
+            { name: 'šalát', quantity: 100, unit: Units.GRAMS, durability: 5 }
           ],
           restrictions: [],
           proceeding: [
@@ -342,10 +343,10 @@ export class RecipesService {
           recipeId: "r12",
           name: 'Pizza Margherita s mozzarellou a bazalkou',
           ingredients: [
-            { name: 'pizza cesto', quantity: 200, unit: 'g', durability: 5 },
-            { name: 'paradajková omáčka', quantity: 100, unit: 'ml', durability: 5 },
-            { name: 'mozzarella', quantity: 150, unit: 'g', durability: 5 },
-            { name: 'bazalka', quantity: 10, unit: 'g', durability: 5 }
+            { name: 'pizza cesto', quantity: 200, unit: Units.GRAMS, durability: 5 },
+            { name: 'paradajková omáčka', quantity: 100, unit: Units.MILLILITERS, durability: 5 },
+            { name: 'mozzarella', quantity: 150, unit: Units.GRAMS, durability: 5 },
+            { name: 'bazalka', quantity: 10, unit: Units.GRAMS, durability: 5 }
           ],
           restrictions: [FoodRestriction.VEGETARIAN],
           proceeding: [
@@ -365,11 +366,11 @@ export class RecipesService {
           recipeId: "r13",
           name: 'Sushi s lososom a avokádom',
           ingredients: [
-            { name: 'sushi ryža', quantity: 200, unit: 'g', durability: 5 },
-            { name: 'nori pláty', quantity: 5, unit: 'ks', durability: 5 },
-            { name: 'losos', quantity: 150, unit: 'g', durability: 5 },
-            { name: 'uhorka', quantity: 100, unit: 'g', durability: 5 },
-            { name: 'avokádo', quantity: 100, unit: 'g', durability: 5 }
+            { name: 'sushi ryža', quantity: 200, unit: Units.GRAMS, durability: 5 },
+            { name: 'nori pláty', quantity: 5, unit: Units.PIECES, durability: 5 },
+            { name: 'losos', quantity: 150, unit: Units.GRAMS, durability: 5 },
+            { name: 'uhorka', quantity: 100, unit: Units.GRAMS, durability: 5 },
+            { name: 'avokádo', quantity: 100, unit: Units.GRAMS, durability: 5 }
           ],
           restrictions: [FoodRestriction.GLUTEN_FREE],
           proceeding: [
@@ -389,11 +390,11 @@ export class RecipesService {
           recipeId: "r14",
           name: 'Pad Thai s kuracím mäsom a arašidmi',
           ingredients: [
-            { name: 'ryžové rezance', quantity: 200, unit: 'g', durability: 5 },
-            { name: 'kuracie prsia', quantity: 150, unit: 'g', durability: 5 },
-            { name: 'vajcia', quantity: 2, unit: 'ks', durability: 5 },
-            { name: 'arašidy', quantity: 50, unit: 'g', durability: 5 },
-            { name: 'tamari omáčka', quantity: 50, unit: 'ml', durability: 5 }
+            { name: 'ryžové rezance', quantity: 200, unit: Units.GRAMS, durability: 5 },
+            { name: 'kuracie prsia', quantity: 150, unit: Units.GRAMS, durability: 5 },
+            { name: 'vajcia', quantity: 2, unit: Units.PIECES, durability: 5 },
+            { name: 'arašidy', quantity: 50, unit: Units.GRAMS, durability: 5 },
+            { name: 'tamari omáčka', quantity: 50, unit: Units.MILLILITERS, durability: 5 }
           ],
           restrictions: [FoodRestriction.GLUTEN_FREE],
           proceeding: [
@@ -413,10 +414,10 @@ export class RecipesService {
           recipeId: "r15",
           name: 'Miso Soup s tofu a wakame',
           ingredients: [
-            { name: 'miso pasta', quantity: 50, unit: 'g', durability: 5 },
-            { name: 'tofu', quantity: 100, unit: 'g', durability: 5 },
-            { name: 'wakame', quantity: 10, unit: 'g', durability: 5 },
-            { name: 'zelená cibuľka', quantity: 20, unit: 'g', durability: 5 }
+            { name: 'miso pasta', quantity: 50, unit: Units.GRAMS, durability: 5 },
+            { name: 'tofu', quantity: 100, unit: Units.GRAMS, durability: 5 },
+            { name: 'wakame', quantity: 10, unit: Units.GRAMS, durability: 5 },
+            { name: 'zelená cibuľka', quantity: 20, unit: Units.GRAMS, durability: 5 }
           ],
           restrictions: [FoodRestriction.VEGAN, FoodRestriction.GLUTEN_FREE],
           proceeding: [
@@ -434,11 +435,11 @@ export class RecipesService {
           recipeId: "r16",
           name: 'Ratatouille s baklažánom a cuketou',
           ingredients: [
-            { name: 'baklažán', quantity: 200, unit: 'g', durability: 5 },
-            { name: 'cuketa', quantity: 200, unit: 'g', durability: 5 },
-            { name: 'paradajky', quantity: 200, unit: 'g', durability: 5 },
-            { name: 'paprika', quantity: 150, unit: 'g', durability: 5 },
-            { name: 'cesnak', quantity: 2, unit: 'strúčiky', durability: 5 }
+            { name: 'baklažán', quantity: 200, unit: Units.GRAMS, durability: 5 },
+            { name: 'cuketa', quantity: 200, unit: Units.GRAMS, durability: 5 },
+            { name: 'paradajky', quantity: 200, unit: Units.GRAMS, durability: 5 },
+            { name: 'paprika', quantity: 150, unit: Units.GRAMS, durability: 5 },
+            { name: 'cesnak', quantity: 2, unit: Units.PIECES, durability: 5 }
           ],
           restrictions: [FoodRestriction.VEGAN, FoodRestriction.GLUTEN_FREE],
           proceeding: [
@@ -456,11 +457,11 @@ export class RecipesService {
           recipeId: "r17",
           name: 'Falafel s cícerom a petržlenom',
           ingredients: [
-            { name: 'cícer', quantity: 200, unit: 'g', durability: 5 },
-            { name: 'cibuľa', quantity: 100, unit: 'g', durability: 5 },
-            { name: 'cesnak', quantity: 2, unit: 'strúčiky', durability: 5 },
-            { name: 'petržlen', quantity: 50, unit: 'g', durability: 5 },
-            { name: 'múka', quantity: 50, unit: 'g', durability: 5 }
+            { name: 'cícer', quantity: 200, unit: Units.GRAMS, durability: 5 },
+            { name: 'cibuľa', quantity: 100, unit: Units.GRAMS, durability: 5 },
+            { name: 'cesnak', quantity: 2, unit: Units.PIECES, durability: 5 },
+            { name: 'petržlen', quantity: 50, unit: Units.GRAMS, durability: 5 },
+            { name: 'múka', quantity: 50, unit: Units.GRAMS, durability: 5 }
           ],
           restrictions: [FoodRestriction.VEGAN],
           proceeding: [
@@ -479,11 +480,11 @@ export class RecipesService {
           recipeId: "r18",
           name: 'Biryani s kuracím mäsom a jogurtom',
           ingredients: [
-            { name: 'basmati ryža', quantity: 200, unit: 'g', durability: 5 },
-            { name: 'kuracie prsia', quantity: 150, unit: 'g', durability: 5 },
-            { name: 'jogurt', quantity: 100, unit: 'g', durability: 5 },
-            { name: 'cibuľa', quantity: 100, unit: 'g', durability: 5 },
-            { name: 'kari korenie', quantity: 20, unit: 'g', durability: 5 }
+            { name: 'basmati ryža', quantity: 200, unit: Units.GRAMS, durability: 5 },
+            { name: 'kuracie prsia', quantity: 150, unit: Units.GRAMS, durability: 5 },
+            { name: 'jogurt', quantity: 100, unit: Units.GRAMS, durability: 5 },
+            { name: 'cibuľa', quantity: 100, unit: Units.GRAMS, durability: 5 },
+            { name: 'kari korenie', quantity: 20, unit: Units.GRAMS, durability: 5 }
           ],
           restrictions: [],
           proceeding: [
@@ -502,11 +503,11 @@ export class RecipesService {
           recipeId: "r19",
           name: 'Chili con Carne s červenou fazuľou',
           ingredients: [
-            { name: 'mleté hovädzie mäso', quantity: 300, unit: 'g', durability: 5 },
-            { name: 'červená fazuľa', quantity: 200, unit: 'g', durability: 5 },
-            { name: 'paradajková omáčka', quantity: 200, unit: 'ml', durability: 5 },
-            { name: 'cibuľa', quantity: 100, unit: 'g', durability: 5 },
-            { name: 'cesnak', quantity: 2, unit: 'strúčiky', durability: 5 }
+            { name: 'mleté hovädzie mäso', quantity: 300, unit: Units.GRAMS, durability: 5 },
+            { name: 'červená fazuľa', quantity: 200, unit: Units.GRAMS, durability: 5 },
+            { name: 'paradajková omáčka', quantity: 200, unit: Units.MILLILITERS, durability: 5 },
+            { name: 'cibuľa', quantity: 100, unit: Units.GRAMS, durability: 5 },
+            { name: 'cesnak', quantity: 2, unit: Units.PIECES, durability: 5 }
           ],
           restrictions: [],
           proceeding: [
@@ -525,11 +526,11 @@ export class RecipesService {
           recipeId: "r20",
           name: 'Quiche Lorraine s lístkovým cestom a slaninou',
           ingredients: [
-            { name: 'lístkové cesto', quantity: 200, unit: 'g', durability: 5 },
-            { name: 'slanina', quantity: 150, unit: 'g', durability: 5 },
-            { name: 'vajcia', quantity: 3, unit: 'ks', durability: 5 },
-            { name: 'smotana', quantity: 200, unit: 'ml', durability: 5 },
-            { name: 'syr', quantity: 100, unit: 'g', durability: 5 }
+            { name: 'lístkové cesto', quantity: 200, unit: Units.GRAMS, durability: 5 },
+            { name: 'slanina', quantity: 150, unit: Units.GRAMS, durability: 5 },
+            { name: 'vajcia', quantity: 3, unit: Units.PIECES, durability: 5 },
+            { name: 'smotana', quantity: 200, unit: Units.MILLILITERS, durability: 5 },
+            { name: 'syr', quantity: 100, unit: Units.GRAMS, durability: 5 }
           ],
           restrictions: [],
           proceeding: [
@@ -607,6 +608,22 @@ export class RecipesService {
     });
 
     return of(true);
+  }
+
+  saveVariant(variant: IRecipeVariant) {
+    this.oldRecipes = this.dummyRecipes;
+
+    const recipe = this.dummyRecipes.find(recipe => recipe.id === variant.recipeId);
+    if (recipe) {
+      const index = recipe.variants.findIndex(v => v.id === variant.id);
+      if (index === -1) {
+        recipe.variants.push(variant);
+      } else {
+        recipe.variants[index] = variant;
+      }
+    }
+
+    return of(variant);
   }
 
 

@@ -1,0 +1,14 @@
+#variant-edit-page {
+
+  ::ng-deep .header-variant-name {
+    ion-textarea .textarea-wrapper-inner {
+      font-size: 1.5em;
+      font-weight: bold;
+      color: grey;
+    }
+
+    background-color: var(--ion-color-primary-contrast);
+    border-radius: var(--border-radius);
+    padding: var(--padding-var);
+  }
+}

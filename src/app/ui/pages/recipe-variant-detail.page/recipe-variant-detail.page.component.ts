@@ -62,7 +62,7 @@ export class RecipeVariantDetailPage implements OnInit {
   async deleteVariant() {
     const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
     buttonElement.blur();
-    await this.alertService.presentConfirm(
+    const alert = await this.alertService.presentConfirm(
       this.translateService.instant('recipe-variant-detail.delete-variant'),
       this.translateService.instant('recipe-variant-detail.delete-variant-message'),
       () => {
@@ -75,17 +75,29 @@ export class RecipeVariantDetailPage implements OnInit {
           this.recipesService.deleteVariant(this.recipe!.id, this.variant.id).subscribe({
             next: async () => {
               this.router.navigate(['/tabs/recipes', this.recipe!.id]);
-              this.alertService.deleteSuccess();
+              const alert = await this.alertService.deleteSuccess();
+              await alert.present();
 
             },
             error: async (err: any) => {
-              this.alertService.deleteError(err);
+              const alert = await this.alertService.deleteError(err);
+              await alert.present();
 
             }
           });
         }
       }
     );
+    await alert.present();
+  }
+
+  editVariant() {
+    const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
+    buttonElement.blur();
+    if (this.variant === null) {
+      return;
+    }
+    this.router.navigate(['/tabs/recipes', this.recipe!.id, 'variants', this.variant.id, 'edit']);
   }
 }
 

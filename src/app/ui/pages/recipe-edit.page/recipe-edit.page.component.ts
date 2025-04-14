@@ -80,14 +80,16 @@ export class RecipeEditPage implements OnInit {
     buttonElement.blur();
     const same = isEqual(this.recipeDetail.recipe, this.initRecipe);
     if (same && this.isCreating) {
-      await this.alertService.presentAlert(
+      const alert = await this.alertService.presentAlert(
         this.translateService.instant('recipes.alert.empty-recipe'),
         this.translateService.instant('recipes.alert.empty-recipe-message'));
+      await alert.present();
     }
     else if (same) {
-      await this.alertService.presentAlert(
+      const alert = await this.alertService.presentAlert(
         this.translateService.instant('recipes.alert.no-changes'),
         this.translateService.instant('recipes.alert.no-changes-message'));
+      await alert.present();
     }
     else if (this.recipe) {
       this.recipesService.saveRecipe(this.recipe).subscribe({
@@ -106,7 +108,7 @@ export class RecipeEditPage implements OnInit {
     buttonElement.blur();
 
     if (this.isCreating) {
-      await this.alertService.presentConfirm(
+      const alert = await this.alertService.presentConfirm(
         this.translateService.instant('recipes.alert.cancel-creation'),
         this.translateService.instant('recipes.alert.cancel-creation-message'),
         () => {
@@ -119,10 +121,11 @@ export class RecipeEditPage implements OnInit {
           buttonElement.blur();
           //nothing happens
         });
+      await alert.present();
     }
     else if (!isEqual(this.recipeDetail.recipe, this.initRecipe)) {
 
-      await this.alertService.presentConfirm(
+      const alert = await this.alertService.presentConfirm(
         this.translateService.instant('recipes.alert.unsaved-changes'),
         this.translateService.instant('recipes.alert.unsaved-changes-message'),
         () => {
@@ -142,6 +145,7 @@ export class RecipeEditPage implements OnInit {
           buttonElement.blur();
           //nothing happens
         });
+      await alert.present();
     }
     else {
       this.recipe = this.initRecipe;
