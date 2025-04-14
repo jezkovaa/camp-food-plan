@@ -9,9 +9,19 @@
         <div style="display: flex; justify-content: space-between; align-items: center;">
           <div class="header-recipe-name"> {{ recipe?.name }}</div>
           <div class="buttons-container">
-            <ion-button fill="solid" shape="round" (click)="editRecipe()">
+            <ion-button fill="solid" shape="round" (click)="editRecipe($event)">
               <ion-icon slot="icon-only" name="pencil" fill="tertiary" />
             </ion-button>
+            <ion-popover #editPopover>
+              <ng-template>
+                <ion-button (click)="redirectToRecipeEditPage()" fill="clear">
+                  {{"recipes.recipe-detail.change-recipe"}}
+                </ion-button>
+                <ion-button (click)="redirectToRecipeVariantEditPage()" fill="clear">
+                  {{"recipes.recipe-detail.change-variant"}}
+                </ion-button>
+              </ng-template>
+            </ion-popover>
             <ion-button fill="solid" shape="round" (click)="deleteRecipe()">
               <ion-icon slot="icon-only" name="trash" />
             </ion-button>

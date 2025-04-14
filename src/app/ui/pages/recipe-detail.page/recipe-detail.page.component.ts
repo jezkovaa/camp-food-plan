@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RecipesService } from '../../../data/services/recipes.service';
-import { IonHeader, IonToolbar, IonContent, IonButtons, IonButton, IonIcon, IonBackButton } from '@ionic/angular/standalone';
+import { IonHeader, IonToolbar, IonContent, IonButtons, IonButton, IonIcon, IonBackButton, PopoverController, IonPopover } from '@ionic/angular/standalone';
 import { IRecipe } from '../../../data/interfaces/recipe.interface';
 import { CommonModule } from '@angular/common';
 import { addIcons } from 'ionicons';
@@ -19,7 +19,7 @@ import { Course } from 'src/app/data/enums/courses.enum';
   selector: 'app-recipe.page',
   templateUrl: './recipe-detail.page.component.html',
   styleUrls: ['./recipe-detail.page.component.scss'],
-  imports: [
+  imports: [IonPopover,
     IonIcon,
     IonButton,
     IonContent,
@@ -33,6 +33,8 @@ import { Course } from 'src/app/data/enums/courses.enum';
   standalone: true
 })
 export class RecipeDetailPage implements OnInit {
+
+  @ViewChild('editPopover') editPopover!: IonPopover;
 
   recipe: IRecipe | null = null;
   component = RecipesPage;
@@ -79,13 +81,34 @@ export class RecipeDetailPage implements OnInit {
     });
   }
 
-  editRecipe() {
+  redirectToRecipeEditPage() {
+    this.editPopover.dismiss();
+    const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
+    buttonElement.blur();
+    this.router.navigate(['/tabs/recipes', this.recipe?.id, 'edit']);
+  }
+
+  redirectToRecipeVariantEditPage() {
+    this.editPopover.dismiss();
+    const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
+    buttonElement.blur();
+    this.router.navigate(['/tabs/recipes', this.recipe?.id, 'variants', this.recipe?.variants[0].id, 'edit']);
+  }
+
+  async editRecipe(event: MouseEvent) {
     const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
     buttonElement.blur();
     if (this.recipe === null) {
       return;
     }
-    this.router.navigate(['/tabs/recipes', this.recipe.id, 'edit']);
+    if (this.recipe.variants.length === 1) {
+      this.editPopover.event = event;
+      await this.editPopover.present();
+    }
+    else {
+      this.router.navigate(['/tabs/recipes', this.recipe.id, 'edit']);
+    }
+
   }
 
 
@@ -101,7 +124,7 @@ export class RecipeDetailPage implements OnInit {
       message += this.translateService.instant('alert.delete-confirm-message-variants');
     }
 
-    await this.alertService.presentConfirm(
+    const alert = await this.alertService.presentConfirm(
       this.translateService.instant('alert.delete-confirm'),
       message,
       () => {
@@ -111,16 +134,19 @@ export class RecipeDetailPage implements OnInit {
           this.recipesService.deleteRecipe(this.recipe.id).subscribe({
             next: async () => {
               this.router.navigate(['/tabs/recipes']);
-              this.alertService.deleteSuccess();
+              const alert = await this.alertService.deleteSuccess();
+              await alert.present();
 
             },
             error: async (err: any) => {
-              this.alertService.deleteError(err);
+              const alert = await this.alertService.deleteError(err);
+              await alert.present();
             }
           });
         }
       }
     );
+    await alert.present();
   }
 
   portionsChanged(meal: IDayMeal) {

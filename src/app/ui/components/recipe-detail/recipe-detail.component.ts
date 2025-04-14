@@ -83,7 +83,8 @@ export class RecipeDetailComponent implements OnInit {
     private recipesService: RecipesService,
     private alertService: AlertService,
     private route: ActivatedRoute,
-    private modalController: ModalController) {
+    private modalController: ModalController,
+    private router: Router) {
 
     addIcons({ add, trash });
 
@@ -141,6 +142,7 @@ export class RecipeDetailComponent implements OnInit {
     //todo
     const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
     buttonElement.blur();
+    this.router.navigate(['/tabs/recipes', this.recipe.id, 'variants', 'new']);
   }
 
 
@@ -153,7 +155,7 @@ export class RecipeDetailComponent implements OnInit {
     const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
     buttonElement.blur();
 
-    await this.alertService.presentConfirm(
+    const alert = await this.alertService.presentConfirm(
       this.translateService.instant('recipe-detail.delete-variants'),
       this.translateService.instant('recipe-detail.delete-variants-message'),
       () => {
@@ -172,6 +174,7 @@ export class RecipeDetailComponent implements OnInit {
           );
         }
       });
+    await alert.present();
   }
 
   selectedCoursesChange(courses: Course[]) {

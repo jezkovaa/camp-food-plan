@@ -3,7 +3,7 @@
   <ion-grid>
     <ion-list *ngFor=" let course of courses">
       <ion-item>
-        <ion-label position="stacked">{{getCourseName(course)}}</ion-label>
+        <ion-label position="stacked" class="course-name">{{getCourseName(course)}}</ion-label>
         <ion-text>
           <p>{{getMealForCourse(course)}}</p>
         </ion-text>

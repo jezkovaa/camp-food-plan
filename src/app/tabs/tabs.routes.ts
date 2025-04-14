@@ -12,6 +12,7 @@ import { ShoppingListsPage } from '../ui/pages/shopping-lists.page/shopping-list
 import { MenuOverviewPage } from '../ui/pages/menu-overview.page/menu-overview.page';
 import { DayMenuPage } from '../ui/pages/day-menu.page/day-menu.page';
 import { MealDetailPage } from '../ui/pages/meal-detail.page/meal-detail.page';
+import { VariantEditPage } from '../ui/pages/variant-edit/variant-edit.page';
 
 export const routes: Routes = [
   {
@@ -32,8 +33,17 @@ export const routes: Routes = [
         component: RecipeDetailPage
       },
       {
+        path: 'recipes/:recipeId/variants/new',
+        component: VariantEditPage
+      },
+      {
         path: 'recipes/:recipeId/variants/:variantId',
         component: RecipeVariantDetailPage
+      },
+
+      {
+        path: 'recipes/:recipeId/variants/:variantId/edit',
+        component: VariantEditPage
       },
       {
         path: 'recipes/:recipeId/edit',

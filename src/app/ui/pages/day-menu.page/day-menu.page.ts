@@ -190,10 +190,11 @@ export class DayMenuPage implements OnInit {
                 this.dayMenu = dayMenu;
               },
               error: async (error: any) => {
-                await this.alertService.presentAlert(
+                const alert = await this.alertService.presentAlert(
                   this.translateService.instant('planning.day-menu.alert.error-title'),
                   this.translateService.instant('planning.day-menu.alert.error-message')
                 );
+                await alert.present();
               }
             });
           },

@@ -104,19 +104,49 @@
       "selected": "Vybrané",
       "delete-selected": "Vymazať vybrané",
       "no-variants": "Žiadne varianty",
-      "choose-variants": "Zvolit varianty"
+      "choose-variants": "Zvolit varianty",
+      "change-recipe": "Upravit recept",
+      "change-variant": "Upravit variantu"
     },
-    "recipe-variant-detail": {
+    "variant": {
       "delete-variant": "Vymazať variantu",
       "delete-variant-message": "Naozaj chcete vymazať túto variantu receptu?",
-      "ingredients": "Ingrediencie",
-      "proceeding": "Postup",
+      "invalid-data": "Neplatné údaje",
+      "ingredients": {
+        "title": "Ingrediencie",
+        "new-name": "Ingrediencie",
+        "entry-name": "Zadejte názov",
+        "new-amount": "Množstvo",
+        "entry-amount": "např. 4",
+        "new-unit": "Jednotka",
+        "units": {
+          "GRAMS": "g",
+          "KILOGRAMS": "kg",
+          "LITERS": "l",
+          "MILLILITERS": "ml",
+          "PIECES": "ks",
+          "CUPS": "hrnčeky",
+          "TABLESPOONS": "polievkové lyžice",
+          "TEASPOONS": "čajové lyžice"
+        }
+      },
+      "proceeding": {
+        "title": "Postup",
+        "new-step": "Krok",
+        "description": "Zadejte postup"
+      },
+      "title": "Varianta",
+      "name": "Názov",
+      "name-error": "Názov nesmie byť prázdny.",
+      "ingredients-invalid": "Ingrediencie sú neplatné.",
+      "ingredients-error": "Ingrediencie nesmú byť prázdne.",
+      "proceeding-error": "Postup je neplatný.",
+      "enter-name": "Zadejte názov",
+      "variants": "varianty",
       "history-of-changes": "História zmien",
       "no-history-of-changes": "Žiadne zmeny"
     },
-    "title": "Recepty",
-    "variant": "Varianta",
-    "variants": "varianty"
+    "title": "Recepty"
   },
   "searchBar": "Hľadať...",
   "sort-options": {

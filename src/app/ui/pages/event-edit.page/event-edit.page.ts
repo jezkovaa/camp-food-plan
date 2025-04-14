@@ -103,9 +103,11 @@ export class EventEditPage implements OnInit {
       }
     }
     else if (same) { // no changes
-      await this.alertService.presentAlert(
+      const alert = await this.alertService.presentAlert(
         this.translateService.instant('alert.no-changes'),
         this.translateService.instant('alert.no-changes-message'));
+      await alert.present();
+
     }
     else if (this.event) { //saving changes
       await this.planningService.saveEvent(this.event).subscribe({
@@ -124,7 +126,7 @@ export class EventEditPage implements OnInit {
     buttonElement.blur();
 
     if (this.isCreating) {
-      await this.alertService.presentConfirm(
+      const alert = await this.alertService.presentConfirm(
         this.translateService.instant('alert.cancel-creation'),
         this.translateService.instant('alert.cancel-creation-message'),
         () => {
@@ -136,6 +138,7 @@ export class EventEditPage implements OnInit {
           const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
           buttonElement.blur();
         });
+      await alert.present();
     }
     else if (!isEqual(this.event, this.initEvent)) {
 
@@ -196,7 +199,8 @@ export class EventEditPage implements OnInit {
     }
 
     if (message.length > 0) {
-      await this.alertService.presentAlert(messageTitle.join(', '), message.join(', '));
+      const alert = await this.alertService.presentAlert(messageTitle.join(', '), message.join(', '));
+      await alert.present();
       return false;
     }
     return true;

@@ -20,9 +20,7 @@ import { PlanningService } from 'src/app/data/services/planning.service';
   imports: [IonText, IonLabel, IonItem, IonList,
     IonIcon,
     IonButton,
-    IonCol,
     IonGrid,
-    IonRow,
 
     CommonModule]
 })

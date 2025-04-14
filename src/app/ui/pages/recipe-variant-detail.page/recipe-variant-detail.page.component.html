@@ -13,7 +13,7 @@
       <div class="second-row ion-padding-top">
 
         <div class="upper-part-of-row">
-          <div>{{"recipes.variant" | translate}}</div>
+          <div>{{"recipes.variant.title" | translate}}</div>
         </div>
         <div class="lower-part-of-row">
           <div class="left">
@@ -21,7 +21,7 @@
 
           </div>
           <div class="right buttons-container">
-            <ion-button shape="round">
+            <ion-button shape="round" (click)="editVariant()">
               <ion-icon slot="icon-only" name="pencil" />
             </ion-button>
             <ion-button (click)="deleteVariant()" shape="round">
