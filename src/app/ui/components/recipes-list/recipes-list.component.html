@@ -1,5 +1,5 @@
 <ion-list id="recipes-list">
   <div *ngFor="let recipe of filteredRecipes">
-    <app-recipe [recipe]="recipe" [isChoosing]="isChoosing" />
+    <app-recipe [recipe]="recipe" [isChoosing]="isChoosing" (selectionChangedEvent)="selectionChanged($event)" />
   </div>
 </ion-list>

@@ -6,6 +6,7 @@ import { Input } from '@angular/core';
 import { IRecipe } from 'src/app/data/interfaces/recipe.interface';
 import { SortOption } from 'src/app/data/enums/sort-options.enum';
 import { IFilterOptions } from 'src/app/data/interfaces/filter-options.interface';
+import { ID } from 'src/app/types';
 
 @Component({
   selector: 'app-recipes-list',
@@ -21,6 +22,8 @@ export class RecipesListComponent implements OnInit, OnChanges {
   @Input() sortOption: SortOption = SortOption.NAME_ASC;
   @Input() searchValue = '';
   @Input() filter: IFilterOptions | null = null;
+
+  selectedRecipes = new Set<ID>();
 
 
   filteredRecipes: IRecipe[] = [];
@@ -99,6 +102,11 @@ export class RecipesListComponent implements OnInit, OnChanges {
     }
   }
 
-
-
+  selectionChanged(event: { recipeId: ID, selected: boolean; }) {
+    if (event.selected) {
+      this.selectedRecipes.add(event.recipeId);
+    } else {
+      this.selectedRecipes.delete(event.recipeId);
+    }
+  }
 }

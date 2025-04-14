@@ -40,6 +40,8 @@ export class RecipeDetailPage implements OnInit {
   component = RecipesPage;
   course: Course = Course.BREAKFAST;
 
+  selectedRecipes: ID[] = [];
+
   dayMenuId: ID | null = null;
 
   isPlanningRoute = false;
@@ -71,6 +73,12 @@ export class RecipeDetailPage implements OnInit {
           this.recipe = recipe;
         });
       });
+
+      const state = this.router.getCurrentNavigation()?.extras.state;
+      if (state) {
+        this.selectedRecipes = state['selectedRecipesArray'] || [];
+
+      }
     }
 
     this.route.params.subscribe(params => {
@@ -155,8 +163,13 @@ export class RecipeDetailPage implements OnInit {
     }
     this.planningService.updateMenu(this.dayMenuId, meal.course, meal.chosenRecipes).subscribe({
       next: () => {
+        if (this.selectedRecipes.length > 0) {
+          const id = this.selectedRecipes.shift();
+          this.router.navigate(['../', id], { relativeTo: this.route, state: { selectedRecipesArray: this.selectedRecipes } });
+        } else {
+          this.router.navigate(['../../../'], { relativeTo: this.route });
+        }
         //path: 'planning/events/:eventId/menu/:dayMenuId/:course/recipe/:recipeId',
-        this.router.navigate(['../../../'], { relativeTo: this.route });
       },
       error: (error) => {
         console.error('Error updating menu:', error);

@@ -1,23 +1,26 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { IRecipe } from 'src/app/data/interfaces/recipe.interface';
 import { RestrictionComponent } from "../restriction/restriction.component";
-import { IonItem, IonButton, IonIcon } from "@ionic/angular/standalone";
+import { IonItem, IonButton, IonIcon, IonCheckbox } from "@ionic/angular/standalone";
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+import { ID } from 'src/app/types';
 
 @Component({
   selector: 'app-recipe',
   templateUrl: './recipe.component.html',
   styleUrls: ['./recipe.component.scss'],
   standalone: true,
-  imports: [IonButton, CommonModule, RestrictionComponent, TranslateModule]
+  imports: [IonCheckbox, IonButton, CommonModule, RestrictionComponent, TranslateModule]
 })
 export class RecipeComponent implements OnInit {
 
   @Input({ required: true }) recipe!: IRecipe;
   @Input() isEditing = false;
   @Input() isChoosing = false;
+
+  @Output() selectionChangedEvent = new EventEmitter<{ recipeId: ID, selected: boolean; }>();
 
   get existingVariantsRestrictions() {
     let existingRestriction = false;
@@ -36,6 +39,17 @@ export class RecipeComponent implements OnInit {
 
   ngOnInit() {
 
+  }
+
+  selectionChanged(event: Event) {
+    if (this.recipe.id === null) {
+      console.error('Recipe ID is null. Cannot emit selectionChangedEvent.');
+      return;
+    }
+    this.selectionChangedEvent.emit({
+      recipeId: this.recipe.id,
+      selected: (event.target as HTMLInputElement).checked
+    });
   }
 
   openRecipe() {

@@ -7,9 +7,10 @@ import { RecipesService } from 'src/app/data/services/recipes.service';
 import { ID } from 'src/app/types';
 import { IonButtons, IonButton, IonIcon } from "@ionic/angular/standalone";
 import { addIcons } from 'ionicons';
-import { chevronDown, eye, pencil, people, trash } from 'ionicons/icons';
+import { chevronDown, chevronUp, eye, pencil, people, trash } from 'ionicons/icons';
 import { IDayMealRecipeNames } from 'src/app/data/interfaces/day-meal-names.interface';
 import { RestrictionComponent } from '../restriction/restriction.component';
+import { FoodRestriction } from 'src/app/data/enums/food-restriction.enum';
 
 @Component({
   selector: 'app-meal',
@@ -67,7 +68,7 @@ export class MealComponent implements OnInit {
     private translateService: TranslateService
   ) {
 
-    addIcons({ pencil, trash, people, chevronDown });
+    addIcons({ pencil, trash, people, chevronDown, chevronUp });
 
   }
 
@@ -136,6 +137,10 @@ export class MealComponent implements OnInit {
       throw new Error('Meal with given recipe id and variant id not found - should not happen');
     }
     return usedVariant.portions;
+  }
+
+  existingRestrictions(restrictions: FoodRestriction[]): boolean {
+    return !(restrictions.length === 0 || (restrictions.length === 1 && restrictions[0] === FoodRestriction.NONE));
   }
 
 }
