@@ -79,7 +79,10 @@ export class VariantEditComponent implements OnInit {
   }
 
   addStep() {
-    this.proceeding.push({ order: 0, description: '' });
+    const maxOrder = this.proceeding.length > 0 
+      ? Math.max(...this.proceeding.map(step => step.order)) 
+      : 0;
+    this.proceeding.push({ order: maxOrder + 1, description: '' });
   }
 
   selectUnit(index: number, event: any) {
