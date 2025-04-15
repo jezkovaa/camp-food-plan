@@ -37,33 +37,32 @@
   </ion-header>
 
   <ion-content [fullscreen]="true" class="ion-padding-start ion-padding-end ion-padding-top">
-    <div style=" gap: 10px;
+    <ion-list style=" gap: 10px;
     flex-direction: column;
     display: flex;
     height: 100%;
     justify-content: space-around;
-    align-items: center
-  ;">
+    align-items: center;">
       <div *ngFor="let course of courses" style="width: 100%; 
-      display: flex
-  ;">
-        <div *ngIf="courseExists(course)" style="width: 100%;">
-          <app-meal [meal]="getMealForCourse(course)" (deleteMealEvent)="deleteMeal($event)" />
-        </div>
-        <div *ngIf="!courseExists(course)" class="no-meal-container ion-padding">
-          <div>
-            <div style="text-align: center;">{{getCourseName(course)}}</div>
-            <ion-button (click)="addMeal(course)">
-              <ion-icon slot="start" name="add" />
-              <div>
-                {{"planning.day-menu.add-meal" | translate}}
-              </div>
-            </ion-button>
+      display: flex; justify-content: center;">
+        <ion-item style="width: 100%;" class="my-item">
+          <div *ngIf="courseExists(course)" style="width: 100%;">
+            <app-meal [meal]="getMealForCourse(course)" (deleteMealEvent)="deleteMeal($event)" />
           </div>
-        </div>
-
+          <div *ngIf="!courseExists(course)" class="no-meal-container ion-padding" style="width: 100%;">
+            <div>
+              <div style="text-align: center;">{{getCourseName(course)}}</div>
+              <ion-button (click)="addMeal(course)">
+                <ion-icon slot="start" name="add" />
+                <div>
+                  {{"planning.day-menu.add-meal" | translate}}
+                </div>
+              </ion-button>
+            </div>
+          </div>
+        </ion-item>
       </div>
-    </div>
+    </ion-list>
 
   </ion-content>
 </div>

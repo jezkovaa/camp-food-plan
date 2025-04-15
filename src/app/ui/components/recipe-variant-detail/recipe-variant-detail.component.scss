@@ -6,7 +6,7 @@
 
   ::ng-deep .group {
     //border: 1px solid black;
-    border-radius: var(--border-radius);
+    border-radius: var(--radius);
     //border: 1px solid var(--ion-color-medium);
     box-shadow: var(--box-shadow);
   }
@@ -18,7 +18,7 @@
   }
 
   ::ng-deep ion-list {
-    border-radius: var(--border-radius);
+    border-radius: var(--radius);
   }
 
   ::ng-deep .grid {
@@ -46,7 +46,7 @@
   ::ng-deep .order {
     flex-grow: 0 !important;
 
-    border-radius: var(--border-radius);
+    border-radius: var(--radius);
     width: 36px;
     height: 36px;
     padding: 8px;

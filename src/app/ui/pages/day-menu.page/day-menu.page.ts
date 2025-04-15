@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonToolbar, IonButtons, IonBackButton, IonButton, IonIcon, IonPopover, IonDatetime, IonDatetimeButton, IonModal, AlertController } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonToolbar, IonButtons, IonBackButton, IonButton, IonIcon, IonPopover, IonDatetime, IonDatetimeButton, IonModal, AlertController, IonList, IonItem } from '@ionic/angular/standalone';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { addIcons } from 'ionicons';
 import { add, calendar, chevronBack, chevronForward } from 'ionicons/icons';
@@ -21,7 +21,7 @@ import { AlertService } from '../../services/alert.service';
   templateUrl: './day-menu.page.html',
   styleUrls: ['./day-menu.page.scss'],
   standalone: true,
-  imports: [
+  imports: [IonItem, IonList,
     IonDatetime,
     IonPopover,
     IonIcon,
