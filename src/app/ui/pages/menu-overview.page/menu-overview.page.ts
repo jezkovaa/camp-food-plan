@@ -237,23 +237,22 @@ export class MenuOverviewPage implements OnInit {
 
 
   private async mapVariants(recipeId: ID, variants: IDayMealRecipeVariant[]): Promise<IDayMealRecipeVariantExtended[]> {
-    const mappedVariants: IDayMealRecipeVariantExtended[] = [];
-    for (const variant of variants) {
-      this.recipesService.getVariant(recipeId, variant.variantId).subscribe({
-        next: (fetchedVariant) => {
-          mappedVariants.push({
+    return Promise.all(
+      variants.map(async (variant) => {
+        try {
+          const fetchedVariant = await lastValueFrom(this.recipesService.getVariant(recipeId, variant.variantId));
+          return {
             variantId: variant.variantId,
             variantName: fetchedVariant.name,
             portions: variant.portions,
             restrictions: fetchedVariant.restrictions,
-          });
-        },
-        error: (error) => {
+          };
+        } catch (error) {
           console.error(error);
+          throw error; // Optionally rethrow the error if needed
         }
-      });
-    }
-    return mappedVariants;
+      })
+    );
   }
 
 }
