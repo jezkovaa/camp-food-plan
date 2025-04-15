@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { IonHeader, IonSearchbar, IonToolbar, IonTitle, IonContent, IonButton, IonButtons, IonIcon, IonBackButton, IonPopover, IonChip, IonLabel } from '@ionic/angular/standalone';
+import { IonHeader, IonSearchbar, IonToolbar, IonTitle, IonContent, IonButton, IonButtons, IonIcon, IonBackButton, IonPopover, IonChip, IonLabel, IonFab, IonFabButton } from '@ionic/angular/standalone';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CommonModule } from '@angular/common';
 import { addIcons } from 'ionicons';
@@ -26,7 +26,7 @@ import { SearchbarWithButtonsComponent } from '../../components/searchbar-with-b
   selector: 'app-recipes',
   templateUrl: 'recipes.page.html',
   styleUrls: ['recipes.page.scss'],
-  imports: [
+  imports: [IonFabButton, IonFab,
     IonIcon,
     IonHeader,
     IonToolbar,

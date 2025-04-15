@@ -516,7 +516,43 @@ export class PlanningService {
               ]
             }
           ]
-        }
+        },
+        {
+          id: 'd10',
+          date: new Date('2025-07-13'),
+          meals: []
+        },
+        {
+          id: 'd11',
+          date: new Date('2025-07-14'),
+          meals: []
+        },
+        {
+          id: 'd12',
+          date: new Date('2025-07-15'),
+          meals: []
+        },
+        {
+          id: 'd13',
+          date: new Date('2025-07-16'),
+          meals: []
+        },
+        {
+          id: 'd14',
+          date: new Date('2025-07-17'),
+          meals: []
+        },
+        {
+          id: 'd15',
+          date: new Date('2025-07-18'),
+          meals: []
+        },
+        {
+          id: 'd16',
+          date: new Date('2025-07-19'),
+          meals: []
+        },
+
       ]
     },
     {

@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonButtons, IonIcon, IonBackButton, IonSearchbar } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonButtons, IonIcon, IonBackButton, IonFab, IonFabButton } from '@ionic/angular/standalone';
 import { TranslateModule } from '@ngx-translate/core';
 import { RecipesListComponent } from 'src/app/ui/components/recipes-list/recipes-list.component';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -19,7 +19,7 @@ import { IFilterOptions } from 'src/app/data/interfaces/filter-options.interface
   templateUrl: './choose-recipe.page.html',
   styleUrls: ['./choose-recipe.page.scss'],
   standalone: true,
-  imports: [
+  imports: [IonFabButton, IonFab,
     IonButton,
     IonContent,
     IonHeader,
@@ -48,6 +48,8 @@ export class ChooseRecipePage implements OnInit {
   searchValue = '';
   filter: IFilterOptions | null = null;
   sortOption = SortOption.NAME_ASC;
+
+  @ViewChild(RecipesListComponent) recipesList!: RecipesListComponent;
 
 
   constructor(private route: ActivatedRoute,
@@ -85,6 +87,24 @@ export class ChooseRecipePage implements OnInit {
     this.filter = filter;
   }
 
+
+  chooseSelected() {
+    const selectedRecipes = this.recipesList.selectedRecipes;
+    let selectedRecipesArray = Array.from(selectedRecipes.values());
+    if (selectedRecipesArray.length === 0) {
+      return;
+    }
+    const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
+    buttonElement.blur();
+
+    const id = selectedRecipesArray[0];
+
+    selectedRecipesArray = selectedRecipesArray.filter(recipeId => recipeId !== id);
+    this.router.navigate(['./recipe', id], { relativeTo: this.route, state: { selectedRecipesArray: selectedRecipesArray } },);
+    //open one of the recipe, choose variants and portions for it and return back here
+
+
+  }
 
   private loadRecipes() {
     this.recipesService.getRecipes().subscribe((recipes) => {

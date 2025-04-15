@@ -30,7 +30,6 @@
   </ion-button>
 
   <!-- Choose Button -->
-  <ion-button *ngIf="isChoosing" (click)="openRecipe()" size="small" class="choose-button">
-    {{"recipes.choose-recipe" | translate}}
-  </ion-button>
+  <ion-checkbox *ngIf="isChoosing" (ionChange)="selectionChanged($event)" class="choose-button">
+  </ion-checkbox>
 </div>

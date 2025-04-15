@@ -6,8 +6,8 @@
       </ion-buttons>
       <ion-title>{{"recipes.title" | translate }}</ion-title>
       <ion-buttons slot="end">
-        <ion-button (click)="createRecipe()" shape="round">
-          <ion-icon slot="icon-only" name="add" />
+        <ion-button (click)="chooseSelected()" fill="solid" shape="round" color="success">
+          {{"recipes.choose-recipe" | translate}}
         </ion-button>
       </ion-buttons>
     </ion-toolbar>
@@ -17,6 +17,11 @@
   </ion-header>
 
   <ion-content class="ion-padding">
+    <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+      <ion-fab-button (click)="createRecipe()" shape="round" size="large" color="success">
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
     <app-recipes-list [recipes]="recipes" [sortOption]="sortOption" [searchValue]="searchValue" [filter]="filter"
       [isChoosing]="true" />
   </ion-content>

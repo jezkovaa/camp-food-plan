@@ -29,7 +29,7 @@
         <div>
           {{ chosenRecipe.name }} - {{chosenVariant.variantName}}
         </div>
-        <div>
+        <div *ngIf="existingRestrictions(chosenVariant.variantRestrictions)">
           <app-restriction [inputRestrictions]="chosenVariant.variantRestrictions"></app-restriction>
         </div>
       </div>

@@ -47,6 +47,8 @@ export class DayMenuPage implements OnInit {
   eventId: ID | null = null;
   event: IPlannedEvent | null = null;
 
+  highlightedDates: Array<{ date: string, textColor: string, backgroundColor: string; }> = [];
+
 
   previousDateExists: boolean = false;
   nextDateExists: boolean = false;
@@ -317,6 +319,20 @@ export class DayMenuPage implements OnInit {
     dayAfter?.setDate(dayAfter.getDate() + 1);
     if (this.event?.dateTo && dayAfter) {
       this.nextDateExists = !isAfter(dayAfter, this.event.dateTo);
+    }
+
+    if (this.event?.dateFrom && this.event?.dateTo) {
+      const startDate = new Date(this.event.dateFrom);
+      const endDate = new Date(this.event.dateTo);
+      this.highlightedDates = [];
+
+      for (let date = new Date(startDate); date <= endDate; date.setDate(date.getDate() + 1)) {
+        this.highlightedDates.push({
+          date: date.toISOString().split('T')[0], // Format to yyyy-MM-dd
+          textColor: 'black',
+          backgroundColor: 'var(--ion-color-tertiary)'
+        });
+      }
     }
 
   }

@@ -5,6 +5,7 @@ import { IonButton, IonIcon, IonCheckbox } from '@ionic/angular/standalone';
 import { RestrictionComponent } from '../restriction/restriction.component';
 import { IRecipeVariant } from 'src/app/data/interfaces/recipe-variant.interface';
 import { Router } from '@angular/router';
+import { FoodRestriction } from 'src/app/data/enums/food-restriction.enum';
 
 @Component({
   selector: 'app-recipe-variant',
@@ -19,6 +20,13 @@ export class RecipeVariantComponent {
   @Input() isEditing = false;
   @Input() isChoosing = false;
   @Output() selectionChanged = new EventEmitter<{ id: string, selected: boolean; }>();
+
+
+  get existingVariantsRestrictions() {
+
+    return this.variant.restrictions.length > 0 || !(this.variant.restrictions.length === 1 && this.variant.restrictions[0] === FoodRestriction.NONE);
+
+  }
 
   constructor(private router: Router) { }
 

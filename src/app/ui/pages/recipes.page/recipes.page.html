@@ -13,11 +13,11 @@
           {{"recipes.title" | translate}}
         </div>
       </ion-title>
-      <ion-buttons slot="end">
+      <!--ion-buttons slot="end">
         <ion-button (click)="createRecipe()" shape="round" size="small">
           <ion-icon slot="icon-only" name="add" />
         </ion-button>
-      </ion-buttons>
+      </ion-buttons-->
     </ion-toolbar>
     <app-searchbar-with-buttons [filter]="filter" [searchValue]="searchValue" [sortOption]="sortOption"
       (searchValueChangedEvent)="searchValueChanged($event)" (filterChangedEvent)="filterChanged($event)"
@@ -25,6 +25,12 @@
   </ion-header>
 
   <ion-content [fullscreen]="true" class="ion-padding">
+    <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+      <ion-fab-button (click)="createRecipe()" shape="round" size="large" color="success">
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
     <app-recipes-list [recipes]="recipes" [sortOption]="sortOption" [searchValue]="searchValue" [filter]="filter" />
+
   </ion-content>
 </div>

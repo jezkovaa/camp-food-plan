@@ -8,7 +8,7 @@
         {{variant.name}}
       </div>
 
-      <div class="recipe-variants-container">
+      <div class="recipe-variants-container" *ngIf="existingVariantsRestrictions">
         <app-restriction [inputRestrictions]="variant.restrictions"></app-restriction>
       </div>
     </div>
