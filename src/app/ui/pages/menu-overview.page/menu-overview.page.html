@@ -4,6 +4,11 @@
       <ion-back-button defaultHref="/planning" text="" />
     </ion-buttons>
     <ion-title>{{"planning.event.menu" | translate }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="getPDF()" fill="solid" color="primary" shape="round" class="ion-text-wrap"
+        style="max-width: 150px">{{"planning.event.shopping-lists.getPDF"
+        |translate}}</ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 

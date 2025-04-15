@@ -2,6 +2,6 @@ export enum Course {
   BREAKFAST = 'BREAKFAST',
   MORNING_SNACK = 'MORNING_SNACK',
   LUNCH = 'LUNCH',
-  DINNER = 'DINNER',
-  SNACK = 'SNACK'
+  SNACK = 'SNACK',
+  DINNER = 'DINNER'
 }

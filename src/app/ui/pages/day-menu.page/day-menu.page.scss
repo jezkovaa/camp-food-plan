@@ -4,6 +4,10 @@
     justify-content: center;
     display: flex;
     // border: 1px solid var(--ion-color-medium);
-    border-radius: var(--border-radius);
+    border-radius: var(--radius);
+  }
+
+  ::ng-deep .my-item {
+    --border-style: none;
   }
 }

@@ -1,6 +1,6 @@
 <div id="variant-edit" style="display: flex; gap: 10px; flex-direction: column; margin-top: 10px;">
   <div *ngIf="variant" class="ingredients ion-padding-bottom ion-padding-top"
-    style="box-shadow: var(--box-shadow); border-radius: var(--border-radius);">
+    style="box-shadow: var(--box-shadow); border-radius: var(--radius);">
     <div class="ion-padding-start ion-padding-end"
       style="display: flex; justify-content: space-between; align-items: center;">
       <ion-label class="custom">{{'recipes.variant.ingredients.title' | translate}}</ion-label>
@@ -44,7 +44,7 @@
     </ion-list>
   </div>
   <div *ngIf="variant" class="proceeding ion-padding"
-    style="box-shadow: var(--box-shadow); border-radius: var(--border-radius);">
+    style="box-shadow: var(--box-shadow); border-radius: var(--radius);">
     <div style="display: flex; justify-content: space-between; align-items: center">
       <ion-label class="custom">{{'recipes.variant.proceeding.title' | translate}}</ion-label>
       <ion-button (click)="addStep()">
