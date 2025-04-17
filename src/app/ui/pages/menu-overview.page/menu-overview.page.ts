@@ -17,6 +17,7 @@ import { IDayMealExtended, IDayMealRecipeExtended, IDayMealRecipeVariantExtended
 import { IRecipe } from 'src/app/data/interfaces/recipe.interface';
 import { image } from 'ionicons/icons';
 import { async, lastValueFrom } from 'rxjs';
+import { AlertService } from '../../services/alert.service';
 
 (<any>pdfMake).addVirtualFileSystem(pdfFonts);
 
@@ -44,7 +45,8 @@ export class MenuOverviewPage implements OnInit {
   constructor(private route: ActivatedRoute,
     private planningService: PlanningService,
     private translateService: TranslateService,
-    private recipesService: RecipesService
+    private recipesService: RecipesService,
+    private alertService: AlertService
   ) { }
 
   ngOnInit() {
@@ -104,6 +106,23 @@ export class MenuOverviewPage implements OnInit {
       console.error('Event or date range is not defined.');
       return;
     }
+
+    let continueWithPdf = false;
+    if (!this.menuIsComplete()) {
+      const alert = await this.alertService.presentConfirm(
+        this.translateService.instant('planning.event.menu-not-complete.title'),
+        this.translateService.instant('planning.event.menu-not-complete.message'),
+        () => {
+          continueWithPdf = true;
+        });
+      await alert.present();
+      await alert.onDidDismiss();
+      if (!continueWithPdf) {
+        return;
+      }
+
+    }
+
 
     const content = [];
 
@@ -207,6 +226,17 @@ export class MenuOverviewPage implements OnInit {
 
     // Generate the PDF
     pdfMake.createPdf(docDefinition).open();
+  }
+
+  private menuIsComplete(): boolean {
+    if (this.event?.menu) {
+      for (const menu of this.event.menu) {
+        if (menu.meals.length !== 5) {
+          return false;
+        }
+      }
+    }
+    return true;
   }
 
 
