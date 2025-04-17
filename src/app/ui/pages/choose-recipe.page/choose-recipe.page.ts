@@ -63,6 +63,13 @@ export class ChooseRecipePage implements OnInit {
       this.eventId = params['eventId'];
       this.dayMenuId = params['dayMenuId'];
       this.course = params['course'];
+      if (this.course) {
+        this.filter = {
+          courses: [this.course],
+          restrictions: [],
+        };
+      }
+
     });
 
     this.loadRecipes();

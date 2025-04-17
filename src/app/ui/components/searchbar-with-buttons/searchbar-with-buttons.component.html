@@ -12,7 +12,8 @@
 ">{{ filter.name }}</ion-label>
         <app-restriction *ngIf="isFoodRestrictionFilter(filter.type)"
           [inputRestrictions]="getFilterValue(filter.value)"></app-restriction>
-        <button (click)="removeFilter(filter)" size="small" style="background-color: transparent;">
+        <button (click)="removeFilter(filter)" [disabled]="isForeverFilter(filter)" size="small"
+          style="background-color: transparent;">
           <ion-icon name="close-circle"></ion-icon>
         </button>
       </ion-chip>

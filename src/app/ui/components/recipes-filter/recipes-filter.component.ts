@@ -22,7 +22,7 @@ import { CommonModule } from '@angular/common';
 export class RecipesFilterComponent implements OnInit {
 
   @Input() filter: IFilterOptions | null = null;
-
+  @Input() foreverFilter: Course[] = [];
   @Input() isRecipesPage = true;
 
 
@@ -72,6 +72,10 @@ export class RecipesFilterComponent implements OnInit {
 
   checkboxClick(e: any, course: Course) {
     this.selectedCourses = e.detail.checked ? [...this.selectedCourses, course] : this.selectedCourses.filter(c => c !== course);
+  }
+
+  isForeverFilter(filter: Course): boolean {
+    return this.foreverFilter.includes(filter);
   }
 
   getCourseName(course: Course): string {
