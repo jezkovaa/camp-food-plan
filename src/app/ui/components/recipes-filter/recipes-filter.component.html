@@ -5,7 +5,8 @@
     <ion-list id="course-list">
       <div *ngFor="let course of courses">
         <ion-item>
-          <ion-checkbox slot="start" [checked]="courseValue(course)" (ionChange)=" checkboxClick($event, course)" />
+          <ion-checkbox slot="start" [checked]="courseValue(course)" [disabled]="isForeverFilter(course)"
+            (ionChange)=" checkboxClick($event, course)" />
           <ion-label>{{ getCourseName(course) }}</ion-label>
         </ion-item>
       </div>

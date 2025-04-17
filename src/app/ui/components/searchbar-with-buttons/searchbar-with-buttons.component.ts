@@ -60,6 +60,7 @@ export class SearchbarWithButtonsComponent implements OnInit {
   @ViewChild("filterPopover") filterPopover!: IonPopover;
 
   appliedFilters: IFilter[] = [];
+  foreverFilter: Course[] = [];
 
   constructor(private translateService: TranslateService,
     private popoverController: PopoverController) {
@@ -68,7 +69,18 @@ export class SearchbarWithButtonsComponent implements OnInit {
 
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+    if (this.filter && this.filter.courses && this.filter.courses.length > 0) {
+      this.filter.courses.forEach((course) => {
+        this.appliedFilters.push({
+          name: this.translateService.instant(`courses.${course}`),
+          type: FilterType.COURSE,
+          value: course
+        });
+        this.foreverFilter.push(course);
+      });
+    }
+  }
 
   async helpButtonClicked(event: any) {
     const popover = await this.popoverController.create({
@@ -90,6 +102,7 @@ export class SearchbarWithButtonsComponent implements OnInit {
       backdropDismiss: true,
       componentProps: {
         filter: this.filter,
+        foreverFilter: this.foreverFilter,
         isRecipesPage: this.isRecipesPage
       }
     });
@@ -155,10 +168,15 @@ export class SearchbarWithButtonsComponent implements OnInit {
     this.sortOptionChangedEvent.emit(this.sortOption);
   }
 
+  isForeverFilter(filter: IFilter): boolean {
+    return this.foreverFilter.includes(filter.value as Course);
+  }
+
   removeFilter(filter: IFilter) {
     const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
     buttonElement.blur();
     if (filter.type === FilterType.COURSE) {
+
       if (Object.values(Course).includes(filter.value as Course) && this.filter?.courses.includes(filter.value as Course)) {
         if (this.filter?.courses) {
           this.filter.courses = this.filter.courses.filter((_, i) => i !== this.filter!.courses!.indexOf(filter.value as Course));
