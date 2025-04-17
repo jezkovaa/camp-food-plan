@@ -229,11 +229,12 @@ export class MenuOverviewPage implements OnInit {
   }
 
   private menuIsComplete(): boolean {
-    if (this.event?.menu) {
-      for (const menu of this.event.menu) {
-        if (menu.meals.length !== 5) {
-          return false;
-        }
+    if (!this.event?.menu) {
+      return false;
+    }
+    for (const menu of this.event.menu) {
+      if (menu.meals.length !== 5) {
+        return false;
       }
     }
     return true;
