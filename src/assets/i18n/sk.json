@@ -70,6 +70,10 @@
       "empty-name": "Zadejte názov...",
       "choose-date": "Vyberte dátum",
       "menu": "Jídelníček",
+      "menu-not-complete": {
+        "title": "Jídelníček nie je kompletný",
+        "message": "Niektoré jedlá nie sú naplánované. Naozaj chcete pokračovať?"
+      },
       "title": "Udalosť",
       "shopping-lists": {
         "title": "Nákupné zoznamy",
