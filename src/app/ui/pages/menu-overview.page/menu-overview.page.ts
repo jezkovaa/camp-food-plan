@@ -16,7 +16,7 @@ import { RecipesService } from 'src/app/data/services/recipes.service';
 import { IDayMealExtended, IDayMealRecipeExtended, IDayMealRecipeVariantExtended, IPlannedEventExtended } from 'src/app/data/interfaces/planned-event-extended.interface';
 import { IRecipe } from 'src/app/data/interfaces/recipe.interface';
 import { image } from 'ionicons/icons';
-import { async } from 'rxjs';
+import { async, lastValueFrom } from 'rxjs';
 
 (<any>pdfMake).addVirtualFileSystem(pdfFonts);
 
@@ -237,10 +237,14 @@ export class MenuOverviewPage implements OnInit {
 
 
   private async mapVariants(recipeId: ID, variants: IDayMealRecipeVariant[]): Promise<IDayMealRecipeVariantExtended[]> {
-    return Promise.all(
+    const variantsWithDetails = await Promise.all(
       variants.map(async (variant) => {
         try {
           const fetchedVariant = await lastValueFrom(this.recipesService.getVariant(recipeId, variant.variantId));
+          if (fetchedVariant === null) {
+            console.error(`Variant with ID ${variant.variantId} not found for recipe ID ${recipeId}`);
+            return null; // or handle the error as needed
+          }
           return {
             variantId: variant.variantId,
             variantName: fetchedVariant.name,
@@ -253,6 +257,7 @@ export class MenuOverviewPage implements OnInit {
         }
       })
     );
+    return variantsWithDetails.filter((variant): variant is IDayMealRecipeVariantExtended => variant !== null);
   }
 
 }
