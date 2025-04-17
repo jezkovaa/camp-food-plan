@@ -74,7 +74,7 @@ export class VariantEditPage implements OnInit {
 
       } else {
         this.recipeService.getVariant(this.recipeId, this.variantId).subscribe({
-          next: (variant: IRecipeVariant) => {
+          next: (variant: IRecipeVariant | null) => {
             this.variant = variant;
             this.initVariant = cloneDeep(this.variant);
           },

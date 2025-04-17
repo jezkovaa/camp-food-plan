@@ -91,8 +91,8 @@ export class RecipeDetailComponent implements OnInit {
   }
 
   getCourseNames(courses: Course[]): string {
-    if (courses === undefined) {
-      return '';
+    if (courses.length === 0) {
+      return this.translateService.instant('courses.no-course');
     }
     return courses.map(course => this.translateService.instant(`courses.${course}`)).join(', ');
 

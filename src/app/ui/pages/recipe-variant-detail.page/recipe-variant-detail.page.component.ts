@@ -49,7 +49,7 @@ export class RecipeVariantDetailPage implements OnInit {
     this.route.params.subscribe(params => {
       const recipeId = params['recipeId'];
       const variantId = params['variantId'];
-      this.recipesService.getVariant(recipeId, variantId).subscribe((variant: IRecipeVariant) => {
+      this.recipesService.getVariant(recipeId, variantId).subscribe((variant: IRecipeVariant | null) => {
         this.variant = variant;
       });
       this.recipesService.getRecipe(recipeId).subscribe((recipe: IRecipe) => {

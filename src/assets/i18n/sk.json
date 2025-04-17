@@ -27,7 +27,8 @@
     "MORNING_SNACK": "Desiata",
     "LUNCH": "Obed",
     "DINNER": "Večera",
-    "SNACK": "Olovrant"
+    "SNACK": "Olovrant",
+    "no-course": "Chod nebol vybraný"
   },
   "filter": {
     "title": "Filtrovat",

@@ -566,7 +566,7 @@ export class RecipesService {
     return of(null);
   }
 
-  getVariant(recipeId: ID, variantId: ID): Observable<any> {
+  getVariant(recipeId: ID, variantId: ID): Observable<IRecipeVariant | null> {
 
     const recipe = this.dummyRecipes.find(recipe => recipe.id === recipeId);
     const variant = recipe?.variants.find(variant => variant.id === variantId);

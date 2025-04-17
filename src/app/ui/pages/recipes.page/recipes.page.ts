@@ -32,7 +32,6 @@ import { SearchbarWithButtonsComponent } from '../../components/searchbar-with-b
     IonToolbar,
     IonTitle,
     IonContent,
-    IonButton,
     IonButtons,
     IonBackButton,
 
