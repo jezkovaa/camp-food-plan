@@ -83,7 +83,27 @@ export class VariantEditPage implements OnInit {
       }
       if (this.recipeId && !this.variantId) {
         this.isCreating = true;
-        this.variant = new RecipeVariant(this.recipeId);
+        let createdFromId: ID | null = null;
+        const state = this.router.getCurrentNavigation()?.extras.state;
+        if (state) {
+          createdFromId = state['variantId'] || null;
+        }
+        if (createdFromId) {
+          this.recipeService.getVariant(this.recipeId, createdFromId).subscribe({
+            next: (variant: IRecipeVariant | null) => {
+              this.variant = cloneDeep(variant);
+              if (this.variant) {
+                this.variant.id = null; // Reset the ID for the new variant
+              }
+              this.initVariant = cloneDeep(this.variant);
+            },
+            error: (err) => {
+              console.error('Error fetching variant:', err);
+            }
+          });
+        }
+        else
+          this.variant = new RecipeVariant(this.recipeId);
         this.initVariant = cloneDeep(this.variant);
 
       } else if (this.recipeId && this.variantId) {

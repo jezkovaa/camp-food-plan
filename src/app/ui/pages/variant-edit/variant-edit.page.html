@@ -17,8 +17,8 @@
 
       <div>
         <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-          <div style="display: flex; align-items: center;">
-            <div *ngIf="variant" class="header-variant-name">
+          <div style="display: flex; align-items: center; width: 70%;">
+            <div *ngIf="variant" class="header-variant-name" style="width: 100%;">
               <ion-textarea rows="1" [(ngModel)]="variant.name" name="variantName"
                 label="{{'recipes.variant.name' | translate }}" labelPlacement="stacked"
                 placeholder="{{'recipes.variant.enter-name' |  translate }}"></ion-textarea>

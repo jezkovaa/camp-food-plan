@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { IonGrid, IonRow, IonCol, IonSearchbar, IonButton, IonIcon, IonPopover, ModalController, IonAlert } from "@ionic/angular/standalone";
+import { IonGrid, IonRow, IonCol, IonSearchbar, IonButton, IonIcon, IonPopover, ModalController, PopoverController, IonSelect, IonSelectOption } from "@ionic/angular/standalone";
 import { VariantsListComponent } from '../variants-list/variants-list.component';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { RecipeVariantDetailComponent } from '../recipe-variant-detail/recipe-variant-detail.component';
@@ -33,6 +33,8 @@ import { SortOption } from 'src/app/data/enums/sort-options.enum';
     IonGrid,
     IonRow,
     IonCol,
+    IonSelect,
+    IonSelectOption,
     VariantsListComponent,
     RecipeVariantDetailComponent,
     TranslateModule,
@@ -55,7 +57,8 @@ export class RecipeDetailComponent implements OnInit {
 
   @Output() portionsChanged = new EventEmitter<IDayMeal>();
 
-  @ViewChild(IonPopover) popover!: IonPopover;
+  @ViewChild('chooseCoursePopover') popover!: IonPopover;
+  @ViewChild('addPopover') addPopover!: IonPopover;
 
   selectedIds: string[] = [];
   selectedItems: Array<{ variantId: ID, name: string; portions: number; }> = [];
@@ -84,6 +87,7 @@ export class RecipeDetailComponent implements OnInit {
     private alertService: AlertService,
     private route: ActivatedRoute,
     private modalController: ModalController,
+    private popoverController: PopoverController,
     private router: Router) {
 
     addIcons({ add, trash, alert });
@@ -138,7 +142,19 @@ export class RecipeDetailComponent implements OnInit {
   }
 
 
-  addVariant() {
+  async handleAddVariant(event: MouseEvent) {
+    const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
+    buttonElement.blur();
+    if (this.recipe && !this.recipe.id) {
+      this.router.navigate(['/tabs/recipes', 'new', 'variants', 'new'], { state: { recipeData: this.recipe } });
+    }
+    else {
+      this.addPopover.event = event;
+      await this.addPopover.present();
+    }
+  }
+
+  async addVariant() {
     //todo
     const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
     buttonElement.blur();
@@ -147,6 +163,23 @@ export class RecipeDetailComponent implements OnInit {
     } else {
       this.router.navigate(['/tabs/recipes', this.recipe.id, 'variants', 'new']);
     }
+  }
+
+  addFromExistingVariant(event: any) {
+    const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
+    buttonElement.blur();
+    const variant = event.detail.value;
+    if (variant === null) {
+      //should not happen
+      this.addPopover.dismiss().then(() => {
+        this.router.navigate(['/tabs/recipes', this.recipe.id, 'variants', 'new']);
+      });
+    } else {
+      this.addPopover.dismiss().then(() => {
+        this.router.navigate(['/tabs/recipes', this.recipe.id, 'variants', 'new'], { state: { variantId: variant.id } });
+      });
+    }
+
   }
 
 

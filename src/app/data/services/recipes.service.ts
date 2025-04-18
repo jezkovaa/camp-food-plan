@@ -578,7 +578,7 @@ export class RecipesService {
   getVariants(recipeID: ID, selectedIds: ID[]): Observable<IRecipeVariant[]> {
     const recipe = this.dummyRecipes.find(recipe => recipe.id === recipeID);
     if (recipe) {
-      return of(recipe.variants.filter(variant => selectedIds.includes(variant.id)));
+      return of(recipe.variants.filter(variant => variant.id && selectedIds.includes(variant.id)));
     }
     return of([]);
   }
@@ -588,7 +588,7 @@ export class RecipesService {
     this.oldRecipes = this.dummyRecipes;
 
     this.dummyRecipes.filter(recipe => recipe.id === recipeId).forEach(recipe => {
-      recipe.variants = recipe.variants.filter(variant => !variantIds.includes(variant.id));
+      recipe.variants = recipe.variants.filter(variant => variant.id && !variantIds.includes(variant.id));
     });
 
     const recipe = this.dummyRecipes.find(recipe => recipe.id === recipeId);
@@ -616,6 +616,9 @@ export class RecipesService {
     const recipe = this.dummyRecipes.find(recipe => recipe.id === variant.recipeId);
     if (recipe) {
       const index = recipe.variants.findIndex(v => v.id === variant.id);
+      if (variant.id === null) {
+        variant.id = 'v' + recipe.variants.length + 1;
+      }
       if (index === -1) {
         recipe.variants.push(variant);
       } else {
@@ -671,7 +674,7 @@ export class RecipesService {
             )
           ) // Filter variants by variantId
           .map(variant => ({
-            variantId: variant.id,
+            variantId: variant.id!,
             variantName: variant.name,
             variantRestrictions: variant.restrictions
           }))

@@ -38,6 +38,10 @@ export class RecipeVariantComponent {
   }
 
   checkboxClick(event: Event) {
+    if (this.variant.id === null) {
+      console.error('Variant ID is null. Cannot emit selection change.');
+      return;
+    }
     this.selectionChanged.emit({ id: this.variant.id, selected: (event.target as HTMLIonCheckboxElement).checked });
   }
 
