@@ -13,7 +13,7 @@
     <ion-list style="margin-top: 5px">
       <ion-reorder-group [disabled]="false" (ionItemReorder)="handleReorder($event)">
         <div *ngFor=" let ingredient of variant.ingredients; let i=index" style="display: flex">
-          <ion-item>
+          <ion-item style="width: 100%;">
             <ion-reorder slot="start"></ion-reorder>
             <ion-textarea [(ngModel)]="ingredients[i].name" name="name" ngDefaultControl
               label="{{'recipes.variant.ingredients.new-name' | translate}}" labelPlacement="stacked" [required]="true"

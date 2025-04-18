@@ -71,7 +71,7 @@ export class RecipeVariantDetailPage implements OnInit {
         if (this.variant === null) {
           return;
         }
-        if (this.recipe && this.recipe.id) {
+        if (this.recipe && this.recipe.id && this.variant.id) {
           this.recipesService.deleteVariant(this.recipe!.id, this.variant.id).subscribe({
             next: async () => {
               this.router.navigate(['/tabs/recipes', this.recipe!.id]);

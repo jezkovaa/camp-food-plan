@@ -106,6 +106,8 @@
       "variants": "Varianty",
       "choose-course": "Vyberte chod",
       "add-variant": "Pridať variantu",
+      "new-variant": "Vytvoriť novú variantu",
+      "existing-variant": "Vytvoriť z existujúcej varianty",
       "selected": "Vybrané",
       "delete-selected": "Vymazať vybrané",
       "no-variants": "Žiadne varianty",

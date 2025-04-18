@@ -17,8 +17,8 @@
 
       <div>
         <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-          <div style="display: flex; align-items: center;">
-            <div *ngIf="recipe" class="header-recipe-name">
+          <div style="display: flex; align-items: center; width: 70%;">
+            <div *ngIf="recipe" class="header-recipe-name" style="width: 100%;">
               <ion-textarea rows="1" [(ngModel)]="recipe.name" placeholder="{{'recipes.new-recipe' |translate}}"
                 label-placement="stacked" label="{{'recipes.recipe' | translate }}" />
 
