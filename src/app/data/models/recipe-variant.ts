@@ -6,14 +6,14 @@ import { IHistoryOfChanges, IIngredient, IProceeding, IRecipeVariant } from "../
 
 export class RecipeVariant implements IRecipeVariant {
   id: ID = "";
-  recipeId: ID;
+  recipeId: ID | null;
   name: string = "";
   ingredients: IIngredient[] = [];
   proceeding: IProceeding[] = [];
   restrictions: FoodRestriction[] = [];
   historyOfChanges: IHistoryOfChanges[] = [];
 
-  constructor(recipeId: ID) {
+  constructor(recipeId: ID | null = null) {
     this.recipeId = recipeId;
   }
 

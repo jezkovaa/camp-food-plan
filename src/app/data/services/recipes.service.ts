@@ -627,11 +627,15 @@ export class RecipesService {
   }
 
 
-  saveRecipe(recipe: IRecipe): Observable<any> {
+  saveRecipe(recipe: IRecipe): Observable<IRecipe> {
 
     this.oldRecipes = this.dummyRecipes;
 
     const index = this.dummyRecipes.findIndex(r => r.id === recipe.id);
+
+    if (recipe.id === null) {
+      recipe.id = 'r' + this.dummyRecipes.length + 1;
+    }
 
     if (index === -1) {
       this.dummyRecipes.push(recipe);

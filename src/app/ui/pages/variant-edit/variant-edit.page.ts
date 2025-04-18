@@ -40,7 +40,7 @@ import { IRecipe } from 'src/app/data/interfaces/recipe.interface';
 })
 export class VariantEditPage implements OnInit {
 
-  @ViewChild(VariantEditComponent) editVariant!: VariantEditComponent;
+  @ViewChild(VariantEditComponent) variantEditComponent!: VariantEditComponent;
 
   recipeId: ID | null = null;
   variantId: ID | null = null;
@@ -48,6 +48,9 @@ export class VariantEditPage implements OnInit {
   variant: IRecipeVariant | null = null;
   initVariant: IRecipeVariant | null = null;
   isCreating = false;
+
+  isCreatingRecipe = false;
+  newRecipeData: IRecipe | null = null;
 
   constructor(private route: ActivatedRoute,
     private recipeService: RecipesService,
@@ -67,12 +70,23 @@ export class VariantEditPage implements OnInit {
         console.error('Recipe ID or Variant ID is missing in the route parameters.');
         return;
       }
-      if (!this.variantId) {
+      else if (this.recipeId === 'new') {
+        this.isCreatingRecipe = true;
+        this.recipeId = null;
+        this.isCreating = true;
+        this.variant = new RecipeVariant(this.recipeId);
+        this.initVariant = cloneDeep(this.variant);
+        const state = this.router.getCurrentNavigation()?.extras.state;
+        if (state) {
+          this.newRecipeData = state['recipeData'] || null;
+        }
+      }
+      if (this.recipeId && !this.variantId) {
         this.isCreating = true;
         this.variant = new RecipeVariant(this.recipeId);
         this.initVariant = cloneDeep(this.variant);
 
-      } else {
+      } else if (this.recipeId && this.variantId) {
         this.recipeService.getVariant(this.recipeId, this.variantId).subscribe({
           next: (variant: IRecipeVariant | null) => {
             this.variant = variant;
@@ -93,7 +107,7 @@ export class VariantEditPage implements OnInit {
   async saveVariant() {
     const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
     buttonElement.blur();
-    const variant = await this.editVariant.getVariant();
+    const variant = await this.variantEditComponent.getVariant();
     if (variant === null) {
       //invalid data in variant
       return;
@@ -104,26 +118,46 @@ export class VariantEditPage implements OnInit {
         this.translateService.instant('recipes.variant.alert.no-changes'),
         this.translateService.instant('recipes.variant.alert.no-changes-message'),
         () => {
-          this.router.navigate(['/tabs/recipes/', this.recipeId]);
+          if (this.isCreatingRecipe) {
+            this.router.navigate(['/tabs/recipes', 'new'], {
+              state: {
+                recipeData: this.newRecipeData,
+              },
+            });
+          }
+          else {
+            this.router.navigate(['/tabs/recipes/', this.recipeId]);
+          }
         });
       await alert.present();
     }
     else if (this.variant) {
-      this.recipeService.saveVariant(this.variant).subscribe({
-        next: (res: IRecipeVariant) => {
-          this.router.navigate(['/tabs/recipes/', res.id]);
-        },
-        error: (err: any) => {
-          console.error('Error saving variant', err);
-        }
-      });
+      if (this.isCreatingRecipe) {
+        this.newRecipeData?.variants.push(variant);
+        this.router.navigate(['/tabs/recipes', 'new'], {
+          state: {
+            recipeData: this.newRecipeData,
+          },
+        });
+      }
+      else {
+        this.recipeService.saveVariant(this.variant).subscribe({
+          next: (res: IRecipeVariant) => {
+            this.router.navigate(['/tabs/recipes/', res.id]);
+          },
+          error: (err: any) => {
+            console.error('Error saving variant', err);
+          }
+        });
+      }
+
     }
   }
 
   async closeVariant() {
     const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
     buttonElement.blur();
-    this.variant = this.editVariant.getVariantWithoutControl();
+    this.variant = this.variantEditComponent.getVariantWithoutControl();
     if (this.variant && !isEqual(this.variant, this.initVariant)) {
       const alert = await this.alertService.presentConfirm(
         this.translateService.instant('recipes.variant.alert.unsaved-changes'),

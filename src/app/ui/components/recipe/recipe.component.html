@@ -13,8 +13,9 @@
       </div>
 
       <div class="recipe-variants-container">
-        <div class="recipe-variant-count">
+        <div class="recipe-variant-count" style="display: flex; align-items: center;">
 
+          <ion-icon *ngIf="recipe.variants.length === 0" name="alert" color="danger"></ion-icon>
           {{"recipes.variant.variants" | translate }}:
           {{ recipe.variants.length }}
 

@@ -6,13 +6,20 @@ import { IonItem, IonButton, IonIcon, IonCheckbox } from "@ionic/angular/standal
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { ID } from 'src/app/types';
+import { addIcons } from 'ionicons';
+import { alert } from 'ionicons/icons';
 
 @Component({
   selector: 'app-recipe',
   templateUrl: './recipe.component.html',
   styleUrls: ['./recipe.component.scss'],
   standalone: true,
-  imports: [IonCheckbox, IonButton, CommonModule, RestrictionComponent, TranslateModule]
+  imports: [
+    IonCheckbox,
+    IonButton,
+    IonIcon,
+
+    CommonModule, RestrictionComponent, TranslateModule]
 })
 export class RecipeComponent implements OnInit {
 
@@ -35,7 +42,9 @@ export class RecipeComponent implements OnInit {
 
   constructor(private router: Router,
     private route: ActivatedRoute,
-  ) { }
+  ) {
+    addIcons({ alert });
+  }
 
   ngOnInit() {
 
