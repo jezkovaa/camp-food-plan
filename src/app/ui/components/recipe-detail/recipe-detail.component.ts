@@ -7,7 +7,7 @@ import { IRecipe } from 'src/app/data/interfaces/recipe.interface';
 import { Course } from 'src/app/data/enums/courses.enum';
 import { CommonModule } from '@angular/common';
 import { addIcons } from 'ionicons';
-import { add, trash } from 'ionicons/icons';
+import { add, alert, trash } from 'ionicons/icons';
 import { RecipesService } from 'src/app/data/services/recipes.service';
 import { CourseListComponent } from '../course-list/course-list.component';
 import { AlertService } from '../../services/alert.service';
@@ -86,7 +86,7 @@ export class RecipeDetailComponent implements OnInit {
     private modalController: ModalController,
     private router: Router) {
 
-    addIcons({ add, trash });
+    addIcons({ add, trash, alert });
 
   }
 
@@ -142,7 +142,11 @@ export class RecipeDetailComponent implements OnInit {
     //todo
     const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
     buttonElement.blur();
-    this.router.navigate(['/tabs/recipes', this.recipe.id, 'variants', 'new']);
+    if (this.recipe.id === null) {
+      this.router.navigate(['/tabs/recipes', 'new', 'variants', 'new'], { state: { recipeData: this.recipe } });
+    } else {
+      this.router.navigate(['/tabs/recipes', this.recipe.id, 'variants', 'new']);
+    }
   }
 
 

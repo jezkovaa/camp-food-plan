@@ -23,7 +23,7 @@ export interface IHistoryOfChanges {
 
 export interface IRecipeVariant {
   id: ID;
-  recipeId: ID;
+  recipeId: ID | null; //null if the recipe is not saved yet
   name: string;
   ingredients: IIngredient[];
   proceeding: IProceeding[];

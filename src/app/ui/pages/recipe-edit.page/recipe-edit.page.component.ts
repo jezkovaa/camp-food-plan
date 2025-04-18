@@ -7,7 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { RecipesService } from 'src/app/data/services/recipes.service';
 import { IRecipe } from 'src/app/data/interfaces/recipe.interface';
 import { addIcons } from 'ionicons';
-import { save, closeCircle } from 'ionicons/icons';
+import { save, closeCircle, alert } from 'ionicons/icons';
 import { FormsModule } from '@angular/forms';
 import cloneDeep from 'lodash/cloneDeep';
 import isEqual from 'lodash/isEqual';
@@ -42,13 +42,18 @@ export class RecipeEditPage implements OnInit {
   initRecipe: IRecipe | null = null;
   isCreating = false;
 
+  get hasRecipeName() {
+    return this.recipe && this.recipe.name && this.recipe.name.length > 0;
+  }
+
+
   constructor(private route: ActivatedRoute,
     private recipesService: RecipesService,
     private router: Router,
     private alertService: AlertService,
     private translateService: TranslateService) {
 
-    addIcons({ save, closeCircle });
+    addIcons({ save, closeCircle, alert });
 
   }
 
@@ -68,8 +73,14 @@ export class RecipeEditPage implements OnInit {
           });
       }
       else {
-        this.isCreating = true;
-        this.recipe = new Recipe();
+        const state = this.router.getCurrentNavigation()?.extras.state;
+        if (state) {
+          this.recipe = state['recipeData'] || null;
+        }
+        else {
+          this.isCreating = true;
+          this.recipe = new Recipe();
+        }
         this.initRecipe = cloneDeep(this.recipe);
       }
     });
@@ -91,15 +102,18 @@ export class RecipeEditPage implements OnInit {
         this.translateService.instant('recipes.alert.no-changes-message'));
       await alert.present();
     }
+    else if (this.recipe && this.recipe.variants && this.recipe.variants.length === 0) {
+      //todo: add alert for no variants
+      const alert = await this.alertService.presentConfirm(
+        this.translateService.instant('recipes.alert.no-variants'),
+        this.translateService.instant('recipes.alert.no-variants-message'),
+        () => {
+          this.saveRecipeToService();
+        });
+      await alert.present();
+    }
     else if (this.recipe) {
-      this.recipesService.saveRecipe(this.recipe).subscribe({
-        next: (res: Recipe) => {
-          this.router.navigate(['/tabs/recipes/', res.id]);
-        },
-        error: (err: any) => {
-          console.error('Error saving recipe', err);
-        }
-      });
+      this.saveRecipeToService();
     }
   }
 
@@ -152,6 +166,21 @@ export class RecipeEditPage implements OnInit {
       this.router.navigate(['/tabs/recipes/', this.recipe?.id]);
     }
 
+  }
+
+  private saveRecipeToService() {
+    if (!this.recipe) {
+      console.error('Recipe is null. Cannot save recipe.');
+      return;
+    }
+    this.recipesService.saveRecipe(this.recipe).subscribe({
+      next: (res: IRecipe) => {
+        this.router.navigate(['/tabs/recipes/', res.id]);
+      },
+      error: (err: any) => {
+        console.error('Error saving recipe', err);
+      }
+    });
   }
 
 }

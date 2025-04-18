@@ -9,7 +9,9 @@
   </ion-row>
 
   <ion-row>
-    <ion-col class="wrap-text custom-title-3 centered-col">
+    <ion-col class="wrap-text custom-title-3 centered-col"
+      style="display: flex; align-items: center; justify-content: center;">
+      <ion-icon *ngIf="recipe.courses.length === 0" name="alert" color="danger" size="large"></ion-icon>
       {{ getCourseNames(recipe.courses) }}
     </ion-col>
     <ion-col class="custom-title-3 centered-col">
@@ -26,9 +28,6 @@
             {{"recipes.recipe-detail.choose-course" | translate}}
           </div>
         </div>
-
-
-
 
       </ion-button>
       <ion-popover id="choose-course-popover" trigger="choose-course" triggerAction="click">
@@ -85,7 +84,11 @@
     </ion-col>
     <ion-col *ngIf="recipe !== null && recipe.variants.length === 0">
 
-      <p>{{"recipes.recipe-detail.no-variants" | translate}}</p>
+      <div style="display: flex; align-items: center;">
+        <ion-icon slot="start" name="alert" size="large" color="danger"></ion-icon>
+        {{"recipes.recipe-detail.no-variants" |
+        translate}}
+      </div>
     </ion-col>
   </ion-row>
 </ion-grid>

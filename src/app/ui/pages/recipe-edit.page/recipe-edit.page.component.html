@@ -5,11 +5,11 @@
         <ion-back-button defaultHref="/recipes" text="" />
       </ion-buttons>
       <div class="upper-part ion-justify-content-end">
-        <ion-buttons slot="end">
-          <ion-button (click)="saveRecipe()" fill="clear">
+        <ion-buttons slot="end" class="buttons-container">
+          <ion-button (click)="saveRecipe()" shape="round">
             <ion-icon slot="icon-only" name="save" color="primary" />
           </ion-button>
-          <ion-button (click)="closeRecipe()" fill="clear" shape="round">
+          <ion-button (click)="closeRecipe()" shape="round">
             <ion-icon slot="icon-only" name="close-circle" color="primary" />
           </ion-button>
         </ion-buttons>
@@ -21,7 +21,9 @@
             <div *ngIf="recipe" class="header-recipe-name">
               <ion-textarea rows="1" [(ngModel)]="recipe.name" placeholder="{{'recipes.new-recipe' |translate}}"
                 label-placement="stacked" label="{{'recipes.recipe' | translate }}" />
+
             </div>
+            <ion-icon *ngIf="!hasRecipeName" name="alert" color="danger" size="large"></ion-icon>
           </div>
 
         </div>
