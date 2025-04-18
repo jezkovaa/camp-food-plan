@@ -32,7 +32,7 @@ import { AlertService } from '../../services/alert.service';
 export class VariantEditComponent implements OnInit {
 
   @Input() variant: IRecipeVariant | null = null;
-  @Output() ingredientsChangedEvent = new EventEmitter<IIngredient[]>();
+  // @Output() ingredientsChangedEvent = new EventEmitter<IIngredient[]>();
 
   ingredients: IIngredient[] = [];
   proceeding: IProceeding[] = [];
@@ -62,11 +62,11 @@ export class VariantEditComponent implements OnInit {
 
   removeIngredient(index: number) {
     this.ingredients.splice(index, 1);
-    this.ingredientsChangedEvent.emit(this.ingredients);
+    // this.ingredientsChangedEvent.emit(this.ingredients);
   }
 
   ingredientsChanged() {
-    this.ingredientsChangedEvent.emit(this.ingredients);
+    //this.ingredientsChangedEvent.emit(this.ingredients);
   }
 
   handleReorder(event: any) {
@@ -79,8 +79,8 @@ export class VariantEditComponent implements OnInit {
   }
 
   addStep() {
-    const maxOrder = this.proceeding.length > 0 
-      ? Math.max(...this.proceeding.map(step => step.order)) 
+    const maxOrder = this.proceeding.length > 0
+      ? Math.max(...this.proceeding.map(step => step.order))
       : 0;
     this.proceeding.push({ order: maxOrder + 1, description: '' });
   }
@@ -138,6 +138,10 @@ export class VariantEditComponent implements OnInit {
     this.proceeding = this.proceeding.filter(step => step.description !== '');
     this.variant.proceeding = this.proceeding;
     return this.variant;
+  }
+
+  removeStep(index: number) {
+    this.proceeding.splice(index, 1);
   }
 
   private validateIngredients(): boolean {

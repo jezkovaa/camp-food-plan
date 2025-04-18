@@ -58,5 +58,10 @@
       <ion-textarea [(ngModel)]="proceeding[i].description" name="proceedingDescription"
         label="{{'recipes.variant.proceeding.new-step' | translate}}" labelPlacement="stacked" [required]="true"
         placeholder="{{'recipes.variant.proceeding.description' | translate}}" />
+      <ion-buttons slot="end">
+        <ion-button (click)="removeStep(i)" fill="clear" size="small" style="margin-left: 10px;">
+          <ion-icon slot="icon-only" name="trash" />
+        </ion-button>
+      </ion-buttons>
     </div>
   </div>
