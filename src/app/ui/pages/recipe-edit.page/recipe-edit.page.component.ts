@@ -103,7 +103,6 @@ export class RecipeEditPage implements OnInit {
       await alert.present();
     }
     else if (this.recipe && this.recipe.variants && this.recipe.variants.length === 0) {
-      //todo: add alert for no variants
       const alert = await this.alertService.presentConfirm(
         this.translateService.instant('recipes.alert.no-variants'),
         this.translateService.instant('recipes.alert.no-variants-message'),
