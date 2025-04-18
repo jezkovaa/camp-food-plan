@@ -8,6 +8,8 @@
         <ion-icon slot="icon-only" name="add" />
       </ion-button>
     </div>
+    <div class="ion-padding-start" style="color: var(--ion-color-medium)">{{"recipes.variant.ingredients.one-person" |
+      translate }}</div>
     <ion-list style="margin-top: 5px">
       <ion-reorder-group [disabled]="false" (ionItemReorder)="handleReorder($event)">
         <div *ngFor=" let ingredient of variant.ingredients; let i=index" style="display: flex">
