@@ -143,7 +143,7 @@ export class VariantEditPage implements OnInit {
       else {
         this.recipeService.saveVariant(this.variant).subscribe({
           next: (res: IRecipeVariant) => {
-            this.router.navigate(['/tabs/recipes/', res.id]);
+            this.router.navigate(['/tabs/recipes/', this.recipeId, 'variants', res.id]);
           },
           error: (err: any) => {
             console.error('Error saving variant', err);
