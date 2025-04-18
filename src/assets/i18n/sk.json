@@ -124,6 +124,7 @@
         "new-amount": "Množstvo",
         "entry-amount": "např. 4",
         "new-unit": "Jednotka",
+        "one-person": "Zadejte množstvo pre jednu osobu",
         "units": {
           "GRAMS": "g",
           "KILOGRAMS": "kg",
