@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { IonButton, IonIcon } from "@ionic/angular/standalone";
+import { IonButton, IonIcon, PopoverController } from "@ionic/angular/standalone";
 import { TranslateService } from '@ngx-translate/core';
 import { SortOption } from 'src/app/data/enums/sort-options.enum';
 
@@ -21,7 +21,9 @@ export class SortOptionsComponent implements OnInit {
 
   @Output() optionChanged = new EventEmitter<SortOption>();
 
-  constructor(private translateService: TranslateService) { }
+  constructor(private translateService: TranslateService,
+    private popoverController: PopoverController
+  ) { }
 
   ngOnInit() { }
 
@@ -43,6 +45,6 @@ export class SortOptionsComponent implements OnInit {
   selectOption(option: SortOption) {
     const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
     buttonElement.blur();
-    this.optionChanged.emit(option);
+    this.popoverController.dismiss(option);
   }
 }

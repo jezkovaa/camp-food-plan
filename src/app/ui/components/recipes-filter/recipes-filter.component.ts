@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { IonTitle, IonButton, IonIcon, IonList, IonItem, IonCheckbox, IonLabel, IonButtons } from "@ionic/angular/standalone";
+import { IonTitle, IonButton, IonIcon, IonList, IonItem, IonCheckbox, IonLabel, PopoverController } from "@ionic/angular/standalone";
 import { Course } from 'src/app/data/enums/courses.enum';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { RestrictionHelpComponent } from "../restriction-help/restriction-help.component";
@@ -33,7 +33,9 @@ export class RecipesFilterComponent implements OnInit {
 
   courses = Object.values(Course);
 
-  constructor(private translateService: TranslateService) {
+  constructor(private translateService: TranslateService,
+    private popoverController: PopoverController
+  ) {
   }
 
   ngOnInit() {
@@ -62,7 +64,8 @@ export class RecipesFilterComponent implements OnInit {
       courses: this.selectedCourses,
       restrictions: this.selectedRestrictions
     };
-    this.filterChanged.emit(this.filter);
+    // this.filterChanged.emit(this.filter);
+    this.popoverController.dismiss(this.filter);
   }
 
   courseValue(course: Course): boolean {

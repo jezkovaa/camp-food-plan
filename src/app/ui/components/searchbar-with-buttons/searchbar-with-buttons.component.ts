@@ -107,7 +107,14 @@ export class SearchbarWithButtonsComponent implements OnInit {
       }
     });
     await popover.present();
+
+    const { data } = await popover.onDidDismiss();
+    if (data) {
+      this.filterChanged(data);
+      //this.filterPopover.dismiss();
+    }
   }
+
 
   async sortButtonClicked(event: any) {
     const popover = await this.popoverController.create({
@@ -123,8 +130,8 @@ export class SearchbarWithButtonsComponent implements OnInit {
     await popover.present();
 
     const { data } = await popover.onDidDismiss();
-    if (data && data.optionChanged) {
-      this.sortOptionChanged(data.optionChanged); // Call your method with the emitted value
+    if (data) {
+      this.sortOptionChanged(data); // Call your method with the emitted value
     }
   }
 
@@ -158,13 +165,10 @@ export class SearchbarWithButtonsComponent implements OnInit {
       }
     }
     this.filterChangedEvent.emit(this.filter);
-    this.filterPopover.dismiss();
-
   }
 
   sortOptionChanged(option: SortOption) {
     this.sortOption = option;
-    this.sortPopover.dismiss();
     this.sortOptionChangedEvent.emit(this.sortOption);
   }
 
