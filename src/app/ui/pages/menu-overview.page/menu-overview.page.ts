@@ -5,7 +5,6 @@ import { IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonBackButton,
 import { DayMenuOverviewComponent } from "../../components/day-menu-overview/day-menu-overview.component";
 import { IDayMeal, IDayMealRecipe, IDayMealRecipeVariant, IDayMenu } from 'src/app/data/interfaces/day-menu.interface';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BasePlanningService } from 'src/app/data/services/base-planning.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ID } from 'src/app/types';
 import { IPlannedEvent } from 'src/app/data/interfaces/planned-event.interface';
@@ -16,14 +15,18 @@ import { RecipeService } from 'src/app/data/services/recipe.service';
 import { VariantService } from 'src/app/data/services/variant.service';
 import { PlannedEventService } from 'src/app/data/services/planned-event.service';
 import { IDayMealExtended, IDayMealRecipeExtended, IDayMealRecipeVariantExtended, IPlannedEventExtended } from 'src/app/data/interfaces/planned-event-extended.interface';
-import { IRecipe } from 'src/app/data/interfaces/recipe.interface';
-import { image } from 'ionicons/icons';
-import { async, finalize, lastValueFrom } from 'rxjs';
+import { finalize, lastValueFrom } from 'rxjs';
 import { AlertService } from '../../services/alert.service';
 import { firstValueFrom } from 'rxjs';
 import { LoadingService } from '../../services/loading.service';
+import { pdfDefaultOptions } from 'ngx-extended-pdf-viewer';
 
+import { FileOpener } from '@ionic-native/file-opener/ngx';
+import { Directory, Filesystem } from '@capacitor/filesystem';
+
+import { Platform } from '@ionic/angular';
 (<any>pdfMake).addVirtualFileSystem(pdfFonts);
+pdfDefaultOptions.assetsFolder = 'bleeding-edge';
 
 @Component({
   selector: 'app-menu-overview',
@@ -39,7 +42,8 @@ import { LoadingService } from '../../services/loading.service';
     CommonModule,
     FormsModule,
     TranslateModule,
-    DayMenuOverviewComponent]
+    DayMenuOverviewComponent],
+  providers: [FileOpener]
 })
 export class MenuOverviewPage implements OnInit {
 
@@ -47,14 +51,15 @@ export class MenuOverviewPage implements OnInit {
   dates: Date[] = [];
 
   constructor(private route: ActivatedRoute,
-    private planningService: BasePlanningService,
     private plannedEventService: PlannedEventService,
     private translateService: TranslateService,
     private recipesService: RecipeService,
     private variantService: VariantService,
     private alertService: AlertService,
     private loadingService: LoadingService,
-    private router: Router) { }
+    private router: Router,
+    private plt: Platform,
+    private fileOpener: FileOpener) { }
 
   ngOnInit() {
 
@@ -135,18 +140,75 @@ export class MenuOverviewPage implements OnInit {
     }
 
 
+    const content = await this.getPdfContent(this.event, this.event.dateFrom, this.event.dateTo);
+
+    // Define the document structure
+    const docDefinition = {
+      content: content,
+      styles: {
+        header: {
+          fontSize: 18,
+          bold: true,
+          margin: [0, 10, 0, 10] as [number, number, number, number],
+        },
+        subheader: {
+          fontSize: 14,
+          bold: true,
+          margin: [0, 10, 0, 5] as [number, number, number, number],
+        },
+        menuDate: {
+          fontSize: 12,
+          italics: true,
+          margin: [0, 5, 0, 5] as [number, number, number, number],
+        },
+      },
+    };
+
+    // Generate the PDF
+    const pdfObj = pdfMake.createPdf(docDefinition);
+
+
+    if (this.plt.is('cordova')) {
+      pdfObj.getBase64(async (base64: string) => {
+        try {
+          let path = 'demopdfs/demoionic5pdf.pdf';
+          const result = await Filesystem.writeFile({
+            path,
+            data: base64,
+            directory: Directory.Documents,
+            recursive: true
+          });
+          this.fileOpener.open(result.uri, 'application/pdf');
+        } catch (error) {
+          console.error('Error writing file:', error);
+        }
+      });
+
+    } else {
+      pdfObj.download('menu.pdf');
+    }
+  }
+
+  navigateToDayMenu(menu: IDayMenu) {
+    if (this.event === null) {
+      return;
+    }
+    this.router.navigate(['/tabs/planning/events', this.event.id, "menu", menu.id]);
+  }
+
+  private async getPdfContent(event: IPlannedEvent, dateFrom: Date, dateTo: Date) {
     const content = [];
 
     let data: IPlannedEventExtended = {
-      id: this.event.id,
-      name: this.event.name,
-      dateFrom: this.event.dateFrom,
-      dateTo: this.event.dateTo,
+      id: event.id,
+      name: event.name,
+      dateFrom: dateFrom,
+      dateTo: dateTo,
       participants: [],
       menu: []
     };
 
-    data.menu = await Promise.all(this.event.menu.map(async (menu: IDayMenu) => {
+    data.menu = await Promise.all(event.menu.map(async (menu: IDayMenu) => {
       return {
         id: menu.id,
         date: menu.date,
@@ -212,38 +274,7 @@ export class MenuOverviewPage implements OnInit {
       }
 
     });
-
-    // Define the document structure
-    const docDefinition = {
-      content: content,
-      styles: {
-        header: {
-          fontSize: 18,
-          bold: true,
-          margin: [0, 10, 0, 10] as [number, number, number, number],
-        },
-        subheader: {
-          fontSize: 14,
-          bold: true,
-          margin: [0, 10, 0, 5] as [number, number, number, number],
-        },
-        menuDate: {
-          fontSize: 12,
-          italics: true,
-          margin: [0, 5, 0, 5] as [number, number, number, number],
-        },
-      },
-    };
-
-    // Generate the PDF
-    pdfMake.createPdf(docDefinition).open();
-  }
-
-  navigateToDayMenu(menu: IDayMenu) {
-    if (this.event === null) {
-      return;
-    }
-    this.router.navigate(['/tabs/planning/events', this.event.id, "menu", menu.id]);
+    return content;
   }
 
   private menuIsComplete(): boolean {

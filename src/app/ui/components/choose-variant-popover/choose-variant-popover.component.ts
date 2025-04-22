@@ -14,7 +14,7 @@ import { LoadingService } from '../../services/loading.service';
   templateUrl: './choose-variant-popover.component.html',
   styleUrls: ['./choose-variant-popover.component.scss'],
   standalone: true,
-  imports: [IonTitle, IonButtons, IonButton, IonContent, IonHeader, IonToolbar,
+  imports: [IonButtons, IonButton,
     IonInput,
 
     CommonModule,

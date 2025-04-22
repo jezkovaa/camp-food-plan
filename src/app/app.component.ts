@@ -3,6 +3,7 @@ import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
 import { TranslateService } from '@ngx-translate/core';
 import { StatusBar } from '@capacitor/status-bar';
 import { PushNotifications } from '@capacitor/push-notifications';
+import { Filesystem } from '@capacitor/filesystem';
 
 @Component({
   selector: 'app-root',
@@ -18,6 +19,7 @@ export class AppComponent {
       StatusBar.setOverlaysWebView({ overlay: false });
       StatusBar.setBackgroundColor({ color: '#ffffff' });
       this.requestNotificationPermission();
+      this.requestFileNotificationPermission();
     }
   }
 
@@ -29,6 +31,18 @@ export class AppComponent {
       console.log('Oznámení zamítnuta.');
     }
   }
+
+  async requestFileNotificationPermission() {
+    const permission = await Filesystem.requestPermissions();
+    if (permission.publicStorage === 'granted') {
+      console.log('Přístup k souborům povolen!');
+    } else {
+      console.log('Přístup k souborům zamítnut.');
+    }
+
+  }
+
+
 
 
 }
