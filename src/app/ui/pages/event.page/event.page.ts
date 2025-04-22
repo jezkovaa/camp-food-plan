@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonPopover, IonButton, IonIcon, IonLabel, IonItem, IonButtons, IonBackButton } from '@ionic/angular/standalone';
@@ -12,6 +12,7 @@ import { PlannedEventService } from 'src/app/data/services/planned-event.service
 import { TranslateModule } from '@ngx-translate/core';
 import { finalize } from 'rxjs';
 import { LoadingService } from '../../services/loading.service';
+import { ID } from 'src/app/types';
 
 @Component({
   selector: 'app-event',
@@ -32,6 +33,8 @@ import { LoadingService } from '../../services/loading.service';
 export class EventPage implements OnInit {
 
   event: IPlannedEvent | null = null;
+
+  @ViewChild('selectPopover') popover!: IonPopover;
 
   constructor(private route: ActivatedRoute,
     private plannedEventService: PlannedEventService,
@@ -67,6 +70,8 @@ export class EventPage implements OnInit {
     //todo
     const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
     buttonElement.blur();
+
+    this.router.navigate(['tabs/planning/events/', this.event?.id, 'edit']);
   }
 
 
@@ -87,6 +92,11 @@ export class EventPage implements OnInit {
     const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
     buttonElement.blur();
     this.router.navigate(['tabs/planning/events/', this.event?.id, 'shopping-lists']);
+  }
+
+  selectionChanged(selectedEventId: ID) {
+    this.popover.dismiss();
+    this.router.navigate(['tabs/planning/events/', selectedEventId]);
   }
 
 };
