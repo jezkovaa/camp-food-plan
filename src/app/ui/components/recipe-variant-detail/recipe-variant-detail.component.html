@@ -3,7 +3,7 @@
     [ngClass]="{ 'ion-padding-bottom': !ingredientsVisible }">
     <div class="top-part">
       <ion-label class="custom">{{"recipes.variant.ingredients.title" | translate}}</ion-label>
-      <ion-button (click)="toggleIngredients()" fill="clear" size="small">
+      <ion-button (click)="toggleIngredients()" fill="clear" size="small" shape="round">
         <ion-icon slot="icon-only" [name]="getIcon(ingredientsVisible)" />
       </ion-button>
     </div>
@@ -12,7 +12,7 @@
         <div *ngFor="let ingredient of variant.ingredients">
           <ion-item>
             <ion-label>{{ ingredient.name }}</ion-label>
-            <div> {{ingredient.quantity}} {{ingredient.unit}}</div>
+            <div> {{ingredient.quantity}} {{"recipes.variant.ingredients.units." + ingredient.unit | translate }}</div>
             <ion-reorder slot="end" />
           </ion-item>
         </div>
@@ -24,11 +24,14 @@
     [ngClass]="{ 'ion-padding-bottom': !proceedingVisible }">
     <div class="top-part">
       <ion-label class="custom">{{"recipes.variant.proceeding.title" | translate}}</ion-label>
-      <ion-button (click)="toggleProceeding()" fill="clear" size="small">
+      <ion-button (click)="toggleProceeding()" fill="clear" size="small" shape="round">
         <ion-icon slot="icon-only" [name]="getIcon(proceedingVisible)" />
       </ion-button>
     </div>
     <ion-grid *ngIf="proceedingVisible" class="grid">
+      <div *ngIf="variant.proceeding.length === 0" class="no-data">
+        <p style="padding-left: 16px;">{{"recipes.variant.no-proceeding" | translate}}</p>
+      </div>
       <ion-row *ngFor="let item of variant.proceeding" class="ion-align-items-center">
         <ion-col class="order">
           {{ item.order }}
@@ -44,7 +47,7 @@
     [ngClass]="{ 'ion-padding-bottom': !changesVisible }">
     <div class="top-part">
       <ion-label class="custom">{{"recipes.variant.history-of-changes" | translate}}</ion-label>
-      <ion-button (click)="toggleChanges()" fill="clear" size="small">
+      <ion-button (click)="toggleChanges()" fill="clear" size="small" shape="round">
         <ion-icon slot="icon-only" [name]="getIcon(changesVisible)" />
       </ion-button>
     </div>

@@ -6,6 +6,8 @@ import { Input } from '@angular/core';
 import { IRecipeVariant } from 'src/app/data/interfaces/recipe-variant.interface';
 import { IFilterOptions } from 'src/app/data/interfaces/filter-options.interface';
 import { SortOption } from 'src/app/data/enums/sort-options.enum';
+import { IDayMeal, IDayMealRecipeVariant } from 'src/app/data/interfaces/day-menu.interface';
+import { ID } from 'src/app/types';
 
 @Component({
   selector: 'app-variants-list',
@@ -19,6 +21,7 @@ export class VariantsListComponent implements OnInit, OnChanges {
   @Input({ required: true }) variants: IRecipeVariant[] = [];
   @Input() isEditing = false;
   @Input() isChoosing = false;
+  @Input() selectedVariants: IDayMealRecipeVariant[] = [];
 
   @Input() searchValue = '';
   @Input() filter: IFilterOptions | null = null;
@@ -26,6 +29,7 @@ export class VariantsListComponent implements OnInit, OnChanges {
 
 
   @Output() selectedCountChanged = new EventEmitter<string[]>();
+  @Output() openVariantEvent = new EventEmitter<ID>();
 
   filteredVariants: IRecipeVariant[] = [];
   selectedIds: string[] = [];
@@ -53,6 +57,14 @@ export class VariantsListComponent implements OnInit, OnChanges {
     this.sortVariants();
   }
 
+  isSelected(variantId: ID | null): boolean {
+    if (variantId === null) {
+      console.error('Variant ID is null. Cannot check if selected.');
+      return false;
+    }
+    return this.filteredVariants.length === 1 || this.selectedVariants.some(variant => variant.variantId === variantId);
+  }
+
   selectionChanged(e: any) {
     if (e.selected && !this.selectedIds.includes(e.id)) {
       this.selectedIds.push(e.id);
@@ -61,6 +73,10 @@ export class VariantsListComponent implements OnInit, OnChanges {
       this.selectedIds = this.selectedIds.filter(id => id !== e.id);
     }
     this.selectedCountChanged.emit(this.selectedIds);
+  }
+
+  openVariant(variantId: ID) {
+    this.openVariantEvent.emit(variantId);
   }
 
   private applySearchValue() {
@@ -90,9 +106,11 @@ export class VariantsListComponent implements OnInit, OnChanges {
     if (!this.filter || !this.filter.restrictions) {
       return true;
     }
-    if (this.filter.restrictions.length === 0) {
+    if (this.filter.restrictions.size === 0) {
       return true;
     }
-    return variant.restrictions.some(restriction => this.filter && this.filter.restrictions && this.filter.restrictions.includes(restriction));
+
+    // Check if the variant has any restrictions that are in the filter
+    return [...this.filter.restrictions].some(restriction => variant.restrictions.has(restriction));
   }
 }

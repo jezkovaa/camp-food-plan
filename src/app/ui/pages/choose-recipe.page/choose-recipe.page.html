@@ -23,6 +23,6 @@
       </ion-fab-button>
     </ion-fab>
     <app-recipes-list [recipes]="recipes" [sortOption]="sortOption" [searchValue]="searchValue" [filter]="filter"
-      [isChoosing]="true" />
+      [isChoosing]="true" [chosenRecipes]="chosenRecipes" (navigateToRecipeEvent)="navigateToRecipe($event)" />
   </ion-content>
 </div>

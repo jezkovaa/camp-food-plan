@@ -20,7 +20,7 @@ import { IonLabel, IonCheckbox } from "@ionic/angular/standalone";
 export class RestrictionHelpComponent implements OnInit {
 
   @Input() isSelectable = false;
-  @Input() selectedRestrictions: FoodRestriction[] = [];
+  @Input() selectedRestrictions: Set<FoodRestriction> = new Set<FoodRestriction>();
   @Output() selectedRestrictionsChanged = new EventEmitter<any>();
 
   restrictions = Object.values(FoodRestriction).filter(value => value !== FoodRestriction.NONE) as FoodRestriction[];
@@ -33,8 +33,14 @@ export class RestrictionHelpComponent implements OnInit {
     return this.translateService.instant(`food-restriction.${restriction}`);
   }
 
+  getRestriction(restriction: FoodRestriction): Set<FoodRestriction> {
+    const restrictionSet = new Set<FoodRestriction>();
+    restrictionSet.add(restriction);
+    return restrictionSet;
+  }
+
   getValue(restriction: FoodRestriction): boolean {
-    return this.selectedRestrictions.includes(restriction);
+    return this.selectedRestrictions.has(restriction);
   }
 
   checkboxClick(restriction: FoodRestriction, event: Event) {

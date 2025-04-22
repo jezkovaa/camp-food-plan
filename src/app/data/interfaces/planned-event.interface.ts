@@ -14,5 +14,5 @@ export interface IPlannedEvent {
 
 export interface IParticipant {
   id: ID;
-  restrictions: FoodRestriction[];
+  restrictions: Set<FoodRestriction>;
 }

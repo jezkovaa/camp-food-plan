@@ -17,8 +17,8 @@
         <ion-popover id="date-selection-popover" trigger="date-selection" triggerAction="click" size="auto">
           <ng-template>
             <ion-content class="ion-padding">
-              <ion-datetime #datepicker [value]="dayMenu?.date?.toISOString()" [min]="getDateFromISOString"
-                [max]="getDateToISOString" [locale]="getCurrentLang" presentation="date"
+              <ion-datetime #datepicker [value]="dayMenu?.date?.toISOString()" [min]="getDateFromISOString()"
+                [max]="getDateToISOString()" [locale]="getCurrentLang" presentation="date"
                 (ionChange)="dateChanged($event)" [highlightedDates]="highlightedDates" />
             </ion-content>
 
@@ -40,14 +40,14 @@
     <ion-list style=" gap: 10px;
     flex-direction: column;
     display: flex;
-    height: 100%;
     justify-content: space-around;
     align-items: center;">
       <div *ngFor="let course of courses" style="width: 100%; 
       display: flex; justify-content: center;">
         <ion-item style="width: 100%;" class="my-item">
           <div *ngIf="courseExists(course)" style="width: 100%;">
-            <app-meal [meal]="getMealForCourse(course)" (deleteMealEvent)="deleteMeal($event)" />
+            <app-meal [meal]="getMealForCourse(course)" (deleteMealEvent)="deleteMeal($event)"
+              (editMealEvent)="editMeal($event)" />
           </div>
           <div *ngIf="!courseExists(course)" class="no-meal-container ion-padding" style="width: 100%;">
             <div>

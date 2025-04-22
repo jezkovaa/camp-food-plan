@@ -27,6 +27,6 @@ export interface IRecipeVariant {
   name: string;
   ingredients: IIngredient[];
   proceeding: IProceeding[];
-  restrictions: FoodRestriction[];
+  restrictions: Set<FoodRestriction>;
   historyOfChanges: IHistoryOfChanges[];
 }

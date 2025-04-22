@@ -3,14 +3,71 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/planning" text="" />
     </ion-buttons>
-    <ion-title>meal-detail</ion-title>
+    <div class="ion-justify-content-end" style="display: flex;">
+      <ion-buttons class="buttons-container" slot="end">
+        <ion-button (click)="save()" [disabled]="isAnyChange" shape="round">
+          <ion-icon slot="icon-only" name="save" />
+        </ion-button>
+        <ion-button (click)=" close()" shape="round">
+          <ion-icon slot="icon-only" name="close-circle" />
+        </ion-button>
+      </ion-buttons>
+    </div>
+
+    <div>
+      <div class="ion-padding-bottom" style="display: flex; justify-content: space-between;">
+        <ion-title>{{"planning.day-menu.meal" | translate}} {{courseName}} {{date?.toLocaleDateString()}}</ion-title>
+      </div>
+    </div>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">meal-detail</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content [fullscreen]="true" class="ion-padding">
+
+  <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+    <div>
+      {{"recipes.title" | translate}}
+    </div>
+    <div>
+      <ion-button (click)="addRecipe()" color="primary" size="small" shape="round">
+        <ion-icon slot="icon-only" name="add" />
+      </ion-button>
+    </div>
+  </div>
+
+  <ion-list style="width: 100%;" *ngIf="meal">
+    <ion-item *ngFor="let recipe of meal.chosenRecipes" detail="false" lines="none"
+      style="display: flex; box-shadow: var(--box-shadow); border-radius: var(--radius);">
+      <div style="display: flex; flex-direction: column; width: 100%;">
+        <div class=" ion-padding recipe-part"
+          style="display: flex; align-items: center; justify-content: space-between;">
+          <ion-label style="font-weight: bold;">{{getRecipeName(recipe.recipeId)}}</ion-label>
+          <div class="buttons-container">
+            <ion-button (click)="editRecipe(recipe.recipeId)" color="primary" size="small" shape="round" slot="end">
+              <ion-icon slot="icon-only" name="pencil" />
+            </ion-button>
+            <ion-button (click)="deleteRecipe(recipe.recipeId)" color="danger" size="small" shape="round" slot="end">
+              <ion-icon slot="icon-only" name="trash" />
+            </ion-button>
+          </div>
+
+        </div>
+        <div *ngFor="let variant of recipe.variants" class="ion-padding ion-padding-start"
+          style="margin-left: 10px; display: flex; align-items: center; justify-content: space-between; gap: 5px">
+          <ion-label>{{getVariantName(recipe.recipeId, variant.variantId)}}</ion-label>
+          <app-restriction [inputRestrictions]="getRestrictions(recipe.recipeId, variant.variantId)"></app-restriction>
+
+
+          <ion-input [(ngModel)]="variant.portions" type="number" placeholder="0" style="width: 50px;"
+            label="{{'planning.day-menu.portions.title' | translate }}" labelPlacement="stacked"></ion-input>
+          <ion-button (click)="deleteVariant(recipe.recipeId, variant.variantId)" color="danger" size="small" slot="end"
+            shape="round">
+            <ion-icon slot="icon-only" name="trash" />
+          </ion-button>
+        </div>
+      </div>
+
+    </ion-item>
+  </ion-list>
+
 </ion-content>

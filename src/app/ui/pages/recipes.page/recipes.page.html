@@ -30,7 +30,8 @@
         <ion-icon name="add"></ion-icon>
       </ion-fab-button>
     </ion-fab>
-    <app-recipes-list [recipes]="recipes" [sortOption]="sortOption" [searchValue]="searchValue" [filter]="filter" />
+    <app-recipes-list [recipes]="recipes" [sortOption]="sortOption" [searchValue]="searchValue" [filter]="filter"
+      (navigateToRecipeEvent)="navigateToRecipe($event)" />
 
   </ion-content>
 </div>

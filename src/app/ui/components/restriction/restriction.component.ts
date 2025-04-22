@@ -14,7 +14,7 @@ import { CommonModule } from '@angular/common';
 export class RestrictionComponent {
 
 
-  @Input() inputRestrictions: FoodRestriction[] = [];
+  @Input() inputRestrictions: Set<FoodRestriction> = new Set<FoodRestriction>();
 
   restrictions = FoodRestriction;
 

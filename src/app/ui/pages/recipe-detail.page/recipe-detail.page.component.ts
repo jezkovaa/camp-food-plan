@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { RecipesService } from '../../../data/services/recipes.service';
+import { RecipeService } from '../../../data/services/recipe.service';
+import { MenuService } from '../../../data/services/menu.service';
 import { IonHeader, IonToolbar, IonContent, IonButtons, IonButton, IonIcon, IonBackButton, PopoverController, IonPopover } from '@ionic/angular/standalone';
 import { IRecipe } from '../../../data/interfaces/recipe.interface';
 import { CommonModule } from '@angular/common';
@@ -10,10 +11,13 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { RecipesPage } from '../recipes.page/recipes.page';
 import { RecipeDetailComponent } from '../../components/recipe-detail/recipe-detail.component';
 import { AlertService } from '../../services/alert.service';
-import { IDayMeal, IDayMealRecipe } from 'src/app/data/interfaces/day-menu.interface';
+import { IDayMeal, IDayMealRecipe, IDayMealRecipeVariant, IDayMenu } from 'src/app/data/interfaces/day-menu.interface';
 import { ID } from 'src/app/types';
-import { PlanningService } from 'src/app/data/services/planning.service';
+import { BasePlanningService } from 'src/app/data/services/base-planning.service';
 import { Course } from 'src/app/data/enums/courses.enum';
+import { NotificationService } from '../../services/notification.service';
+import { LoadingService } from '../../services/loading.service';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-recipe.page',
@@ -41,6 +45,7 @@ export class RecipeDetailPage implements OnInit {
   course: Course = Course.BREAKFAST;
 
   selectedRecipes: ID[] = [];
+  selectedVariants: IDayMealRecipeVariant[] = [];
 
   dayMenuId: ID | null = null;
 
@@ -48,11 +53,13 @@ export class RecipeDetailPage implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private recipesService: RecipesService,
+    private recipesService: RecipeService,
     private router: Router,
     private alertService: AlertService,
     private translateService: TranslateService,
-    private planningService: PlanningService
+    private menuService: MenuService,
+    private notificationService: NotificationService,
+    private loadingService: LoadingService
 
   ) {
 
@@ -65,11 +72,14 @@ export class RecipeDetailPage implements OnInit {
     this.isPlanningRoute = firstSegment === 'planning';
 
     if (this.isPlanningRoute) {
-      this.route.params.subscribe(params => {
-        const recipeId = params['recipeId'];
+      this.route.params.subscribe(async params => {
         this.dayMenuId = params['dayMenuId'];
         this.course = params['course'];
-        this.recipesService.getRecipe(recipeId).subscribe((recipe: IRecipe) => {
+        const recipeId = params['recipeId'];
+        const loading = await this.loadingService.showLoading();
+        await loading.present();
+        this.recipesService.getById(recipeId).subscribe((recipe: IRecipe | null) => {
+          loading.dismiss();
           this.recipe = recipe;
         });
       });
@@ -77,13 +87,16 @@ export class RecipeDetailPage implements OnInit {
       const state = this.router.getCurrentNavigation()?.extras.state;
       if (state) {
         this.selectedRecipes = state['selectedRecipesArray'] || [];
-
+        this.selectedVariants = state['selectedVariants'] || [];
       }
     }
 
-    this.route.params.subscribe(params => {
+    this.route.params.subscribe(async params => {
       const recipeId = params['recipeId'];
-      this.recipesService.getRecipe(recipeId).subscribe((recipe: IRecipe) => {
+      const loading = await this.loadingService.showLoading();
+      await loading.present();
+      this.recipesService.getById(recipeId).subscribe((recipe: IRecipe | null) => {
+        loading.dismiss();
         this.recipe = recipe;
       });
     });
@@ -135,39 +148,64 @@ export class RecipeDetailPage implements OnInit {
     const alert = await this.alertService.presentConfirm(
       this.translateService.instant('alert.delete-confirm'),
       message,
-      () => {
+      async () => {
         const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
         buttonElement.blur();
         if (this.recipe && this.recipe.id) {
-          this.recipesService.deleteRecipe(this.recipe.id).subscribe({
-            next: async () => {
-              this.router.navigate(['/tabs/recipes']);
-              const alert = await this.alertService.deleteSuccess();
-              await alert.present();
+          const loading = await this.loadingService.showLoading();
+          await loading.present();
+          this.recipesService.deleteById(this.recipe.id)
+            .pipe(
+              finalize(() => loading.dismiss()))
+            .subscribe({
+              next: async (recipes: IRecipe[]) => {
+                const toast = await this.notificationService.presentToast(
+                  this.translateService.instant('alert.recipe-deleted'),
+                );
+                await toast.present();
+                this.router.navigate(['/tabs/recipes'], {
+                  state: {
+                    recipes: recipes
+                  }
+                });
+              },
+              error: async (err: any) => {
+                const alert = await this.alertService.deleteError(err);
+                await alert.present();
+              }
 
-            },
-            error: async (err: any) => {
-              const alert = await this.alertService.deleteError(err);
-              await alert.present();
-            }
-          });
+
+            });
         }
       }
     );
     await alert.present();
   }
 
-  portionsChanged(meal: IDayMeal) {
+  async portionsChanged(meal: IDayMeal) {
     if (this.dayMenuId === null) {
       return;
     }
-    this.planningService.updateMenu(this.dayMenuId, meal.course, meal.chosenRecipes).subscribe({
-      next: () => {
+    const loading = await this.loadingService.showLoading();
+    await loading.present();
+    this.menuService.updateMenu(this.dayMenuId, meal.course, meal.chosenRecipes).pipe(
+      finalize(() => loading.dismiss())
+    ).subscribe({
+      next: (dayMenu: IDayMenu) => {
+
         if (this.selectedRecipes.length > 0) {
+          //variants for one recipe are chosen, need to choose other recipes variants
           const id = this.selectedRecipes.shift();
           this.router.navigate(['../', id], { relativeTo: this.route, state: { selectedRecipesArray: this.selectedRecipes } });
         } else {
-          this.router.navigate(['../../../'], { relativeTo: this.route });
+          if (this.isPlanningRoute && this.selectedVariants.length > 0) {
+            //no more recipes to choose, navigate back
+            this.router.navigate(['../../edit'], { relativeTo: this.route });
+          } else {
+
+            this.router.navigate(['../../../'], { relativeTo: this.route });
+          }
+          //no more recipes to choose, navigate back
         }
         //path: 'planning/events/:eventId/menu/:dayMenuId/:course/recipe/:recipeId',
       },
@@ -175,6 +213,20 @@ export class RecipeDetailPage implements OnInit {
         console.error('Error updating menu:', error);
       }
     });
+  }
+
+  navigateToNewVariantNewRecipe(recipe: IRecipe) {
+    this.router.navigate(['/tabs/recipes', 'new', 'variants', 'new'], { state: { recipeData: recipe } });
+  }
+
+  navigateToNewVariant(variantId: ID | null) {
+    if (this.recipe === null) {
+      return;
+    }
+    if (variantId) {
+      this.router.navigate(['/tabs/recipes', this.recipe.id, 'variants', 'new'], { state: { variantId: variantId } });
+    }
+    this.router.navigate(['/tabs/recipes', this.recipe.id, 'variants', 'new']);
   }
 
 }

@@ -16,6 +16,6 @@
 
   </ion-button>
   <div *ngIf="isEditing || isChoosing" class="to-delete-checkbox ion-padding-end">
-    <ion-checkbox (ionChange)=" checkboxClick($event)" />
+    <ion-checkbox (ionChange)=" checkboxClick($event)" [checked]="isSelected" />
   </div>
 </div>

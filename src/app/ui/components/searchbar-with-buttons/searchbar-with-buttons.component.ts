@@ -70,7 +70,7 @@ export class SearchbarWithButtonsComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.filter && this.filter.courses && this.filter.courses.length > 0) {
+    if (this.filter && this.filter.courses && this.filter.courses.size > 0) {
       this.filter.courses.forEach((course) => {
         this.appliedFilters.push({
           name: this.translateService.instant(`courses.${course}`),
@@ -145,7 +145,7 @@ export class SearchbarWithButtonsComponent implements OnInit {
     this.filter = filter;
     this.appliedFilters = [];
     if (this.filter) {
-      if (this.filter.courses.length > 0) {
+      if (this.filter.courses.size > 0) {
         this.filter.courses.forEach((course) => {
           this.appliedFilters.push({
             name: this.translateService.instant(`courses.${course}`),
@@ -154,7 +154,7 @@ export class SearchbarWithButtonsComponent implements OnInit {
           });
         });
       }
-      if (this.filter.restrictions.length > 0) {
+      if (this.filter.restrictions.size > 0) {
         this.filter.restrictions.forEach((restriction) => {
           this.appliedFilters.push({
             name: this.translateService.instant(`food-restriction.${restriction}`),
@@ -181,28 +181,28 @@ export class SearchbarWithButtonsComponent implements OnInit {
     buttonElement.blur();
     if (filter.type === FilterType.COURSE) {
 
-      if (Object.values(Course).includes(filter.value as Course) && this.filter?.courses.includes(filter.value as Course)) {
+      if (Object.values(Course).includes(filter.value as Course) && this.filter?.courses.has(filter.value as Course)) {
         if (this.filter?.courses) {
-          this.filter.courses = this.filter.courses.filter((_, i) => i !== this.filter!.courses!.indexOf(filter.value as Course));
+          this.filter.courses.delete(filter.value as Course);
           this.filter = cloneDeep(this.filter);
         }
       }
-    } else if (Object.values(FoodRestriction).includes(filter.value as FoodRestriction) && this.filter?.restrictions.includes(filter.value as FoodRestriction)) {
+    } else if (Object.values(FoodRestriction).includes(filter.value as FoodRestriction) && this.filter?.restrictions.has(filter.value as FoodRestriction)) {
       if (this.filter?.restrictions) {
-        this.filter.restrictions = this.filter.restrictions.filter((_, i) => i !== this.filter!.restrictions!.indexOf(filter.value as FoodRestriction));
+        this.filter.restrictions.delete(filter.value as FoodRestriction);
         this.filter = cloneDeep(this.filter);
       }
     }
     this.appliedFilters.splice(this.appliedFilters.indexOf(filter), 1);
 
-    this.filter ? this.filterChangedEvent.emit(this.filter) : this.filterChangedEvent.emit({ courses: [], restrictions: [] });
+    this.filter ? this.filterChangedEvent.emit(this.filter) : this.filterChangedEvent.emit({ courses: new Set<Course>(), restrictions: new Set<FoodRestriction>() });
   }
 
-  getFilterValue(value: Course | FoodRestriction): FoodRestriction[] {
+  getFilterValue(value: Course | FoodRestriction): Set<FoodRestriction> {
     if (Object.values(FoodRestriction).includes(value as FoodRestriction)) {
-      return [value as FoodRestriction];
+      return new Set<FoodRestriction>([value as FoodRestriction]);
     }
-    return [];
+    return new Set<FoodRestriction>();
   }
 
   isFoodRestrictionFilter(type: FilterType): boolean {

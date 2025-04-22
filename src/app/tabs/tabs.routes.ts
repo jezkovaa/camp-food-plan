@@ -79,15 +79,15 @@ export const routes: Routes = [
         component: DayMenuPage
       },
       {
-        path: 'planning/events/:eventId/menu/:dayMenuId/:course',
+        path: 'planning/events/:eventId/menu/:dayMenuId/:course/recipes',
         component: ChooseRecipePage
       },
       {
-        path: 'planning/events/:eventId/menu/:dayMenuId/:course/recipe/:recipeId',
+        path: 'planning/events/:eventId/menu/:dayMenuId/:course/recipes/:recipeId',
         component: RecipeDetailPage
       },
       {
-        path: 'planning/events/:eventId/menu/:dayMenuId/:mealId',
+        path: 'planning/events/:eventId/menu/:dayMenuId/meal/:mealId',
         component: MealDetailPage
       },
       {

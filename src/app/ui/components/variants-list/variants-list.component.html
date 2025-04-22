@@ -1,6 +1,7 @@
 <ion-list id=variants-list>
   <div *ngFor="let variant of filteredVariants">
     <app-recipe-variant [variant]="variant" [isEditing]="isEditing" [isChoosing]="isChoosing"
-      (selectionChanged)="selectionChanged($event)" />
+      [isSelected]="isSelected(variant.id)" (selectionChanged)="selectionChanged($event)"
+      (openVariantEvent)="openVariant($event)" />
   </div>
 </ion-list>

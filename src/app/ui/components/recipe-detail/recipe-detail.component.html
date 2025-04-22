@@ -88,8 +88,9 @@
   <ion-row *ngIf="variantsListToBeDisplayed">
 
     <app-variants-list [variants]="recipe.variants" [filter]="filter" [searchValue]="searchValue"
-      [sortOption]="sortOption" [isEditing]="isEditing" [isChoosing]="isChoosing"
-      (selectedCountChanged)="selectedCountChanged($event)" style="width: 100%;" />
+      [sortOption]="sortOption" [isEditing]="isEditing" [isChoosing]="isChoosing" [selectedVariants]="selectedVariants"
+      (selectedCountChanged)="selectedCountChanged($event)" (openVariantEvent)="openVariant($event)"
+      style="width: 100%;" />
 
   </ion-row>
   <ion-row>

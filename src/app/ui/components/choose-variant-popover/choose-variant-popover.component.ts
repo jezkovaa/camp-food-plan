@@ -1,12 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { IRecipeVariant } from 'src/app/data/interfaces/recipe-variant.interface';
-import { RecipesService } from 'src/app/data/services/recipes.service';
+import { VariantService } from 'src/app/data/services/variant.service';
 import { ID } from 'src/app/types';
-import { IonText, IonInput, IonToolbar, IonHeader, IonContent, IonItem, IonButton, IonButtons, IonTitle, ModalController } from "@ionic/angular/standalone";
+import { IonText, IonInput, IonToolbar, IonHeader, IonContent, IonItem, IonButton, IonButtons, IonTitle, PopoverController } from "@ionic/angular/standalone";
 import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
+import { LoadingService } from '../../services/loading.service';
 
 @Component({
   selector: 'app-choose-variant-popover',
@@ -32,14 +33,16 @@ export class ChooseVariantPopoverComponent implements OnInit {
     return this.selectedItems.every(item => item.portions !== undefined && item.portions > 0);
   }
 
-  constructor(private recipesService: RecipesService,
-    private modalController: ModalController,
-    private route: ActivatedRoute
+  constructor(private variantService: VariantService,
+    private popoverController: PopoverController,
+    private loadingService: LoadingService,
   ) { }
 
-  ngOnInit() {
-    this.recipesService.getVariants(this.recipeId, this.selectedIds).subscribe({
-      next: async (variants) => {
+  async ngOnInit() {
+    const loading = await this.loadingService.showLoading();
+    await loading.present();
+    this.variantService.getVariants(this.recipeId, this.selectedIds).subscribe({
+      next: async (variants: IRecipeVariant[]) => {
         this.selectedItems = variants.map((variant: IRecipeVariant) => {
           return {
             variantId: variant.id,
@@ -47,9 +50,11 @@ export class ChooseVariantPopoverComponent implements OnInit {
             portions: undefined
           };
         });
+        loading.dismiss();
       },
       error: (err) => {
         console.error('Error fetching variants:', err);
+        loading.dismiss();
       }
     });
 
@@ -58,13 +63,13 @@ export class ChooseVariantPopoverComponent implements OnInit {
   cancel() {
     const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
     buttonElement.blur();
-    this.modalController.dismiss();
+    this.popoverController.dismiss();
   }
 
   confirm() {
     const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
     buttonElement.blur();
-    this.modalController.dismiss(this.selectedItems);
+    this.popoverController.dismiss(this.selectedItems);
   }
 
 }

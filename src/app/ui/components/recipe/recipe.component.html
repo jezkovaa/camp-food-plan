@@ -31,6 +31,6 @@
   </ion-button>
 
   <!-- Choose Button -->
-  <ion-checkbox *ngIf="isChoosing" (ionChange)="selectionChanged($event)" class="choose-button">
+  <ion-checkbox *ngIf="isChoosing" [checked]="isSelected" (ionChange)="selectionChanged($event)" class="choose-button">
   </ion-checkbox>
 </div>

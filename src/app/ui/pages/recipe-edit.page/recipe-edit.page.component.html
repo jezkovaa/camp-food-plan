@@ -6,7 +6,7 @@
       </ion-buttons>
       <div class="upper-part ion-justify-content-end">
         <ion-buttons slot="end" class="buttons-container">
-          <ion-button (click)="saveRecipe()" shape="round">
+          <ion-button (click)="saveRecipe()" [disabled]="!isAnyChange" shape="round">
             <ion-icon slot="icon-only" name="save" color="primary" />
           </ion-button>
           <ion-button (click)="closeRecipe()" shape="round">
@@ -16,8 +16,8 @@
       </div>
 
       <div>
-        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-          <div style="display: flex; align-items: center; width: 70%;">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 10px; width: 100%;">
+          <div style="display: flex; align-items: center; ">
             <div *ngIf="recipe" class="header-recipe-name" style="width: 100%;">
               <ion-textarea rows="1" [(ngModel)]="recipe.name" placeholder="{{'recipes.new-recipe' |translate}}"
                 label-placement="stacked" label="{{'recipes.recipe' | translate }}" />

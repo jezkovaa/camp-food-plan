@@ -7,24 +7,26 @@ import {
   IonToolbar,
   IonButtons,
   IonButton,
-  IonIcon, IonContent, IonLabel, IonPopover
+  IonIcon, IonContent, IonLabel, IonPopover, IonDatetime
 } from "@ionic/angular/standalone";
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { cloneDeep, isEqual } from 'lodash';
 import { IPlannedEvent } from 'src/app/data/interfaces/planned-event.interface';
-import { PlanningService } from 'src/app/data/services/planning.service';
+import { PlannedEventService } from 'src/app/data/services/planned-event.service';
 import { AlertService } from 'src/app/ui/services/alert.service';
 import { CalendarComponentOptions, IonRangeCalendarComponent } from '@googlproxer/ion-range-calendar';
 import { addIcons } from 'ionicons';
-import { closeCircle, save } from 'ionicons/icons';
+import { close, closeCircle, save } from 'ionicons/icons';
 import { PlannedEvent } from 'src/app/data/models/planned-event';
+import { LoadingService } from '../../services/loading.service';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-event-edit.page',
   templateUrl: './event-edit.page.html',
   styleUrls: ['./event-edit.page.scss'],
   standalone: true,
-  imports: [IonPopover, IonLabel, IonContent,
+  imports: [IonDatetime, IonPopover, IonLabel, IonContent,
     IonTextarea,
     IonBackButton,
     IonHeader,
@@ -52,30 +54,58 @@ export class EventEditPage implements OnInit {
     pickMode: 'range'
   };
 
+  dateRange: { from: string; to: string; } = { from: '', to: '' };
+
+  get isAnyChange() {
+
+    if (this.event && this.initEvent) {
+      return !isEqual(this.event, this.initEvent);
+    }
+    if (this.event && !this.initEvent) {
+      if (this.event.dateFrom && this.event.dateTo && this.event.name) {
+        return true;
+      }
+      return false;
+    }
+    if (this.initEvent && !this.event) {
+      return true;
+    }
+    return false;
+  }
+
+  get hasName() {
+    return this.event && this.event.name && this.event.name.length > 0;
+  }
+
 
   constructor(private route: ActivatedRoute,
-    private planningService: PlanningService,
+    private plannedEventService: PlannedEventService,
     private alertService: AlertService,
     private translateService: TranslateService,
+    private loadingService: LoadingService,
     private router: Router
   ) {
 
-    addIcons({ save, closeCircle });
+    addIcons({ save, closeCircle, close });
 
   }
 
   ngOnInit() {
 
-    this.route.params.subscribe(params => {
+    this.route.params.subscribe(async params => {
       const eventId = params['eventId'];
       if (eventId) {
         this.isCreating = false;
-        this.planningService.getEvent(eventId).subscribe({
+        const loading = await this.loadingService.showLoading();
+        await loading.present();
+        this.plannedEventService.getById(eventId).subscribe({
           next: (event: IPlannedEvent) => {
+            loading.dismiss();
             this.event = cloneDeep(event);
             this.initEvent = event;
           },
           error: (err: any) => {
+            loading.dismiss();
             console.error('Error getting event', err);
           }
         });
@@ -83,8 +113,9 @@ export class EventEditPage implements OnInit {
         this.isCreating = true;
         this.event = new PlannedEvent();
       }
-
+      this.initDateRange();
     });
+
   }
 
 
@@ -92,11 +123,15 @@ export class EventEditPage implements OnInit {
     const same = isEqual(this.event, this.initEvent);
     if (this.isCreating) { //creating new event and nothing filled
       if (this.event && await this.validateEvent()) {
-        this.planningService.saveEvent(this.event).subscribe({
+        const loading = await this.loadingService.showLoading();
+        await loading.present();
+        this.plannedEventService.saveItem(this.event).subscribe({
           next: (res: IPlannedEvent) => {
+            loading.dismiss();
             this.router.navigate(['/tabs/planning/events/', res.id]);
           },
           error: (err: any) => {
+            loading.dismiss();
             console.error('Error saving event', err);
           }
         });
@@ -110,13 +145,18 @@ export class EventEditPage implements OnInit {
 
     }
     else if (this.event) { //saving changes
-      await this.planningService.saveEvent(this.event).subscribe({
+      const loading = await this.loadingService.showLoading();
+      await loading.present();
+      this.plannedEventService.saveItem(this.event).pipe(
+        finalize(() => loading.dismiss())
+      ).subscribe({
         next: (res: IPlannedEvent) => {
           this.router.navigate(['/tabs/planning/events/', res.id]);
         },
         error: (err: any) => {
           console.error('Error saving event', err);
-        }
+        },
+
       });
     }
   }
@@ -169,11 +209,10 @@ export class EventEditPage implements OnInit {
 
   }
 
-  dateRange(): { from: string; to: string; } {
+  initDateRange(): void {
     if (this.event?.dateFrom && this.event?.dateTo) {
-      return { from: this.event.dateFrom.toDateString(), to: this.event.dateTo.toDateString() };
+      this.dateRange = { from: this.event.dateFrom.toDateString(), to: this.event.dateTo.toDateString() };
     }
-    return { from: new Date().toDateString(), to: new Date().toDateString() };
   }
 
   onDidDismiss(event: any) {
@@ -181,6 +220,14 @@ export class EventEditPage implements OnInit {
       this.event.dateFrom = event.from;
       this.event.dateTo = event.to;
       this.calendar.dismiss();
+    }
+  }
+
+  clearDateRange() {
+    if (this.event) {
+      this.event.dateFrom = null;
+      this.event.dateTo = null;
+      this.dateRange = { from: '', to: '' };
     }
   }
 

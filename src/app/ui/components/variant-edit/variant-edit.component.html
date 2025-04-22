@@ -4,7 +4,7 @@
     <div class="ion-padding-start ion-padding-end"
       style="display: flex; justify-content: space-between; align-items: center;">
       <ion-label class="custom">{{'recipes.variant.ingredients.title' | translate}}</ion-label>
-      <ion-button (click)="addIngredient()">
+      <ion-button (click)="addIngredient()" shape="round">
         <ion-icon slot="icon-only" name="add" />
       </ion-button>
     </div>
@@ -12,34 +12,38 @@
       translate }}</div>
     <ion-list style="margin-top: 5px">
       <ion-reorder-group [disabled]="false" (ionItemReorder)="handleReorder($event)">
-        <div *ngFor=" let ingredient of variant.ingredients; let i=index" style="display: flex">
-          <ion-item style="width: 100%;">
-            <ion-reorder slot="start"></ion-reorder>
-            <ion-textarea [(ngModel)]="ingredients[i].name" name="name" ngDefaultControl
-              label="{{'recipes.variant.ingredients.new-name' | translate}}" labelPlacement="stacked" [required]="true"
-              minlength="2" class="ion-text-wrap ingredient-name" type="text"
-              placeholder="{{'recipes.variant.ingredients.entry-name' | translate }}"
-              (ionChange)="ingredientsChanged()" />
-            <ion-input [(ngModel)]="ingredients[i].quantity" name="quantity" ngDefaultControl
-              label="{{'recipes.variant.ingredients.new-amount' | translate }}" type="number" [required]="true"
-              labelPlacement="stacked" placeholder="{{'recipes.variant.ingredients.entry-amount' | translate}}"
-              labelPlacement="stacked" min="1" (ionChange)="ingredientsChanged()" style="height: 100%;" />
-            <ion-select label="{{'recipes.variant.ingredients.new-unit' | translate }}" labelPlacement="stacked"
-              placeholder="Vybrat..." [value]="ingredients[i].unit" (ionChange)="selectUnit(i, $event)"
-              style="height: 100%;">
+        <div *ngFor=" let ingredient of formArray.controls; let i=index" style="display: flex">
+          <form [formGroup]="getFormGroup(i)">
+            <ion-item style="width: 100%;">
+              <ion-reorder slot="start"></ion-reorder>
+              <ion-textarea formControlName="name" label="{{'recipes.variant.ingredients.new-name' | translate}}"
+                labelPlacement="stacked" [required]="true" minlength="2" class="ion-text-wrap ingredient-name"
+                type="text" placeholder="{{'recipes.variant.ingredients.entry-name' | translate }}"
+                (ionChange)="ingredientsChanged()" />
+              <ion-input formControlName="quantity" label="{{'recipes.variant.ingredients.new-amount' | translate }}"
+                type="number" [required]="true" labelPlacement="stacked"
+                placeholder="{{'recipes.variant.ingredients.entry-amount' | translate}}" labelPlacement="stacked"
+                min="1" (ionChange)="ingredientsChanged()" style="height: 100%;" />
+              <ion-select label="{{'recipes.variant.ingredients.new-unit' | translate }}" labelPlacement="stacked"
+                formControlName="unit" placeholder="{{'common.choose' | translate}}" (ionChange)="selectUnit(i, $event)"
+                cancelText="{{'common.cancel' | translate}}" style="height: 100%;">
 
-              <div *ngFor="let unit of units">
-                <ion-select-option [value]="unit">{{ unit }}</ion-select-option>
+                <div *ngFor="let unit of units">
+                  <ion-select-option [value]="unit">{{ 'recipes.variant.ingredients.units.' + unit | translate
+                    }}</ion-select-option>
 
-              </div>
-            </ion-select>
-            <ion-buttons slot="end">
-              <ion-button (click)="removeIngredient(i)" fill="clear" size="small" style="margin-left: 10px;">
-                <ion-icon slot="icon-only" name="trash" />
-              </ion-button>
-            </ion-buttons>
+                </div>
+              </ion-select>
+              <ion-buttons slot="end">
+                <ion-button (click)="removeIngredient(i)" shape="round" fill="clear" size="small"
+                  style="margin-left: 10px;">
+                  <ion-icon slot="icon-only" name="trash" />
+                </ion-button>
+              </ion-buttons>
 
-          </ion-item>
+            </ion-item>
+          </form>
+
 
         </div>
       </ion-reorder-group>
@@ -49,19 +53,24 @@
     style="box-shadow: var(--box-shadow); border-radius: var(--radius);">
     <div style="display: flex; justify-content: space-between; align-items: center">
       <ion-label class="custom">{{'recipes.variant.proceeding.title' | translate}}</ion-label>
-      <ion-button (click)="addStep()">
+      <ion-button (click)="addStep()" shape="round">
         <ion-icon slot="icon-only" name="add" />
       </ion-button>
     </div>
-    <div *ngFor="let step of variant.proceeding; let i = index" style="display: flex; align-items: center; gap: 10px;">
-      <div class="order">{{i+1}}</div>
-      <ion-textarea [(ngModel)]="proceeding[i].description" name="proceedingDescription"
-        label="{{'recipes.variant.proceeding.new-step' | translate}}" labelPlacement="stacked" [required]="true"
-        placeholder="{{'recipes.variant.proceeding.description' | translate}}" />
-      <ion-buttons slot="end">
-        <ion-button (click)="removeStep(i)" fill="clear" size="small" style="margin-left: 10px;">
-          <ion-icon slot="icon-only" name="trash" />
-        </ion-button>
-      </ion-buttons>
+    <div *ngFor="let step of proceedingFormArray.controls; let i = index">
+
+      <form [formGroup]="getProceedingFormGroup(i)" style="display: flex; align-items: center; gap: 10px;">
+        <input type="hidden" formControlName="order" />
+        <div class="order">{{i+1}}</div>
+        <ion-textarea label="{{'recipes.variant.proceeding.new-step' | translate}}" labelPlacement="stacked"
+          [required]="true" formControlName="description"
+          placeholder="{{'recipes.variant.proceeding.description' | translate}}" />
+        <ion-buttons slot="end">
+          <ion-button (click)="removeStep(i)" fill="clear" size="small" style="margin-left: 10px;" shape="round">
+            <ion-icon slot="icon-only" name="trash" />
+          </ion-button>
+        </ion-buttons>
+      </form>
+
     </div>
   </div>

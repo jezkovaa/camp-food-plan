@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 import { StatusBar } from '@capacitor/status-bar';
 import { PushNotifications } from '@capacitor/push-notifications';
 

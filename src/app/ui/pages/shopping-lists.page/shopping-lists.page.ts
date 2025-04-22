@@ -4,10 +4,13 @@ import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonToolbar, IonLabel, IonButton, IonButtons, IonCol, IonGrid, IonRow, IonPopover, IonSearchbar, IonBackButton } from '@ionic/angular/standalone';
 import { TranslateModule } from '@ngx-translate/core';
 import { ActivatedRoute } from '@angular/router';
-import { PlanningService } from 'src/app/data/services/planning.service';
+import { ShoppingListService } from 'src/app/data/services/shopping-list.service';
+import { PlannedEventService } from 'src/app/data/services/planned-event.service';
 import { IPlannedEvent } from 'src/app/data/interfaces/planned-event.interface';
 import { IShoppingList } from 'src/app/data/interfaces/shopping-list.interface';
 import { ShoppingListComponent } from '../../components/shopping-list/shopping-list.component';
+import { finalize } from 'rxjs';
+import { LoadingService } from '../../services/loading.service';
 
 @Component({
   selector: 'app-shopping-lists',
@@ -38,14 +41,20 @@ export class ShoppingListsPage implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private planningService: PlanningService
+    private plannedEventService: PlannedEventService,
+    private shoppingListService: ShoppingListService,
+    private loadingService: LoadingService
   ) { }
 
   ngOnInit() {
 
-    this.route.params.subscribe((params: any) => {
+    this.route.params.subscribe(async (params: any) => {
       const eventId = params['eventId'];
-      this.planningService.getEvent(eventId).subscribe({
+      const loading = await this.loadingService.showLoading();
+      await loading.present();
+      this.plannedEventService.getById(eventId).pipe(
+        finalize(() => loading.dismiss())
+      ).subscribe({
         next: (event: IPlannedEvent) => {
           this.event = event;
           this.getShoppingLists();
@@ -58,14 +67,20 @@ export class ShoppingListsPage implements OnInit {
     });
   }
 
-  getShoppingLists() {
+  async getShoppingLists() {
     if (this.event === null) {
       return;
-    } this.planningService.getShoppingLists(this.event.id).subscribe({
-      next: (shoppingLists) => {
+
+    }
+    const loading = await this.loadingService.showLoading();
+    await loading.present();
+    this.shoppingListService.getShoppingLists(this.event.id).pipe(
+      finalize(() => loading.dismiss())
+    ).subscribe({
+      next: (shoppingLists: IShoppingList[]) => {
         this.shoppingLists = shoppingLists;
       },
-      error: (error) => {
+      error: (error: any) => {
         console.error(error);
       }
     });

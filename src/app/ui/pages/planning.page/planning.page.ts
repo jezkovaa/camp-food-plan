@@ -5,10 +5,12 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { addIcons } from 'ionicons';
 import { add, chevronDown } from 'ionicons/icons';
 import { IPlannedEvent } from 'src/app/data/interfaces/planned-event.interface';
-import { PlanningService } from 'src/app/data/services/planning.service';
+import { PlannedEventService } from 'src/app/data/services/planned-event.service';
 import { SelectEventComponent } from '../../components/select-popover/select-event.component';
 import { PopoverController } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { finalize } from 'rxjs';
+import { LoadingService } from '../../services/loading.service';
 
 @Component({
   selector: 'app-planning',
@@ -36,16 +38,21 @@ export class PlanningPage implements OnInit {
 
   @ViewChild(IonPopover) popover!: IonPopover;
 
-  constructor(private planningService: PlanningService,
+  constructor(private plannedEventService: PlannedEventService,
     private translateService: TranslateService,
+    private loadingService: LoadingService,
     private router: Router
   ) {
     addIcons({ add, chevronDown });
   }
 
-  ngOnInit() {
-    this.planningService.getPlannedEvents().subscribe({
-      next: (plannedEvents) => {
+  async ngOnInit() {
+    const loading = await this.loadingService.showLoading();
+    await loading.present();
+    this.plannedEventService.getAll().pipe(
+      finalize(() => loading.dismiss())
+    ).subscribe({
+      next: (plannedEvents: IPlannedEvent[]) => {
         this.plannedEvents = plannedEvents;
       },
       error: (error) => {

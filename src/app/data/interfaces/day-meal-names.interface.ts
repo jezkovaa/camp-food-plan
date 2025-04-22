@@ -4,7 +4,7 @@ import { FoodRestriction } from "../enums/food-restriction.enum";
 export interface IDayMealVariantNames {
   variantId: ID,
   variantName: string;
-  variantRestrictions: FoodRestriction[];
+  variantRestrictions: Set<FoodRestriction>;
 };
 
 export interface IDayMealRecipeNames {

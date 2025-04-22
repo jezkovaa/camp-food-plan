@@ -3,7 +3,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { IDayMeal } from 'src/app/data/interfaces/day-menu.interface';
 import { Course } from 'src/app/data/enums/courses.enum';
-import { RecipesService } from 'src/app/data/services/recipes.service';
+import { RecipeService } from 'src/app/data/services/recipe.service';
 import { ID } from 'src/app/types';
 import { IonButtons, IonButton, IonIcon } from "@ionic/angular/standalone";
 import { addIcons } from 'ionicons';
@@ -11,6 +11,8 @@ import { chevronDown, chevronUp, eye, pencil, people, trash } from 'ionicons/ico
 import { IDayMealRecipeNames } from 'src/app/data/interfaces/day-meal-names.interface';
 import { RestrictionComponent } from '../restriction/restriction.component';
 import { FoodRestriction } from 'src/app/data/enums/food-restriction.enum';
+import { finalize } from 'rxjs';
+import { LoadingService } from '../../services/loading.service';
 
 @Component({
   selector: 'app-meal',
@@ -36,6 +38,7 @@ export class MealComponent implements OnInit {
 
   @Input({ required: true }) meal!: IDayMeal;
   @Output() deleteMealEvent = new EventEmitter<ID>();
+  @Output() editMealEvent = new EventEmitter<ID>();
 
   recipeNames: IDayMealRecipeNames[] = [];
 
@@ -64,8 +67,9 @@ export class MealComponent implements OnInit {
     return this.detailsVisible ? 'chevron-up' : 'chevron-down';
   }
 
-  constructor(private recipesService: RecipesService,
-    private translateService: TranslateService
+  constructor(private recipesService: RecipeService,
+    private translateService: TranslateService,
+    private loadingService: LoadingService
   ) {
 
     addIcons({ pencil, trash, people, chevronDown, chevronUp });
@@ -82,9 +86,11 @@ export class MealComponent implements OnInit {
 
   }
 
-  getRecipeNames() {
+  async getRecipeNames() {
 
-    this.recipesService.getNames(this.meal.chosenRecipes).subscribe({
+    const loading = await this.loadingService.showLoading();
+    await loading.present();
+    this.recipesService.getNames(this.meal.chosenRecipes).pipe(finalize(() => loading.dismiss())).subscribe({
       next: (recipeNames: IDayMealRecipeNames[]) => {
         this.recipeNames = recipeNames;
       },
@@ -98,6 +104,8 @@ export class MealComponent implements OnInit {
   editMeal() {
     const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
     buttonElement.blur();
+
+    this.editMealEvent.emit(this.meal.id);
     //todo
   }
 
@@ -139,8 +147,8 @@ export class MealComponent implements OnInit {
     return usedVariant.portions;
   }
 
-  existingRestrictions(restrictions: FoodRestriction[]): boolean {
-    return !(restrictions.length === 0 || (restrictions.length === 1 && restrictions[0] === FoodRestriction.NONE));
+  existingRestrictions(restrictions: Set<FoodRestriction>): boolean {
+    return !(restrictions.size === 0 || (restrictions.size === 1 && restrictions.has(FoodRestriction.NONE)));
   }
 
 }

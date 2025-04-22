@@ -10,7 +10,7 @@ export class RecipeVariant implements IRecipeVariant {
   name: string = "";
   ingredients: IIngredient[] = [];
   proceeding: IProceeding[] = [];
-  restrictions: FoodRestriction[] = [];
+  restrictions: Set<FoodRestriction> = new Set<FoodRestriction>();
   historyOfChanges: IHistoryOfChanges[] = [];
 
   constructor(recipeId: ID | null = null) {

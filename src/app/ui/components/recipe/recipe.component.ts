@@ -26,13 +26,16 @@ export class RecipeComponent implements OnInit {
   @Input({ required: true }) recipe!: IRecipe;
   @Input() isEditing = false;
   @Input() isChoosing = false;
+  @Input() isSelected = false;
 
   @Output() selectionChangedEvent = new EventEmitter<{ recipeId: ID, selected: boolean; }>();
+
+  @Output() navigateToRecipeEvent = new EventEmitter<ID>();
 
   get existingVariantsRestrictions() {
     let existingRestriction = false;
     this.recipe.variants.forEach(variant => {
-      if (variant.restrictions.length > 0) {
+      if (variant.restrictions.size > 0) {
         existingRestriction = true;
         return;
       }
@@ -64,12 +67,11 @@ export class RecipeComponent implements OnInit {
   openRecipe() {
     const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
     buttonElement.blur();
-    if (this.isChoosing) {
-
-      this.router.navigate(['./recipe', this.recipe.id], { relativeTo: this.route });
-    } else {
-      this.router.navigate(['/tabs/recipes', this.recipe.id]);
+    if (this.recipe.id === null) {
+      console.error('Recipe ID is null. Cannot emit navigateToRecipeEvent.');
+      return;
     }
+    this.navigateToRecipeEvent.emit(this.recipe.id);
   }
 
 }

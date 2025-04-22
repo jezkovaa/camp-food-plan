@@ -5,7 +5,7 @@
     <div *ngFor=" let restriction of restrictions" style="display: flex; align-items: center; gap: 5px">
       <ion-checkbox *ngIf="isSelectable" [checked]="getValue(restriction)"
         (ionChange)="checkboxClick(restriction, $event)"></ion-checkbox>
-      <app-restriction [inputRestrictions]="[restriction]"></app-restriction>
+      <app-restriction [inputRestrictions]="getRestriction(restriction)"></app-restriction>
       <div>{{getRestrictionText(restriction)}}</div>
     </div>
   </div>

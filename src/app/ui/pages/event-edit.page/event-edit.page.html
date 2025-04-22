@@ -5,8 +5,8 @@
         <ion-back-button defaultHref="/planning" text="" />
       </ion-buttons>
       <div class="upper-part ion-justify-content-end">
-        <ion-buttons slot="end">
-          <ion-button (click)="saveEvent()" shape="round">
+        <ion-buttons slot="end" class="buttons-container">
+          <ion-button (click)="saveEvent()" [disabled]="!isAnyChange" shape="round">
             <ion-icon slot="icon-only" name="save" />
           </ion-button>
           <ion-button (click)=" closeEvent()" shape="round">
@@ -21,6 +21,7 @@
             <ion-textarea rows="1" [(ngModel)]="event.name" placeholder="{{'planning.event.empty-name' |translate }}"
               label-placement="stacked" label="{{'planning.event.title' | translate }}" />
           </div>
+          <ion-icon *ngIf="!hasName" name="alert" color="danger" size="large"></ion-icon>
         </div>
       </div>
     </ion-toolbar>
@@ -28,19 +29,36 @@
 
   <ion-content class="ion-padding">
     <div *ngIf="event !== null" class="content">
-      <ion-button fill="clear" id="choose-date">
+      <ion-button fill="clear" id="choose-date-1" style="width: 80%;">
         <ion-icon slot="start" name="calendar" />
         <ion-label *ngIf="event.dateFrom && event.dateTo">{{event.dateFrom | date:'dd.MM.yyyy'}} - {{event.dateTo |
           date:'dd.MM.yyyy'}}</ion-label>
         <ion-label *ngIf="!event.dateFrom || !event.dateTo">{{"planning.event.choose-date" | translate}}</ion-label>
       </ion-button>
-      <ion-popover id="choose-date-popover" trigger="choose-date" triggerAction="click" size="cover">
+      <ion-button (click)="clearDateRange()" slot="end" shape="round" size="small" fill="clear"
+        [disabled]="!event.dateFrom">
+        <ion-icon slot="icon-only" name="close" />
+      </ion-button>
+      <!-- <ion-button fill="clear" id="choose-date-2">
+        <ion-icon slot="start" name="calendar" />
+      </ion-button> -->
+      <ion-popover id="choose-date-popover-1" trigger="choose-date-1" triggerAction="click" size="cover">
         <ng-template>
-          <ion-range-calendar [(ngModel)]="dateRange" [options]="optionsRange" type="string" [format]="'yyyy-MM-dd'"
+          <!--ion-datetime [(ngModel)]="event.dateFrom" /-->
+          <ion-range-calendar [(ngModel)]="dateRange" [options]="optionsRange" type="string" format="yyyy-MM-dd"
             (ionChange)="onDidDismiss($event)">
-          </ion-range-calendar>
+          </ion-range-calendar> >
+
         </ng-template>
       </ion-popover>
+      <!--ion-popover id="choose-date-popover-2" trigger="choose-date-2" triggerAction="click" size="cover">
+          <ng-template>
+            <ion-datetime [(ngModel)]="event.dateTo" [min]="event.dateFrom" [disabled]="!event.dateFrom" />
+            <!-- <ion-range-calendar [(ngmodel)]="daterange" [options]="optionsrange" type="string" [format]="'yyyy-mm-dd'"
+              (ionchange)="ondiddismiss($event)">
+            </ion-range-calendar>>
+          </ng-template>
+        </ion-popover-->
     </div>
   </ion-content>
 </div>

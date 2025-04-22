@@ -6,7 +6,7 @@
       </ion-buttons>
       <div class="ion-justify-content-end ion-padding-top ion-padding-bottom" style="display: flex; ">
         <ion-buttons slot="end" class="buttons-container">
-          <ion-button (click)="saveVariant()" shape="round" size="small">
+          <ion-button (click)="saveVariant()" [disabled]="!isAnyChange" shape="round" size="small">
             <ion-icon slot="icon-only" name="save" color="primary" />
           </ion-button>
           <ion-button (click)="closeVariant()" shape="round" size="small">
@@ -16,8 +16,8 @@
       </div>
 
       <div>
-        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-          <div style="display: flex; align-items: center; width: 70%;">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 10px; width: 100%;">
+          <div style="display: flex; align-items: center; ">
             <div *ngIf="variant" class="header-variant-name" style="width: 100%;">
               <ion-textarea rows="1" [(ngModel)]="variant.name" name="variantName"
                 label="{{'recipes.variant.name' | translate }}" labelPlacement="stacked"
@@ -32,7 +32,7 @@
 
   <ion-content class="ion-padding-start ion-padding-end">
     <div *ngIf="variant !== null">
-      <app-variant-edit [variant]="variant" />
+      <app-variant-edit #variantEditCmp [variant]="variant" />
     </div>
   </ion-content>
 </div>

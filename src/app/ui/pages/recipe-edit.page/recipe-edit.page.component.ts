@@ -4,7 +4,7 @@ import { RecipeDetailComponent } from '../../components/recipe-detail/recipe-det
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
-import { RecipesService } from 'src/app/data/services/recipes.service';
+import { RecipeService } from 'src/app/data/services/recipe.service';
 import { IRecipe } from 'src/app/data/interfaces/recipe.interface';
 import { addIcons } from 'ionicons';
 import { save, closeCircle, alert } from 'ionicons/icons';
@@ -13,6 +13,8 @@ import cloneDeep from 'lodash/cloneDeep';
 import isEqual from 'lodash/isEqual';
 import { AlertService } from '../../services/alert.service';
 import { Recipe } from 'src/app/data/models/recipe';
+import { LoadingService } from '../../services/loading.service';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-recipe-edit.page',
@@ -46,24 +48,32 @@ export class RecipeEditPage implements OnInit {
     return this.recipe && this.recipe.name && this.recipe.name.length > 0;
   }
 
+  get isAnyChange() {
+    return this.recipe && this.initRecipe && !isEqual(this.recipe, this.initRecipe);
+  }
 
   constructor(private route: ActivatedRoute,
-    private recipesService: RecipesService,
+    private recipeService: RecipeService,
     private router: Router,
     private alertService: AlertService,
-    private translateService: TranslateService) {
+    private translateService: TranslateService,
+    private loadingService: LoadingService) {
 
     addIcons({ save, closeCircle, alert });
 
   }
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
+    this.route.params.subscribe(async params => {
       const recipeId = params['recipeId'];
       if (recipeId) {
-        this.recipesService.getRecipe(recipeId).subscribe(
+        const loading = await this.loadingService.showLoading();
+        await loading.present();
+        this.recipeService.getById(recipeId).pipe(
+          finalize(() => loading.dismiss())
+        ).subscribe(
           {
-            next: (recipe: IRecipe) => {
+            next: (recipe: IRecipe | null) => {
               this.recipe = cloneDeep(recipe);
               this.initRecipe = recipe;
             },
@@ -167,12 +177,16 @@ export class RecipeEditPage implements OnInit {
 
   }
 
-  private saveRecipeToService() {
+  private async saveRecipeToService() {
     if (!this.recipe) {
       console.error('Recipe is null. Cannot save recipe.');
       return;
     }
-    this.recipesService.saveRecipe(this.recipe).subscribe({
+    const loading = await this.loadingService.showLoading();
+    await loading.present();
+    this.recipeService.saveItem(this.recipe).pipe(
+      finalize(() => loading.dismiss())
+    ).subscribe({
       next: (res: IRecipe) => {
         this.router.navigate(['/tabs/recipes/', res.id]);
       },

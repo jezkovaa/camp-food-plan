@@ -4,20 +4,24 @@ import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonBackButton, IonButton } from '@ionic/angular/standalone';
 import { DayMenuOverviewComponent } from "../../components/day-menu-overview/day-menu-overview.component";
 import { IDayMeal, IDayMealRecipe, IDayMealRecipeVariant, IDayMenu } from 'src/app/data/interfaces/day-menu.interface';
-import { ActivatedRoute } from '@angular/router';
-import { PlanningService } from 'src/app/data/services/planning.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { BasePlanningService } from 'src/app/data/services/base-planning.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ID } from 'src/app/types';
 import { IPlannedEvent } from 'src/app/data/interfaces/planned-event.interface';
 import { isBefore, isSameDay } from 'date-fns';
 import * as pdfMake from "pdfmake/build/pdfmake";
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
-import { RecipesService } from 'src/app/data/services/recipes.service';
+import { RecipeService } from 'src/app/data/services/recipe.service';
+import { VariantService } from 'src/app/data/services/variant.service';
+import { PlannedEventService } from 'src/app/data/services/planned-event.service';
 import { IDayMealExtended, IDayMealRecipeExtended, IDayMealRecipeVariantExtended, IPlannedEventExtended } from 'src/app/data/interfaces/planned-event-extended.interface';
 import { IRecipe } from 'src/app/data/interfaces/recipe.interface';
 import { image } from 'ionicons/icons';
-import { async, lastValueFrom } from 'rxjs';
+import { async, finalize, lastValueFrom } from 'rxjs';
 import { AlertService } from '../../services/alert.service';
+import { firstValueFrom } from 'rxjs';
+import { LoadingService } from '../../services/loading.service';
 
 (<any>pdfMake).addVirtualFileSystem(pdfFonts);
 
@@ -43,20 +47,27 @@ export class MenuOverviewPage implements OnInit {
   dates: Date[] = [];
 
   constructor(private route: ActivatedRoute,
-    private planningService: PlanningService,
+    private planningService: BasePlanningService,
+    private plannedEventService: PlannedEventService,
     private translateService: TranslateService,
-    private recipesService: RecipesService,
-    private alertService: AlertService
-  ) { }
+    private recipesService: RecipeService,
+    private variantService: VariantService,
+    private alertService: AlertService,
+    private loadingService: LoadingService,
+    private router: Router) { }
 
   ngOnInit() {
 
-    this.route.params.subscribe(params => {
+    this.route.params.subscribe(async params => {
       let eventId = params['eventId'];
       if (eventId === null) {
         return;
       }
-      this.planningService.getEvent(eventId).subscribe({
+      const loading = await this.loadingService.showLoading();
+      await loading.present();;
+      this.plannedEventService.getById(eventId).pipe(
+        finalize(() => loading.dismiss())
+      ).subscribe({
         next: (event: IPlannedEvent) => {
           this.event = event;
           if (event.dateFrom && event.dateTo) {
@@ -183,7 +194,7 @@ export class MenuOverviewPage implements OnInit {
                   .flatMap((recipe) =>
                     recipe.variants.map(
                       (variant) =>
-                        `${variant.variantName}, ${this.translateService.instant('planning.day-menu.portions.title')}: ${variant.portions}, ${this.translateService.instant('food-restriction.available-for')}: ${variant.restrictions
+                        `${variant.variantName}, ${this.translateService.instant('planning.day-menu.portions.title')}: ${variant.portions}, ${this.translateService.instant('food-restriction.available-for')}: ${Array.from(variant.restrictions)
                           .map((restriction) => restriction.toLocaleLowerCase())
                           .join(', ')}`
                     )
@@ -228,6 +239,13 @@ export class MenuOverviewPage implements OnInit {
     pdfMake.createPdf(docDefinition).open();
   }
 
+  navigateToDayMenu(menu: IDayMenu) {
+    if (this.event === null) {
+      return;
+    }
+    this.router.navigate(['/tabs/planning/events', this.event.id, "menu", menu.id]);
+  }
+
   private menuIsComplete(): boolean {
     if (!this.event?.menu) {
       return false;
@@ -254,16 +272,23 @@ export class MenuOverviewPage implements OnInit {
   }
 
   private async mapRecipes(recipes: IDayMealRecipe[]): Promise<IDayMealRecipeExtended[]> {
-    return Promise.all(
+    const mappedRecipes = await Promise.all(
       recipes.map(async (recipe: IDayMealRecipe) => {
-        const fetchedRecipe = await this.recipesService.getRecipe(recipe.recipeId).toPromise();
-        return {
-          recipeId: recipe.recipeId,
-          recipeName: fetchedRecipe.name,
-          variants: await this.mapVariants(recipe.recipeId, recipe.variants),
-        };
+        const fetchedRecipe = await firstValueFrom(this.recipesService.getById(recipe.recipeId));
+        if (fetchedRecipe === null) {
+          console.error(`Recipe with ID ${recipe.recipeId} not found`);
+          return null; // or handle the error as needed
+        } else {
+          return {
+            recipeId: recipe.recipeId,
+            recipeName: fetchedRecipe.name,
+            variants: await this.mapVariants(recipe.recipeId, recipe.variants),
+          };
+        }
       })
     );
+
+    return mappedRecipes.filter((recipe): recipe is IDayMealRecipeExtended => recipe !== null);
   }
 
 
@@ -271,7 +296,7 @@ export class MenuOverviewPage implements OnInit {
     const variantsWithDetails = await Promise.all(
       variants.map(async (variant) => {
         try {
-          const fetchedVariant = await lastValueFrom(this.recipesService.getVariant(recipeId, variant.variantId));
+          const fetchedVariant = await lastValueFrom(this.variantService.getById(variant.variantId));
           if (fetchedVariant === null) {
             console.error(`Variant with ID ${variant.variantId} not found for recipe ID ${recipeId}`);
             return null; // or handle the error as needed
