@@ -26,7 +26,7 @@ import { finalize } from 'rxjs';
   templateUrl: './event-edit.page.html',
   styleUrls: ['./event-edit.page.scss'],
   standalone: true,
-  imports: [IonDatetime, IonPopover, IonLabel, IonContent,
+  imports: [IonPopover, IonLabel, IonContent,
     IonTextarea,
     IonBackButton,
     IonHeader,
