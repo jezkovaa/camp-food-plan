@@ -11,8 +11,8 @@
         </div>
       </ion-label>
       <ion-buttons slot="end">
-        <ion-button (click)="getPDF()" fill="solid" color="primary" shape="round" class="ion-text-wrap"
-          style="max-width: 150px">{{"planning.event.shopping-lists.getPDF"
+        <ion-button (click)="getPDF()" [disabled]="true" fill="solid" color="primary" shape="round"
+          class="ion-text-wrap" style="max-width: 150px">{{"planning.event.shopping-lists.getPDF"
           |translate}}</ion-button>
       </ion-buttons>
     </ion-toolbar>

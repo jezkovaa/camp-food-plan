@@ -11,36 +11,38 @@ import { BaseRecipeService } from './base-recipe.service';
 @Injectable({
   providedIn: 'root'
 })
-export class RecipeService extends BaseRecipeService implements IBaseService<IRecipe> {
+export class RecipeService implements IBaseService<IRecipe> {
 
   restrictions = FoodRestriction;
 
+  constructor(private base: BaseRecipeService) { }
+
 
   getAll(): Observable<IRecipe[]> {
-    return of(this.dummyRecipes);
+    return of(this.base.dummyRecipes);
   }
 
   getById(id: ID): Observable<IRecipe | null> {
 
-    const recipe = this.dummyRecipes.find(recipe => recipe.id === id);
+    const recipe = this.base.dummyRecipes.find(recipe => recipe.id === id);
     return of(recipe || null);
 
   }
 
   saveItem(recipe: IRecipe): Observable<IRecipe> {
 
-    this.oldRecipes = this.dummyRecipes;
+    this.base.oldRecipes = this.base.dummyRecipes;
 
-    const index = this.dummyRecipes.findIndex(r => r.id === recipe.id);
+    const index = this.base.dummyRecipes.findIndex(r => r.id === recipe.id);
 
     if (recipe.id === null) {
-      recipe.id = 'r' + this.dummyRecipes.length + 1;
+      recipe.id = this.base.getNewRecipeId();
     }
 
     if (index === -1) {
-      this.dummyRecipes.push(recipe);
+      this.base.dummyRecipes.push(recipe);
     } else {
-      this.dummyRecipes[index] = recipe;
+      this.base.dummyRecipes[index] = recipe;
     }
 
     return of(recipe);
@@ -48,15 +50,15 @@ export class RecipeService extends BaseRecipeService implements IBaseService<IRe
 
   deleteById(recipeId: ID): Observable<IRecipe[]> {
 
-    this.oldRecipes = this.dummyRecipes;
+    this.base.oldRecipes = this.base.dummyRecipes;
 
-    this.dummyRecipes = this.dummyRecipes.filter(recipe => recipe.id !== recipeId);
+    this.base.dummyRecipes = this.base.dummyRecipes.filter(recipe => recipe.id !== recipeId);
 
-    return of(this.dummyRecipes);
+    return of(this.base.dummyRecipes);
   }
 
   getNames(chosenRecipes: IDayMealRecipe[]): Observable<IDayMealRecipeNames[]> {
-    const filteredRecipes = this.dummyRecipes
+    const filteredRecipes = this.base.dummyRecipes
       .filter(recipe =>
         chosenRecipes.some(chosenRecipe => chosenRecipe.recipeId === recipe.id) // Filter recipes by recipeId
       )

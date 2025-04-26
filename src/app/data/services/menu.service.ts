@@ -13,13 +13,17 @@ import { BasePlanningService } from './base-planning.service';
 @Injectable({
   providedIn: 'root'
 })
-export class MenuService extends BasePlanningService {
+export class MenuService {
+
+  constructor(private base: BasePlanningService) {
+
+  }
 
 
 
   getEventMenu(eventId: ID): Observable<IDayMenu[]> {
 
-    const menu = this.dummyData.find(event => event.id === eventId)?.menu;
+    const menu = this.base.dummyData.find(event => event.id === eventId)?.menu;
     if (menu === undefined) {
       return of([]);
     }
@@ -28,7 +32,7 @@ export class MenuService extends BasePlanningService {
 
 
   getEventMenuById(eventId: ID, dayMenuId: ID): Observable<IDayMenu> {
-    const menu = this.dummyData.find(event => event.id === eventId)?.menu.find(menu => menu.id === dayMenuId);
+    const menu = this.base.dummyData.find(event => event.id === eventId)?.menu.find(menu => menu.id === dayMenuId);
     if (menu !== undefined) {
       return of(menu);
     }
@@ -37,7 +41,7 @@ export class MenuService extends BasePlanningService {
   }
 
   getEventMenuForDate(eventId: ID, date: Date): Observable<IDayMenu> {
-    const menu = this.dummyData.find(event => event.id === eventId)?.menu.find(menu => isSameDay(menu.date, date));
+    const menu = this.base.dummyData.find(event => event.id === eventId)?.menu.find(menu => isSameDay(menu.date, date));
     if (menu !== undefined) {
       return of(menu);
     }
@@ -47,12 +51,12 @@ export class MenuService extends BasePlanningService {
 
 
   createDayMenu(eventId: ID, date: Date): Observable<IDayMenu> {
-    const event = this.dummyData.find(event => event.id === eventId);
+    const event = this.base.dummyData.find(event => event.id === eventId);
     if (event === undefined) {
       return throwError(() => new Error('Event not found'));
     }
     const newMenu: IDayMenu = {
-      id: this.getNewDayMenuId(),
+      id: this.base.getNewDayMenuId(),
       date: date,
       meals: []
     };
@@ -61,7 +65,7 @@ export class MenuService extends BasePlanningService {
   }
 
   updateMenu(dayMenuId: ID, course: Course, chosenRecipes: IDayMealRecipe[]): Observable<IDayMenu> {
-    const event = this.dummyData.find(event => event.menu.some(menu => menu.id === dayMenuId));
+    const event = this.base.dummyData.find(event => event.menu.some(menu => menu.id === dayMenuId));
     if (event === undefined) {
       return throwError(() => new Error('Event not found'));
     }
@@ -80,7 +84,7 @@ export class MenuService extends BasePlanningService {
   }
 
   deleteMealFromMenu(eventId: ID, dayMenuId: ID, mealId: ID): Observable<IDayMenu> { //mealID is courseId
-    const dayMenu = this.dummyData.find(event => event.id === eventId)?.menu.find(menu => menu.id === dayMenuId);
+    const dayMenu = this.base.dummyData.find(event => event.id === eventId)?.menu.find(menu => menu.id === dayMenuId);
     if (dayMenu === undefined) {
       return throwError(() => new Error('Menu not found'));
     }
@@ -93,7 +97,7 @@ export class MenuService extends BasePlanningService {
   }
 
   getMeal(eventId: ID, dayMenuId: ID, mealId: ID): Observable<{ meal: IDayMeal; date: Date; }> {
-    const dayMenu = this.dummyData.find(event => event.id === eventId)?.menu.find(menu => menu.id === dayMenuId);
+    const dayMenu = this.base.dummyData.find(event => event.id === eventId)?.menu.find(menu => menu.id === dayMenuId);
     if (dayMenu === undefined) {
       return throwError(() => new Error('Menu not found'));
     }
@@ -106,7 +110,7 @@ export class MenuService extends BasePlanningService {
 
   private addChosenRecipesToMenu(menu: IDayMenu, course: Course, chosenRecipes: IDayMealRecipe[]): void {
     menu.meals.push({
-      id: 'c' + (menu.meals.length + 1),
+      id: this.base.getNewMealId(),
       course: course,
       chosenRecipes: chosenRecipes
     });

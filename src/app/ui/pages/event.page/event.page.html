@@ -36,7 +36,7 @@
           {{event?.dateFrom | date: 'dd.MM.yyyy'}} - {{event?.dateTo | date: 'dd.MM.yyyy'}}
         </ion-label>
       </div>
-      <ion-button (click)="loadParticipants()" class="content-button">
+      <ion-button (click)="loadParticipants()" [disabled]="true" class="content-button">
 
         {{"planning.event.load-participants" | translate}}
       </ion-button>

@@ -33,7 +33,9 @@
 
   <ion-content class="ion-padding-start ion-padding-end">
     <div *ngIf="recipe !== null">
-      <app-recipe-detail [recipe]="recipe" [isEditing]="true" />
+      <app-recipe-detail [recipe]="recipe" [isEditing]="true"
+        (navigateToNewVariantEventNewRecipe)="navigateToNewVariantNewRecipe($event)"
+        (navigateToNewVariantEventExistingRecipe)="navigateToNewVariant($event)" />
     </div>
   </ion-content>
 </div>

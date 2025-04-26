@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { IonRow, IonCol, IonGrid, IonButton, IonIcon, IonList, IonItem, IonLabel, IonText } from "@ionic/angular/standalone";
 import { TranslateService } from '@ngx-translate/core';
 import { addIcons } from 'ionicons';
-import { chevronForward } from 'ionicons/icons';
+import { alert, chevronForward } from 'ionicons/icons';
 import { finalize, firstValueFrom, Observable } from 'rxjs';
 import { IDayMenu } from 'src/app/data/interfaces/day-menu.interface';
 import { Course } from 'src/app/data/enums/courses.enum';
@@ -50,7 +50,7 @@ export class DayMenuOverviewComponent implements OnInit {
     private menuService: MenuService) {
 
 
-    addIcons({ chevronForward });
+    addIcons({ chevronForward, alert });
     this.loadRecipeNames = this.loadRecipeNames.bind(this);
 
   }

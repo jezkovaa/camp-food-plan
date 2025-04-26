@@ -15,9 +15,11 @@ import { IDayMeal, IDayMealRecipe, IDayMealRecipeVariant, IDayMenu } from 'src/a
 import { ID } from 'src/app/types';
 import { BasePlanningService } from 'src/app/data/services/base-planning.service';
 import { Course } from 'src/app/data/enums/courses.enum';
-import { NotificationService } from '../../services/notification.service';
+import { ToastController } from '@ionic/angular';
 import { LoadingService } from '../../services/loading.service';
 import { finalize } from 'rxjs';
+import { ViewWillEnter } from '@ionic/angular';
+import { BaseComponent } from '../../components/base-component/base.component';
 
 @Component({
   selector: 'app-recipe.page',
@@ -36,7 +38,7 @@ import { finalize } from 'rxjs';
     RecipeDetailComponent],
   standalone: true
 })
-export class RecipeDetailPage implements OnInit {
+export class RecipeDetailPage extends BaseComponent implements OnInit, ViewWillEnter {
 
   @ViewChild('editPopover') editPopover!: IonPopover;
 
@@ -56,13 +58,14 @@ export class RecipeDetailPage implements OnInit {
     private recipesService: RecipeService,
     private router: Router,
     private alertService: AlertService,
-    private translateService: TranslateService,
+    override translateService: TranslateService,
     private menuService: MenuService,
-    private notificationService: NotificationService,
+    override toastController: ToastController,
     private loadingService: LoadingService
 
   ) {
 
+    super(toastController, translateService);
     addIcons({ pencil, trash });
 
   }
@@ -71,6 +74,16 @@ export class RecipeDetailPage implements OnInit {
     const firstSegment = this.route.snapshot.url[0].path;
     this.isPlanningRoute = firstSegment === 'planning';
 
+    this.loadRecipe();
+
+
+  }
+
+  ionViewWillEnter(): void {
+    this.loadRecipe(); // Reload recipes every time the page becomes active
+  }
+
+  private loadRecipe() {
     if (this.isPlanningRoute) {
       this.route.params.subscribe(async params => {
         this.dayMenuId = params['dayMenuId'];
@@ -89,17 +102,17 @@ export class RecipeDetailPage implements OnInit {
         this.selectedRecipes = state['selectedRecipesArray'] || [];
         this.selectedVariants = state['selectedVariants'] || [];
       }
-    }
-
-    this.route.params.subscribe(async params => {
-      const recipeId = params['recipeId'];
-      const loading = await this.loadingService.showLoading();
-      await loading.present();
-      this.recipesService.getById(recipeId).subscribe((recipe: IRecipe | null) => {
-        loading.dismiss();
-        this.recipe = recipe;
+    } else {
+      this.route.params.subscribe(async params => {
+        const recipeId = params['recipeId'];
+        const loading = await this.loadingService.showLoading();
+        await loading.present();
+        this.recipesService.getById(recipeId).subscribe((recipe: IRecipe | null) => {
+          loading.dismiss();
+          this.recipe = recipe;
+        });
       });
-    });
+    }
   }
 
   redirectToRecipeEditPage() {
@@ -149,34 +162,7 @@ export class RecipeDetailPage implements OnInit {
       this.translateService.instant('alert.delete-confirm'),
       message,
       async () => {
-        const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
-        buttonElement.blur();
-        if (this.recipe && this.recipe.id) {
-          const loading = await this.loadingService.showLoading();
-          await loading.present();
-          this.recipesService.deleteById(this.recipe.id)
-            .pipe(
-              finalize(() => loading.dismiss()))
-            .subscribe({
-              next: async (recipes: IRecipe[]) => {
-                const toast = await this.notificationService.presentToast(
-                  this.translateService.instant('alert.recipe-deleted'),
-                );
-                await toast.present();
-                this.router.navigate(['/tabs/recipes'], {
-                  state: {
-                    recipes: recipes
-                  }
-                });
-              },
-              error: async (err: any) => {
-                const alert = await this.alertService.deleteError(err);
-                await alert.present();
-              }
-
-
-            });
-        }
+        await this.deleteRecipeForReal();
       }
     );
     await alert.present();
@@ -191,7 +177,11 @@ export class RecipeDetailPage implements OnInit {
     this.menuService.updateMenu(this.dayMenuId, meal.course, meal.chosenRecipes).pipe(
       finalize(() => loading.dismiss())
     ).subscribe({
-      next: (dayMenu: IDayMenu) => {
+      next: async (dayMenu: IDayMenu) => {
+
+        const notification = await this.presentSuccess(this.translateService.instant('alert.menu-updated'));
+        await notification.present();
+
 
         if (this.selectedRecipes.length > 0) {
           //variants for one recipe are chosen, need to choose other recipes variants
@@ -209,7 +199,10 @@ export class RecipeDetailPage implements OnInit {
         }
         //path: 'planning/events/:eventId/menu/:dayMenuId/:course/recipe/:recipeId',
       },
-      error: (error) => {
+      error: async (error) => {
+        const notification = await this.presentError(this.translateService.instant('alert.menu-update-error'));
+        await notification.present();
+
         console.error('Error updating menu:', error);
       }
     });
@@ -227,6 +220,39 @@ export class RecipeDetailPage implements OnInit {
       this.router.navigate(['/tabs/recipes', this.recipe.id, 'variants', 'new'], { state: { variantId: variantId } });
     }
     this.router.navigate(['/tabs/recipes', this.recipe.id, 'variants', 'new']);
+  }
+
+  private async deleteRecipeForReal() {
+    const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
+    buttonElement.blur();
+    if (this.recipe && this.recipe.id) {
+      const loading = await this.loadingService.showLoading();
+      await loading.present();
+      this.recipesService.deleteById(this.recipe.id)
+        .pipe(
+          finalize(() => loading.dismiss()))
+        .subscribe({
+          next: async (recipes: IRecipe[]) => {
+            const notification = await this.presentSuccess(
+              this.translateService.instant('alert.recipe-deleted'),
+            );
+            await notification.present();
+            this.router.navigate(['/tabs/recipes'], {
+              state: {
+                recipes: recipes
+              }
+            });
+          },
+          error: async (err: any) => {
+            const notification = await this.presentError(
+              this.translateService.instant('alert.recipe-deleted'),
+            );
+            await notification.present();
+          }
+
+
+        });
+    }
   }
 
 }

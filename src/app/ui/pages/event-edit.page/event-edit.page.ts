@@ -7,7 +7,7 @@ import {
   IonToolbar,
   IonButtons,
   IonButton,
-  IonIcon, IonContent, IonLabel, IonPopover, IonDatetime
+  IonIcon, IonContent, IonLabel, IonPopover, ToastController
 } from "@ionic/angular/standalone";
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { cloneDeep, isEqual } from 'lodash';
@@ -16,10 +16,11 @@ import { PlannedEventService } from 'src/app/data/services/planned-event.service
 import { AlertService } from 'src/app/ui/services/alert.service';
 import { CalendarComponentOptions, IonRangeCalendarComponent } from '@googlproxer/ion-range-calendar';
 import { addIcons } from 'ionicons';
-import { close, closeCircle, save } from 'ionicons/icons';
+import { alert, close, closeCircle, save, calendar } from 'ionicons/icons';
 import { PlannedEvent } from 'src/app/data/models/planned-event';
 import { LoadingService } from '../../services/loading.service';
 import { finalize } from 'rxjs';
+import { BaseComponent } from '../../components/base-component/base.component';
 
 @Component({
   selector: 'app-event-edit.page',
@@ -42,11 +43,13 @@ import { finalize } from 'rxjs';
 
   ]
 })
-export class EventEditPage implements OnInit {
+export class EventEditPage extends BaseComponent implements OnInit {
 
   event: IPlannedEvent | null = null;
   initEvent: IPlannedEvent | null = null;
   isCreating = false;
+
+  msg = '';
 
   @ViewChild(IonPopover) calendar!: IonPopover;
 
@@ -81,12 +84,13 @@ export class EventEditPage implements OnInit {
   constructor(private route: ActivatedRoute,
     private plannedEventService: PlannedEventService,
     private alertService: AlertService,
-    private translateService: TranslateService,
     private loadingService: LoadingService,
-    private router: Router
+    private router: Router,
+    override translateService: TranslateService,
+    override toastController: ToastController
   ) {
-
-    addIcons({ save, closeCircle, close });
+    super(toastController, translateService);
+    addIcons({ save, closeCircle, alert, calendar, close });
 
   }
 
@@ -120,28 +124,45 @@ export class EventEditPage implements OnInit {
 
 
   async saveEvent() {
-    const same = isEqual(this.event, this.initEvent);
-    if (this.isCreating) { //creating new event and nothing filled
-      if (this.event && await this.validateEvent()) {
-        const loading = await this.loadingService.showLoading();
-        await loading.present();
-        this.plannedEventService.saveItem(this.event).subscribe({
-          next: (res: IPlannedEvent) => {
-            loading.dismiss();
-            this.router.navigate(['/tabs/planning/events/', res.id]);
-          },
-          error: (err: any) => {
-            loading.dismiss();
-            console.error('Error saving event', err);
-          }
-        });
-      }
-    }
-    else if (same) { // no changes
-      const alert = await this.alertService.presentAlert(
-        this.translateService.instant('alert.no-changes'),
-        this.translateService.instant('alert.no-changes-message'));
-      await alert.present();
+    this.msg += 'start saveEvent';
+    if (this.isCreating && this.event) { //creating new event and nothing filled
+      this.msg += "start saveEvent if";
+      const loading = await this.loadingService.showLoading();
+      this.msg += "start saveEvent if loading";
+      await loading.present();
+      this.msg += 'hihihihihi';
+      this.plannedEventService.saveItem(this.event).subscribe({
+        next: async (res: IPlannedEvent) => {
+          this.msg += "jdkdksadjlsd";
+          await loading.dismiss();
+          this.msg += 'sssss';
+
+          const toast = await this.presentSuccess(
+            this.translateService.instant('alert.event-created'));
+          this.msg += "toast presenting";
+          await toast.present();
+
+          //   const notification = await this.presentSuccess(this.translateService.instant('alert.event-created'));
+          //  this.msg += 'hihihihihičččččč';
+          //if (notification) {
+          //  this.msg += this.translateService.instant('alert.event-created');
+          // await notification.present();
+          // this.msg += 'hahhahahaha';
+          //} else {
+          // this.msg += 'notification could not be created.';
+          //console.error('Notification could not be created.');
+          //}
+          this.router.navigate(['/tabs/planning/events/', res.id]);
+
+        },
+        error: async (err: any) => {
+          loading.dismiss();
+          const notification = await this.presentError(err);
+          await notification.present();
+
+          console.error('Error saving event', err);
+        }
+      });
 
     }
     else if (this.event) { //saving changes
@@ -150,10 +171,16 @@ export class EventEditPage implements OnInit {
       this.plannedEventService.saveItem(this.event).pipe(
         finalize(() => loading.dismiss())
       ).subscribe({
-        next: (res: IPlannedEvent) => {
+        next: async (res: IPlannedEvent) => {
+          const notification = await this.presentSuccess(this.translateService.instant('alert.event-saved'));
+          await notification.present();
+
           this.router.navigate(['/tabs/planning/events/', res.id]);
         },
-        error: (err: any) => {
+        error: async (err: any) => {
+          const notification = await this.presentError(err);
+          await notification.present();
+
           console.error('Error saving event', err);
         },
 
@@ -165,7 +192,7 @@ export class EventEditPage implements OnInit {
     const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
     buttonElement.blur();
 
-    if (this.isCreating) {
+    if (this.isCreating && this.isAnyChange) {
       const alert = await this.alertService.presentConfirm(
         this.translateService.instant('alert.cancel-creation'),
         this.translateService.instant('alert.cancel-creation-message'),
@@ -180,7 +207,10 @@ export class EventEditPage implements OnInit {
         });
       await alert.present();
     }
-    else if (!isEqual(this.event, this.initEvent)) {
+    else if (this.isCreating) {
+      this.router.navigate(['/tabs/planning/']);
+    }
+    else if (this.isAnyChange) {
 
       await this.alertService.presentConfirm(
         this.translateService.instant('alert.unsaved-changes'),

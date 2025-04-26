@@ -7,6 +7,11 @@
         <ion-text>
           <p>{{getMealForCourse(course)}}</p>
         </ion-text>
+        <ion-icon *ngIf="getMealForCourse(course) === '-'" color="danger" slot="end" name="alert" style="height: 100%;
+        align-content: center;
+        display: flex
+    ;
+        flex-wrap: wrap;" />
       </ion-item>
     </ion-list>
   </ion-grid>

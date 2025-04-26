@@ -1,4 +1,4 @@
-<div class="restriction-icons">
+<ion-button [disabled]="true" (click)="showRestrictionHelp($event)" fill="clear" class="restriction-icons">
 
   <div *ngFor="let restriction of inputRestrictions">
     <div class="restriction-icon">
@@ -16,4 +16,10 @@
       </div>
     </div>
   </div>
-</div>
+</ion-button>
+
+<ion-popover #restrictionHelpPopover>
+  <ng-template>
+    <app-restriction-help></app-restriction-help>
+  </ng-template>
+</ion-popover>

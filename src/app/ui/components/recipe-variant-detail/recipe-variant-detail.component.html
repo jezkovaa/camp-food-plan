@@ -1,4 +1,16 @@
 <div class="recipe-variant-detail">
+  <div class="ion-padding"
+    style="display: flex; justify-content: space-between; gap: 10px; align-items: center; box-shadow: var(--box-shadow); border-radius: var(--radius);">
+    <ion-label class="custom">
+      {{"food-restriction.available-for" | translate}}
+    </ion-label>
+    <div>
+      <app-restriction *ngIf="variant.restrictions.size !== 0"
+        [inputRestrictions]="variant.restrictions"></app-restriction>
+      <div *ngIf="variant.restrictions.size === 0">-</div>
+    </div>
+
+  </div>
   <div class="ingredients group ion-padding-start ion-padding-end ion-padding-top"
     [ngClass]="{ 'ion-padding-bottom': !ingredientsVisible }">
     <div class="top-part">

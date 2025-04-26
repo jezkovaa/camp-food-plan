@@ -15,6 +15,10 @@ import { AlertService } from '../../services/alert.service';
 import { Recipe } from 'src/app/data/models/recipe';
 import { LoadingService } from '../../services/loading.service';
 import { finalize } from 'rxjs';
+import { ToastController } from '@ionic/angular';
+import { ID } from 'src/app/types';
+import { ViewWillEnter } from '@ionic/angular';
+import { BaseComponent } from '../../components/base-component/base.component';
 
 @Component({
   selector: 'app-recipe-edit.page',
@@ -36,10 +40,11 @@ import { finalize } from 'rxjs';
     CommonModule,
     FormsModule]
 })
-export class RecipeEditPage implements OnInit {
+export class RecipeEditPage extends BaseComponent implements OnInit, ViewWillEnter {
 
   @ViewChild(RecipeDetailComponent) recipeDetail!: RecipeDetailComponent;
 
+  recipeId: ID | null = null;
   recipe: IRecipe | null = null;
   initRecipe: IRecipe | null = null;
   isCreating = false;
@@ -56,63 +61,30 @@ export class RecipeEditPage implements OnInit {
     private recipeService: RecipeService,
     private router: Router,
     private alertService: AlertService,
-    private translateService: TranslateService,
-    private loadingService: LoadingService) {
+    override translateService: TranslateService,
+    private loadingService: LoadingService,
+    override toastController: ToastController) {
 
+    super(toastController, translateService);
     addIcons({ save, closeCircle, alert });
 
   }
 
   ngOnInit() {
     this.route.params.subscribe(async params => {
-      const recipeId = params['recipeId'];
-      if (recipeId) {
-        const loading = await this.loadingService.showLoading();
-        await loading.present();
-        this.recipeService.getById(recipeId).pipe(
-          finalize(() => loading.dismiss())
-        ).subscribe(
-          {
-            next: (recipe: IRecipe | null) => {
-              this.recipe = cloneDeep(recipe);
-              this.initRecipe = recipe;
-            },
-            error: (err: any) => {
-              console.error('Error getting recipe', err);
-            }
-          });
-      }
-      else {
-        const state = this.router.getCurrentNavigation()?.extras.state;
-        if (state) {
-          this.recipe = state['recipeData'] || null;
-        }
-        else {
-          this.isCreating = true;
-          this.recipe = new Recipe();
-        }
-        this.initRecipe = cloneDeep(this.recipe);
-      }
+      this.recipeId = params['recipeId'];
+      this.loadRecipe();
     });
+  }
+
+  ionViewWillEnter(): void {
+    this.loadRecipe(); // Reload recipes every time the page becomes active
   }
 
   async saveRecipe() {
     const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
     buttonElement.blur();
-    const same = isEqual(this.recipeDetail.recipe, this.initRecipe);
-    if (same && this.isCreating) {
-      const alert = await this.alertService.presentAlert(
-        this.translateService.instant('recipes.alert.empty-recipe'),
-        this.translateService.instant('recipes.alert.empty-recipe-message'));
-      await alert.present();
-    }
-    else if (same) {
-      const alert = await this.alertService.presentAlert(
-        this.translateService.instant('recipes.alert.no-changes'),
-        this.translateService.instant('recipes.alert.no-changes-message'));
-      await alert.present();
-    }
-    else if (this.recipe && this.recipe.variants && this.recipe.variants.length === 0) {
+    if (this.recipe && this.recipe.variants && this.recipe.variants.length === 0) {
       const alert = await this.alertService.presentConfirm(
         this.translateService.instant('recipes.alert.no-variants'),
         this.translateService.instant('recipes.alert.no-variants-message'),
@@ -177,6 +149,36 @@ export class RecipeEditPage implements OnInit {
 
   }
 
+  private async loadRecipe() {
+    if (this.recipeId) {
+      const loading = await this.loadingService.showLoading();
+      await loading.present();
+      this.recipeService.getById(this.recipeId).pipe(
+        finalize(() => loading.dismiss())
+      ).subscribe(
+        {
+          next: (recipe: IRecipe | null) => {
+            this.recipe = cloneDeep(recipe);
+            this.initRecipe = recipe;
+          },
+          error: (err: any) => {
+            console.error('Error getting recipe', err);
+          }
+        });
+    }
+    else {
+      const state = this.router.getCurrentNavigation()?.extras.state;
+      if (state) {
+        this.recipe = state['recipeData'] || null;
+      }
+      else {
+        this.isCreating = true;
+        this.recipe = new Recipe();
+      }
+      this.initRecipe = cloneDeep(this.recipe);
+    }
+  }
+
   private async saveRecipeToService() {
     if (!this.recipe) {
       console.error('Recipe is null. Cannot save recipe.');
@@ -187,13 +189,35 @@ export class RecipeEditPage implements OnInit {
     this.recipeService.saveItem(this.recipe).pipe(
       finalize(() => loading.dismiss())
     ).subscribe({
-      next: (res: IRecipe) => {
+      next: async (res: IRecipe) => {
+        const notification = await this.presentSuccess(this.translateService.instant('recipes.alert.save-success'));
+        await notification.present();
+
         this.router.navigate(['/tabs/recipes/', res.id]);
       },
-      error: (err: any) => {
+      error: async (err: any) => {
+        const notification = await this.presentError(this.translateService.instant('recipes.alert.save-error'));
+        await notification.present();
+
         console.error('Error saving recipe', err);
       }
     });
+  }
+
+  navigateToNewVariantNewRecipe(recipe: IRecipe) {
+    this.router.navigate(['/tabs/recipes', 'new', 'variants', 'new'], { state: { recipeData: recipe } });
+  }
+
+  navigateToNewVariant(variantId: ID | null) {
+    if (this.recipe === null) {
+      return;
+    }
+    if (variantId) {
+      this.router.navigate(['/tabs/recipes', this.recipe.id, 'variants', 'new'], { state: { variantId: variantId } });
+    } else {
+
+      this.router.navigate(['/tabs/recipes', this.recipe.id, 'variants', 'new']);
+    }
   }
 
 }

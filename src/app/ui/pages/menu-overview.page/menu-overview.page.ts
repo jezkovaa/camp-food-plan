@@ -19,14 +19,13 @@ import { finalize, lastValueFrom } from 'rxjs';
 import { AlertService } from '../../services/alert.service';
 import { firstValueFrom } from 'rxjs';
 import { LoadingService } from '../../services/loading.service';
-import { pdfDefaultOptions } from 'ngx-extended-pdf-viewer';
 
 import { FileOpener } from '@ionic-native/file-opener/ngx';
 import { Directory, Filesystem } from '@capacitor/filesystem';
 
 import { Platform } from '@ionic/angular';
 (<any>pdfMake).addVirtualFileSystem(pdfFonts);
-pdfDefaultOptions.assetsFolder = 'bleeding-edge';
+
 
 @Component({
   selector: 'app-menu-overview',

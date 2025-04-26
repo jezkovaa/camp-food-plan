@@ -1,22 +1,27 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { IIngredient, IProceeding, IRecipeVariant } from 'src/app/data/interfaces/recipe-variant.interface';
-import { IonSelectOption, IonTextarea, IonSelect, IonLabel, IonButton, IonIcon, IonInput, IonReorderGroup, IonList, IonItem, IonReorder, IonButtons } from "@ionic/angular/standalone";
+import { IonSelectOption, IonTextarea, IonSelect, IonLabel, IonButton, IonIcon, IonInput, IonReorderGroup, IonList, IonItem, IonReorder, IonButtons, IonPopover } from "@ionic/angular/standalone";
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CommonModule } from '@angular/common';
 import { addIcons } from 'ionicons';
-import { closeCircle, save, trash } from 'ionicons/icons';
+import { closeCircle, pencil, save, trash } from 'ionicons/icons';
 import { add } from 'ionicons/icons';
 import { FormArray, FormBuilder, FormControl, FormGroup, FormsModule, Validators } from '@angular/forms';
 import { Units } from 'src/app/data/enums/units.enum';
 import { AlertService } from '../../services/alert.service';
 import { ReactiveFormsModule } from '@angular/forms';
+import { RecipesFilterComponent } from '../recipes-filter/recipes-filter.component';
+import { RestrictionHelpComponent } from '../restriction-help/restriction-help.component';
+import { FoodRestriction } from 'src/app/data/enums/food-restriction.enum';
+import { RestrictionComponent } from "../restriction/restriction.component";
+import { cloneDeep } from 'lodash';
 
 @Component({
   selector: 'app-variant-edit',
   templateUrl: './variant-edit.component.html',
   styleUrls: ['./variant-edit.component.scss'],
   standalone: true,
-  imports: [IonButtons, IonReorder, IonItem, IonList, IonReorderGroup,
+  imports: [IonPopover, IonButtons, IonReorder, IonItem, IonList, IonReorderGroup,
     IonInput,
     IonIcon,
     IonButton,
@@ -24,33 +29,38 @@ import { ReactiveFormsModule } from '@angular/forms';
     IonTextarea,
     IonSelect,
     IonSelectOption,
-
     TranslateModule,
     CommonModule,
     FormsModule,
-    ReactiveFormsModule
-  ],
+    ReactiveFormsModule,
+    RestrictionHelpComponent, RestrictionComponent],
 })
 export class VariantEditComponent implements OnInit {
 
   @Input() variant: IRecipeVariant | null = null;
   // @Output() ingredientsChangedEvent = new EventEmitter<IIngredient[]>();
 
+  @ViewChild('chooseVariantPopover') chooseVariantPopover!: IonPopover;
 
   units = Object.values(Units).filter((value) => value !== Units.NONE);
 
   formArray: FormArray = this.fb.array([]);
   proceedingFormArray: FormArray = this.fb.array([]);
 
+  foodRestrictions: Set<FoodRestriction> = new Set<FoodRestriction>();
+
   constructor(private translateService: TranslateService,
     private alertService: AlertService,
     private fb: FormBuilder) {
-    addIcons({ add, trash });
+    addIcons({ add, trash, pencil });
   }
 
   ngOnInit() {
+    this.foodRestrictions = cloneDeep(this.variant?.restrictions || new Set<FoodRestriction>());
     this.initForm();
   }
+
+
 
   private initForm() {
     this.variant?.ingredients.forEach((ingredient) => {
@@ -161,6 +171,7 @@ export class VariantEditComponent implements OnInit {
 
     this.variant.ingredients = this.ingredients;
     this.variant.proceeding = this.proceeding;
+    this.variant.restrictions = this.foodRestrictions;
     return this.variant;
   }
 
@@ -266,6 +277,23 @@ export class VariantEditComponent implements OnInit {
       return step.description !== initialStep.description ||
         step.order !== initialStep.order;
     });
+  }
+
+  async chooseVariant(event: Event) {
+    this.chooseVariantPopover.event = event;
+    await this.chooseVariantPopover.present();
+  }
+
+  selectionChanged(e: {
+    restriction: FoodRestriction,
+    checked: boolean;
+  }) {
+
+    if (e.checked) {
+      this.foodRestrictions.add(e.restriction);
+    } else {
+      this.foodRestrictions.delete(e.restriction);
+    }
   }
 
 }

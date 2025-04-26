@@ -17,6 +17,8 @@ import { IPlannedEvent } from 'src/app/data/interfaces/planned-event.interface';
 import { isAfter, isBefore } from 'date-fns';
 import { AlertService } from '../../services/alert.service';
 import { LoadingService } from '../../services/loading.service';
+import { ToastController } from '@ionic/angular';
+import { BaseComponent } from '../../components/base-component/base.component';
 
 @Component({
   selector: 'app-day-menu',
@@ -41,7 +43,7 @@ import { LoadingService } from '../../services/loading.service';
     MealComponent]
 })
 
-export class DayMenuPage implements OnInit {
+export class DayMenuPage extends BaseComponent implements OnInit {
 
   @ViewChild('datepicker') datepicker!: IonDatetime;
 
@@ -66,6 +68,14 @@ export class DayMenuPage implements OnInit {
     return this.dayMenu?.date.toISOString();
   }
 
+  get getDateFromISOString() {
+    return this.event?.dateFrom ? this.event?.dateFrom?.toISOString() : new Date().toISOString();
+  }
+
+  get getDateToISOString() {
+    return this.event?.dateTo ? this.event?.dateTo?.toISOString() : new Date().toISOString();
+
+  }
 
   get getCurrentLang() {
     return this.translateService.currentLang;
@@ -75,10 +85,12 @@ export class DayMenuPage implements OnInit {
     private menuService: MenuService,
     private plannedEventService: PlannedEventService,
     private router: Router,
-    private translateService: TranslateService,
-    private alertService: AlertService,
+    override translateService: TranslateService,
     private loadingService: LoadingService,
+    override toastController: ToastController,
     private alertController: AlertController) {
+
+    super(toastController, translateService);
 
     addIcons({ chevronBack, chevronForward, add, calendar });
 
@@ -196,15 +208,19 @@ export class DayMenuPage implements OnInit {
             this.menuService.deleteMealFromMenu(this.eventId, this.dayMenu.id, mealId).pipe(
               finalize(() => loading.dismiss())
             ).subscribe({
-              next: (dayMenu: IDayMenu) => {
+              next: async (dayMenu: IDayMenu) => {
                 this.dayMenu = dayMenu;
+                const notification = await this.presentSuccess(
+                  this.translateService.instant('planning.day-menu.alert.delete-success')
+                );
+                await notification.present();
               },
               error: async (error: any) => {
-                const alert = await this.alertService.presentAlert(
-                  this.translateService.instant('planning.day-menu.alert.error-title'),
-                  this.translateService.instant('planning.day-menu.alert.error-message')
+                const notification = await this.presentError(
+                  this.translateService.instant('planning.day-menu.alert.error-title')
                 );
-                await alert.present();
+                await notification.present();
+
               }
             });
           },
@@ -254,13 +270,7 @@ export class DayMenuPage implements OnInit {
     this.router.navigate(['tabs/planning/events/', this.eventId, 'menu', this.dayMenu.id, 'meal', mealId]);
   }
 
-  getDateFromISOString() {
-    return this.event?.dateFrom?.toISOString();
-  }
 
-  getDateToISOString() {
-    return this.event?.dateTo?.toISOString();
-  }
 
   async dateChanged(e: any) {
     await this.datepicker.confirm(true);

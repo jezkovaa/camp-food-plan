@@ -171,10 +171,10 @@ export class BasePlanningService {
               course: Course.BREAKFAST,
               chosenRecipes: [
                 {
-                  recipeId: 'r1',
+                  recipeId: 'r3',
                   variants: [
                     {
-                      variantId: 'v1',
+                      variantId: 'v3',
                       portions: 20
                     }
                   ]
@@ -238,10 +238,10 @@ export class BasePlanningService {
               course: Course.BREAKFAST,
               chosenRecipes: [
                 {
-                  recipeId: 'r1',
+                  recipeId: 'r4',
                   variants: [
                     {
-                      variantId: 'v1',
+                      variantId: 'v4',
                       portions: 20
                     }
                   ]
@@ -319,10 +319,25 @@ export class BasePlanningService {
               course: Course.BREAKFAST,
               chosenRecipes: [
                 {
-                  recipeId: 'r1',
+                  recipeId: 'r5',
                   variants: [
                     {
-                      variantId: 'v1',
+                      variantId: 'v5',
+                      portions: 20
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              id: this.getNewMealId(),
+              course: Course.MORNING_SNACK,
+              chosenRecipes: [
+                {
+                  recipeId: 'r19',
+                  variants: [
+                    {
+                      variantId: 'v19',
                       portions: 20
                     }
                   ]
@@ -334,10 +349,25 @@ export class BasePlanningService {
               course: Course.LUNCH,
               chosenRecipes: [
                 {
-                  recipeId: 'r2',
+                  recipeId: 'r13',
                   variants: [
                     {
-                      variantId: 'v2',
+                      variantId: 'v13',
+                      portions: 20
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              id: this.getNewMealId(),
+              course: Course.SNACK,
+              chosenRecipes: [
+                {
+                  recipeId: 'r20',
+                  variants: [
+                    {
+                      variantId: 'v20',
                       portions: 20
                     }
                   ]
@@ -349,10 +379,10 @@ export class BasePlanningService {
               course: Course.DINNER,
               chosenRecipes: [
                 {
-                  recipeId: 'r3',
+                  recipeId: 'r23',
                   variants: [
                     {
-                      variantId: 'v3',
+                      variantId: 'v23',
                       portions: 20
                     }
                   ]
@@ -370,10 +400,25 @@ export class BasePlanningService {
               course: Course.BREAKFAST,
               chosenRecipes: [
                 {
-                  recipeId: 'r1',
+                  recipeId: 'r6',
                   variants: [
                     {
-                      variantId: 'v1',
+                      variantId: 'v6',
+                      portions: 20
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              id: this.getNewMealId(),
+              course: Course.MORNING_SNACK,
+              chosenRecipes: [
+                {
+                  recipeId: 'r19',
+                  variants: [
+                    {
+                      variantId: 'v19',
                       portions: 20
                     }
                   ]
@@ -385,10 +430,25 @@ export class BasePlanningService {
               course: Course.LUNCH,
               chosenRecipes: [
                 {
-                  recipeId: 'r2',
+                  recipeId: 'r23',
                   variants: [
                     {
-                      variantId: 'v2',
+                      variantId: 'v23',
+                      portions: 20
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              id: this.getNewMealId(),
+              course: Course.SNACK,
+              chosenRecipes: [
+                {
+                  recipeId: 'r20',
+                  variants: [
+                    {
+                      variantId: 'v20',
                       portions: 20
                     }
                   ]
@@ -400,10 +460,10 @@ export class BasePlanningService {
               course: Course.DINNER,
               chosenRecipes: [
                 {
-                  recipeId: 'r3',
+                  recipeId: 'r15',
                   variants: [
                     {
-                      variantId: 'v3',
+                      variantId: 'v15',
                       portions: 20
                     }
                   ]
@@ -421,10 +481,25 @@ export class BasePlanningService {
               course: Course.BREAKFAST,
               chosenRecipes: [
                 {
-                  recipeId: 'r1',
+                  recipeId: 'r7',
                   variants: [
                     {
-                      variantId: 'v1',
+                      variantId: 'v7',
+                      portions: 20
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              id: this.getNewMealId(),
+              course: Course.MORNING_SNACK,
+              chosenRecipes: [
+                {
+                  recipeId: 'r19',
+                  variants: [
+                    {
+                      variantId: 'v19',
                       portions: 20
                     }
                   ]
@@ -436,10 +511,25 @@ export class BasePlanningService {
               course: Course.LUNCH,
               chosenRecipes: [
                 {
-                  recipeId: 'r2',
+                  recipeId: 'r24',
                   variants: [
                     {
-                      variantId: 'v2',
+                      variantId: 'v24',
+                      portions: 20
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              id: this.getNewMealId(),
+              course: Course.SNACK,
+              chosenRecipes: [
+                {
+                  recipeId: 'r20',
+                  variants: [
+                    {
+                      variantId: 'v20',
                       portions: 20
                     }
                   ]
@@ -451,10 +541,10 @@ export class BasePlanningService {
               course: Course.DINNER,
               chosenRecipes: [
                 {
-                  recipeId: 'r3',
+                  recipeId: 'r16',
                   variants: [
                     {
-                      variantId: 'v3',
+                      variantId: 'v16',
                       portions: 20
                     }
                   ]
@@ -472,10 +562,25 @@ export class BasePlanningService {
               course: Course.BREAKFAST,
               chosenRecipes: [
                 {
-                  recipeId: 'r1',
+                  recipeId: 'r8',
                   variants: [
                     {
-                      variantId: 'v1',
+                      variantId: 'v8',
+                      portions: 20
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              id: this.getNewMealId(),
+              course: Course.MORNING_SNACK,
+              chosenRecipes: [
+                {
+                  recipeId: 'r19',
+                  variants: [
+                    {
+                      variantId: 'v19',
                       portions: 20
                     }
                   ]
@@ -487,10 +592,25 @@ export class BasePlanningService {
               course: Course.LUNCH,
               chosenRecipes: [
                 {
-                  recipeId: 'r2',
+                  recipeId: 'r25',
                   variants: [
                     {
-                      variantId: 'v2',
+                      variantId: 'v25',
+                      portions: 20
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              id: this.getNewMealId(),
+              course: Course.SNACK,
+              chosenRecipes: [
+                {
+                  recipeId: 'r20',
+                  variants: [
+                    {
+                      variantId: 'v20',
                       portions: 20
                     }
                   ]
@@ -502,10 +622,10 @@ export class BasePlanningService {
               course: Course.DINNER,
               chosenRecipes: [
                 {
-                  recipeId: 'r3',
+                  recipeId: 'r17',
                   variants: [
                     {
-                      variantId: 'v3',
+                      variantId: 'v17',
                       portions: 20
                     }
                   ]
@@ -523,10 +643,25 @@ export class BasePlanningService {
               course: Course.BREAKFAST,
               chosenRecipes: [
                 {
-                  recipeId: 'r1',
+                  recipeId: 'r9',
                   variants: [
                     {
-                      variantId: 'v1',
+                      variantId: 'v9',
+                      portions: 20
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              id: this.getNewMealId(),
+              course: Course.MORNING_SNACK,
+              chosenRecipes: [
+                {
+                  recipeId: 'r19',
+                  variants: [
+                    {
+                      variantId: 'v19',
                       portions: 20
                     }
                   ]
@@ -538,10 +673,25 @@ export class BasePlanningService {
               course: Course.LUNCH,
               chosenRecipes: [
                 {
-                  recipeId: 'r2',
+                  recipeId: 'r10',
                   variants: [
                     {
-                      variantId: 'v2',
+                      variantId: 'v10',
+                      portions: 20
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              id: this.getNewMealId(),
+              course: Course.SNACK,
+              chosenRecipes: [
+                {
+                  recipeId: 'r20',
+                  variants: [
+                    {
+                      variantId: 'v20',
                       portions: 20
                     }
                   ]
@@ -553,10 +703,10 @@ export class BasePlanningService {
               course: Course.DINNER,
               chosenRecipes: [
                 {
-                  recipeId: 'r3',
+                  recipeId: 'r18',
                   variants: [
                     {
-                      variantId: 'v3',
+                      variantId: 'v18',
                       portions: 20
                     }
                   ]
@@ -586,13 +736,43 @@ export class BasePlanningService {
             },
             {
               id: this.getNewMealId(),
+              course: Course.MORNING_SNACK,
+              chosenRecipes: [
+                {
+                  recipeId: 'r19',
+                  variants: [
+                    {
+                      variantId: 'v19',
+                      portions: 20
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              id: this.getNewMealId(),
               course: Course.LUNCH,
               chosenRecipes: [
                 {
-                  recipeId: 'r2',
+                  recipeId: 'r11',
                   variants: [
                     {
-                      variantId: 'v2',
+                      variantId: 'v11',
+                      portions: 20
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              id: this.getNewMealId(),
+              course: Course.SNACK,
+              chosenRecipes: [
+                {
+                  recipeId: 'r20',
+                  variants: [
+                    {
+                      variantId: 'v20',
                       portions: 20
                     }
                   ]
@@ -604,10 +784,10 @@ export class BasePlanningService {
               course: Course.DINNER,
               chosenRecipes: [
                 {
-                  recipeId: 'r3',
+                  recipeId: 'r16',
                   variants: [
                     {
-                      variantId: 'v3',
+                      variantId: 'v16',
                       portions: 20
                     }
                   ]
@@ -625,21 +805,6 @@ export class BasePlanningService {
               course: Course.BREAKFAST,
               chosenRecipes: [
                 {
-                  recipeId: 'r1',
-                  variants: [
-                    {
-                      variantId: 'v1',
-                      portions: 20
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              id: this.getNewMealId(),
-              course: Course.LUNCH,
-              chosenRecipes: [
-                {
                   recipeId: 'r2',
                   variants: [
                     {
@@ -652,13 +817,58 @@ export class BasePlanningService {
             },
             {
               id: this.getNewMealId(),
+              course: Course.MORNING_SNACK,
+              chosenRecipes: [
+                {
+                  recipeId: 'r19',
+                  variants: [
+                    {
+                      variantId: 'v19',
+                      portions: 20
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              id: this.getNewMealId(),
+              course: Course.LUNCH,
+              chosenRecipes: [
+                {
+                  recipeId: 'r14',
+                  variants: [
+                    {
+                      variantId: 'v14',
+                      portions: 20
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              id: this.getNewMealId(),
+              course: Course.SNACK,
+              chosenRecipes: [
+                {
+                  recipeId: 'r20',
+                  variants: [
+                    {
+                      variantId: 'v20',
+                      portions: 20
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              id: this.getNewMealId(),
               course: Course.DINNER,
               chosenRecipes: [
                 {
-                  recipeId: 'r3',
+                  recipeId: 'r24',
                   variants: [
                     {
-                      variantId: 'v3',
+                      variantId: 'v24',
                       portions: 20
                     }
                   ]
@@ -676,10 +886,25 @@ export class BasePlanningService {
               course: Course.BREAKFAST,
               chosenRecipes: [
                 {
-                  recipeId: 'r1',
+                  recipeId: 'r3',
                   variants: [
                     {
-                      variantId: 'v1',
+                      variantId: 'v3',
+                      portions: 20
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              id: this.getNewMealId(),
+              course: Course.MORNING_SNACK,
+              chosenRecipes: [
+                {
+                  recipeId: 'r19',
+                  variants: [
+                    {
+                      variantId: 'v19',
                       portions: 20
                     }
                   ]
@@ -691,10 +916,25 @@ export class BasePlanningService {
               course: Course.LUNCH,
               chosenRecipes: [
                 {
-                  recipeId: 'r2',
+                  recipeId: 'r12',
                   variants: [
                     {
-                      variantId: 'v2',
+                      variantId: 'v12',
+                      portions: 20
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              id: this.getNewMealId(),
+              course: Course.SNACK,
+              chosenRecipes: [
+                {
+                  recipeId: 'r20',
+                  variants: [
+                    {
+                      variantId: 'v20',
                       portions: 20
                     }
                   ]
@@ -706,10 +946,10 @@ export class BasePlanningService {
               course: Course.DINNER,
               chosenRecipes: [
                 {
-                  recipeId: 'r3',
+                  recipeId: 'r25',
                   variants: [
                     {
-                      variantId: 'v3',
+                      variantId: 'v25',
                       portions: 20
                     }
                   ]
@@ -727,10 +967,25 @@ export class BasePlanningService {
               course: Course.BREAKFAST,
               chosenRecipes: [
                 {
-                  recipeId: 'r1',
+                  recipeId: 'r4',
                   variants: [
                     {
-                      variantId: 'v1',
+                      variantId: 'v4',
+                      portions: 20
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              id: this.getNewMealId(),
+              course: Course.MORNING_SNACK,
+              chosenRecipes: [
+                {
+                  recipeId: 'r19',
+                  variants: [
+                    {
+                      variantId: 'v19',
                       portions: 20
                     }
                   ]
@@ -742,10 +997,25 @@ export class BasePlanningService {
               course: Course.LUNCH,
               chosenRecipes: [
                 {
-                  recipeId: 'r2',
+                  recipeId: 'r13',
                   variants: [
                     {
-                      variantId: 'v2',
+                      variantId: 'v13',
+                      portions: 20
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              id: this.getNewMealId(),
+              course: Course.SNACK,
+              chosenRecipes: [
+                {
+                  recipeId: 'r20',
+                  variants: [
+                    {
+                      variantId: 'v20',
                       portions: 20
                     }
                   ]
@@ -757,10 +1027,10 @@ export class BasePlanningService {
               course: Course.DINNER,
               chosenRecipes: [
                 {
-                  recipeId: 'r3',
+                  recipeId: 'r26',
                   variants: [
                     {
-                      variantId: 'v3',
+                      variantId: 'v26',
                       portions: 20
                     }
                   ]
@@ -778,10 +1048,25 @@ export class BasePlanningService {
               course: Course.BREAKFAST,
               chosenRecipes: [
                 {
-                  recipeId: 'r1',
+                  recipeId: 'r5',
                   variants: [
                     {
-                      variantId: 'v1',
+                      variantId: 'v5',
+                      portions: 20
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              id: this.getNewMealId(),
+              course: Course.MORNING_SNACK,
+              chosenRecipes: [
+                {
+                  recipeId: 'r19',
+                  variants: [
+                    {
+                      variantId: 'v19',
                       portions: 20
                     }
                   ]
@@ -793,10 +1078,25 @@ export class BasePlanningService {
               course: Course.LUNCH,
               chosenRecipes: [
                 {
-                  recipeId: 'r2',
+                  recipeId: 'r23',
                   variants: [
                     {
-                      variantId: 'v2',
+                      variantId: 'v23',
+                      portions: 20
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              id: this.getNewMealId(),
+              course: Course.SNACK,
+              chosenRecipes: [
+                {
+                  recipeId: 'r20',
+                  variants: [
+                    {
+                      variantId: 'v20',
                       portions: 20
                     }
                   ]
@@ -808,10 +1108,10 @@ export class BasePlanningService {
               course: Course.DINNER,
               chosenRecipes: [
                 {
-                  recipeId: 'r3',
+                  recipeId: 'r14',
                   variants: [
                     {
-                      variantId: 'v3',
+                      variantId: 'v14',
                       portions: 20
                     }
                   ]
@@ -829,10 +1129,25 @@ export class BasePlanningService {
               course: Course.BREAKFAST,
               chosenRecipes: [
                 {
-                  recipeId: 'r1',
+                  recipeId: 'r6',
                   variants: [
                     {
-                      variantId: 'v1',
+                      variantId: 'v6',
+                      portions: 20
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              id: this.getNewMealId(),
+              course: Course.MORNING_SNACK,
+              chosenRecipes: [
+                {
+                  recipeId: 'r19',
+                  variants: [
+                    {
+                      variantId: 'v19',
                       portions: 20
                     }
                   ]
@@ -844,10 +1159,25 @@ export class BasePlanningService {
               course: Course.LUNCH,
               chosenRecipes: [
                 {
-                  recipeId: 'r2',
+                  recipeId: 'r14',
                   variants: [
                     {
-                      variantId: 'v2',
+                      variantId: 'v14',
+                      portions: 20
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              id: this.getNewMealId(),
+              course: Course.SNACK,
+              chosenRecipes: [
+                {
+                  recipeId: 'r20',
+                  variants: [
+                    {
+                      variantId: 'v20',
                       portions: 20
                     }
                   ]
@@ -859,10 +1189,10 @@ export class BasePlanningService {
               course: Course.DINNER,
               chosenRecipes: [
                 {
-                  recipeId: 'r3',
+                  recipeId: 'r15',
                   variants: [
                     {
-                      variantId: 'v3',
+                      variantId: 'v15',
                       portions: 20
                     }
                   ]
@@ -880,10 +1210,25 @@ export class BasePlanningService {
               course: Course.BREAKFAST,
               chosenRecipes: [
                 {
-                  recipeId: 'r1',
+                  recipeId: 'r7',
                   variants: [
                     {
-                      variantId: 'v1',
+                      variantId: 'v7',
+                      portions: 20
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              id: this.getNewMealId(),
+              course: Course.MORNING_SNACK,
+              chosenRecipes: [
+                {
+                  recipeId: 'r19',
+                  variants: [
+                    {
+                      variantId: 'v19',
                       portions: 20
                     }
                   ]
@@ -895,10 +1240,25 @@ export class BasePlanningService {
               course: Course.LUNCH,
               chosenRecipes: [
                 {
-                  recipeId: 'r2',
+                  recipeId: 'r24',
                   variants: [
                     {
-                      variantId: 'v2',
+                      variantId: 'v24',
+                      portions: 20
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              id: this.getNewMealId(),
+              course: Course.SNACK,
+              chosenRecipes: [
+                {
+                  recipeId: 'r20',
+                  variants: [
+                    {
+                      variantId: 'v20',
                       portions: 20
                     }
                   ]
@@ -910,10 +1270,10 @@ export class BasePlanningService {
               course: Course.DINNER,
               chosenRecipes: [
                 {
-                  recipeId: 'r3',
+                  recipeId: 'r17',
                   variants: [
                     {
-                      variantId: 'v3',
+                      variantId: 'v17',
                       portions: 20
                     }
                   ]
@@ -931,10 +1291,25 @@ export class BasePlanningService {
               course: Course.BREAKFAST,
               chosenRecipes: [
                 {
-                  recipeId: 'r1',
+                  recipeId: 'r8',
                   variants: [
                     {
-                      variantId: 'v1',
+                      variantId: 'v8',
+                      portions: 20
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              id: this.getNewMealId(),
+              course: Course.MORNING_SNACK,
+              chosenRecipes: [
+                {
+                  recipeId: 'r19',
+                  variants: [
+                    {
+                      variantId: 'v19',
                       portions: 20
                     }
                   ]
@@ -946,10 +1321,25 @@ export class BasePlanningService {
               course: Course.LUNCH,
               chosenRecipes: [
                 {
-                  recipeId: 'r2',
+                  recipeId: 'r25',
                   variants: [
                     {
-                      variantId: 'v2',
+                      variantId: 'v25',
+                      portions: 20
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              id: this.getNewMealId(),
+              course: Course.SNACK,
+              chosenRecipes: [
+                {
+                  recipeId: 'r20',
+                  variants: [
+                    {
+                      variantId: 'v20',
                       portions: 20
                     }
                   ]
@@ -961,10 +1351,10 @@ export class BasePlanningService {
               course: Course.DINNER,
               chosenRecipes: [
                 {
-                  recipeId: 'r3',
+                  recipeId: 'r18',
                   variants: [
                     {
-                      variantId: 'v3',
+                      variantId: 'v18',
                       portions: 20
                     }
                   ]
@@ -982,10 +1372,25 @@ export class BasePlanningService {
               course: Course.BREAKFAST,
               chosenRecipes: [
                 {
-                  recipeId: 'r1',
+                  recipeId: 'r9',
                   variants: [
                     {
-                      variantId: 'v1',
+                      variantId: 'v9',
+                      portions: 20
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              id: this.getNewMealId(),
+              course: Course.MORNING_SNACK,
+              chosenRecipes: [
+                {
+                  recipeId: 'r19',
+                  variants: [
+                    {
+                      variantId: 'v19',
                       portions: 20
                     }
                   ]
@@ -997,10 +1402,25 @@ export class BasePlanningService {
               course: Course.LUNCH,
               chosenRecipes: [
                 {
-                  recipeId: 'r2',
+                  recipeId: 'r26',
                   variants: [
                     {
-                      variantId: 'v2',
+                      variantId: 'v26',
+                      portions: 20
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              id: this.getNewMealId(),
+              course: Course.SNACK,
+              chosenRecipes: [
+                {
+                  recipeId: 'r20',
+                  variants: [
+                    {
+                      variantId: 'v20',
                       portions: 20
                     }
                   ]
@@ -1012,10 +1432,10 @@ export class BasePlanningService {
               course: Course.DINNER,
               chosenRecipes: [
                 {
-                  recipeId: 'r3',
+                  recipeId: 'r23',
                   variants: [
                     {
-                      variantId: 'v3',
+                      variantId: 'v23',
                       portions: 20
                     }
                   ]

@@ -110,16 +110,22 @@ export class ChooseRecipePage implements OnInit {
 
   chooseSelected() {
     const selectedRecipes = this.recipesList.selectedRecipes;
-    let selectedRecipesArray = Array.from(selectedRecipes.values());
-    if (selectedRecipesArray.length === 0) {
-      return;
-    }
+
     const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
     buttonElement.blur();
 
-    const recipeId = selectedRecipesArray[0];
+    if (selectedRecipes.size === 0) {
+      return;
+    }
 
-    selectedRecipesArray = selectedRecipesArray.filter(recipeId => recipeId !== recipeId);
+    const selectedRecipesSet = new Set(selectedRecipes);
+    const recipeId = selectedRecipesSet.values().next().value;
+    if (recipeId === undefined) {
+      return;
+    }
+    selectedRecipesSet.delete(recipeId);
+    const selectedRecipesArray = Array.from(selectedRecipesSet);
+
     this.router.navigate([recipeId], { relativeTo: this.route, state: { selectedRecipesArray: selectedRecipesArray } },);
     //open one of the recipe, choose variants and portions for it and return back here
   }

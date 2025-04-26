@@ -21,6 +21,8 @@ import { SearchbarWithButtonsComponent } from "../searchbar-with-buttons/searchb
 import { IFilterOptions } from 'src/app/data/interfaces/filter-options.interface';
 import { SortOption } from 'src/app/data/enums/sort-options.enum';
 import { LoadingService } from '../../services/loading.service';
+import { ToastController } from '@ionic/angular';
+import { BaseComponent } from '../base-component/base.component';
 
 @Component({
   selector: 'app-recipe-detail',
@@ -44,7 +46,7 @@ import { LoadingService } from '../../services/loading.service';
     SearchbarWithButtonsComponent
   ]
 })
-export class RecipeDetailComponent implements OnInit {
+export class RecipeDetailComponent extends BaseComponent implements OnInit {
 
   @Input({ required: true }) recipe!: IRecipe;
   @Input() isEditing = false;
@@ -90,14 +92,16 @@ export class RecipeDetailComponent implements OnInit {
       (this.recipe.variants.length > 1 || ((this.isEditing || this.isChoosing) && this.recipe.variants.length > 0));
   }
 
-  constructor(private translateService: TranslateService,
+  constructor(override translateService: TranslateService,
     private variantService: VariantService,
     private alertService: AlertService,
     private route: ActivatedRoute,
     private popoverController: PopoverController,
     private loadingService: LoadingService,
+    override toastController: ToastController,
     private router: Router) {
 
+    super(toastController, translateService);
     addIcons({ add, trash, alert });
 
   }
@@ -210,14 +214,18 @@ export class RecipeDetailComponent implements OnInit {
           const loading = await this.loadingService.showLoading();
           await loading.present();
           this.variantService.deleteSelected(this.recipe.id, this.selectedIds).subscribe({
-            next: (variants: IRecipeVariant[]) => {
+            next: async (variants: IRecipeVariant[]) => {
               this.selectedIds = [];
               this.recipe.variants = variants;
               loading.dismiss();
+              const notification = await this.presentSuccess(this.translateService.instant('recipe-detail.delete-variants-success'));
+              await notification.present();
             },
-            error: (err: any) => {
+            error: async (err: any) => {
               console.error(err);
               loading.dismiss();
+              const notification = await this.presentError(err);
+              await notification.present();
             }
           }
           );

@@ -5,20 +5,22 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { VariantService } from 'src/app/data/services/variant.service';
 import { RecipeService } from 'src/app/data/services/recipe.service';
 import { CommonModule } from '@angular/common';
-import { IonContent, IonHeader, IonToolbar, IonBackButton, IonButton, IonButtons, IonIcon, IonInfiniteScroll } from "@ionic/angular/standalone";
+import { IonContent, IonHeader, IonToolbar, IonBackButton, IonButton, IonButtons, IonIcon, IonInfiniteScroll, IonText, IonItem, IonLabel } from "@ionic/angular/standalone";
 import { addIcons } from 'ionicons';
 import { pencil, trash } from 'ionicons/icons';
 import { IRecipe } from 'src/app/data/interfaces/recipe.interface';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { AlertService } from '../../services/alert.service';
-import { NotificationService } from '../../services/notification.service';
+import { ToastController } from '@ionic/angular';
 import { LoadingService } from '../../services/loading.service';
+import { BaseComponent } from '../../components/base-component/base.component';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-recipe-variant-detail.page',
   templateUrl: './recipe-variant-detail.page.component.html',
   styleUrls: ['./recipe-variant-detail.page.component.scss'],
-  imports: [IonIcon,
+  imports: [IonLabel, IonItem, IonText, IonIcon,
     IonHeader,
     IonContent,
     IonToolbar,
@@ -30,7 +32,7 @@ import { LoadingService } from '../../services/loading.service';
     TranslateModule],
   standalone: true
 })
-export class RecipeVariantDetailPage implements OnInit {
+export class RecipeVariantDetailPage extends BaseComponent implements OnInit {
 
 
   variant: IRecipeVariant | null = null;
@@ -40,13 +42,14 @@ export class RecipeVariantDetailPage implements OnInit {
     private route: ActivatedRoute,
     private variantService: VariantService,
     private recipesService: RecipeService,
-    private translateService: TranslateService,
+    override translateService: TranslateService,
     private alertService: AlertService,
-    private notificationService: NotificationService,
+    override toastController: ToastController,
     private router: Router,
     private loadingService: LoadingService
   ) {
 
+    super(toastController, translateService);
     addIcons({ trash, pencil });
 
   }
@@ -62,9 +65,12 @@ export class RecipeVariantDetailPage implements OnInit {
           this.variant = variant;
           loading.dismiss();
         },
-        error: (err: any) => {
-          this.notificationService.presentError(err);
+        error: async (err: any) => {
           loading.dismiss();
+
+          const notification = await this.presentError(err);
+          await notification.present();
+
         }
       });
       const loading2 = await this.loadingService.showLoading();
@@ -74,9 +80,12 @@ export class RecipeVariantDetailPage implements OnInit {
           this.recipe = recipe;
           loading2.dismiss();
         },
-        error: (err: any) => {
-          this.notificationService.presentError(err);
+        error: async (err: any) => {
           loading2.dismiss();
+
+          const notification = await this.presentError(err);
+          await notification.present();
+
         }
       });
     });
@@ -87,8 +96,8 @@ export class RecipeVariantDetailPage implements OnInit {
     const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
     buttonElement.blur();
     const alert = await this.alertService.presentConfirm(
-      this.translateService.instant('recipe-variant-detail.delete-variant'),
-      this.translateService.instant('recipe-variant-detail.delete-variant-message'),
+      this.translateService.instant('recipes.recipe-variant-detail.delete-variant'),
+      this.translateService.instant('recipes.recipe-variant-detail.delete-variant-message'),
       async () => {
         const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
         buttonElement.blur();
@@ -98,18 +107,26 @@ export class RecipeVariantDetailPage implements OnInit {
         if (this.recipe && this.recipe.id && this.variant.id) {
           const loading = await this.loadingService.showLoading();
           await loading.present();
-          this.variantService.deleteById(this.variant.id).subscribe({
+          this.variantService.deleteById(this.variant.id).pipe(
+            finalize(() => loading.dismiss())
+          ).subscribe({
             next: async () => {
-              this.router.navigate(['/tabs/recipes', this.recipe!.id]);
               loading.dismiss();
-              const toast = await this.notificationService.presentSuccess(this.translateService.instant('recipe-variant-detail.delete-variant-success'));
-              await toast.present();
+              // const notification = await this.presentSuccess(this.translateService.instant('recipe-variant-detail.delete-variant-success'));
+              // await notification.present();
+              if (this.recipe) {
+                this.router.navigate(['/tabs/recipes', this.recipe.id]);
+              }
+              else {
+                this.router.navigate(['/tabs/recipes']);
+              }
+
 
             },
             error: async (err: any) => {
-              const toast = await this.notificationService.presentError(err);
+              const notification = await this.presentError(err);
               loading.dismiss();
-              await toast.present();
+              await notification.present();
 
             }
           });
@@ -117,6 +134,15 @@ export class RecipeVariantDetailPage implements OnInit {
       }
     );
     await alert.present();
+  }
+
+  goToRecipe() {
+    const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
+    buttonElement.blur();
+    if (this.recipe === null) {
+      return;
+    }
+    this.router.navigate(['/tabs/recipes', this.recipe!.id]);
   }
 
   editVariant() {

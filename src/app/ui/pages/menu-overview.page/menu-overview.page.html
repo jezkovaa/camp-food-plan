@@ -26,7 +26,8 @@
               (navigateToDayMenuEvent)="navigateToDayMenu($event)"></app-day-menu-overview>
           </div>
           <div *ngIf="!getMenuForDate(date)" style="text-align: center;">
-            <app-day-menu-overview [dayMenu]="null" [eventId]="event.id" [date]="date"></app-day-menu-overview>
+            <app-day-menu-overview [dayMenu]="null" [eventId]="event.id" [date]="date"
+              (navigateToDayMenuEvent)="navigateToDayMenu($event)"></app-day-menu-overview>
           </div>
         </div>
 

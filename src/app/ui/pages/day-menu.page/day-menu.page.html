@@ -11,14 +11,14 @@
       <div style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
         <div class="custom-title-1">{{event?.name}}</div>
         <div class="custom-title-1">{{ dayMenu?.date | date: 'dd.MM.yyyy'}}</div>
-        <ion-button id="date-selection" fill="success" shape="round" size="small">
+        <ion-button id="date-selection" fill="dark" shape="round" size="small">
           <ion-icon slot="icon-only" name="calendar" />
         </ion-button>
         <ion-popover id="date-selection-popover" trigger="date-selection" triggerAction="click" size="auto">
           <ng-template>
             <ion-content class="ion-padding">
-              <ion-datetime #datepicker [value]="dayMenu?.date?.toISOString()" [min]="getDateFromISOString()"
-                [max]="getDateToISOString()" [locale]="getCurrentLang" presentation="date"
+              <ion-datetime #datepicker [value]="dayMenu?.date?.toISOString()" [min]="getDateFromISOString"
+                [max]="getDateToISOString" [locale]="getCurrentLang" presentation="date"
                 (ionChange)="dateChanged($event)" [highlightedDates]="highlightedDates" />
             </ion-content>
 

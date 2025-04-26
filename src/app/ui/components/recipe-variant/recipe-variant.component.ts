@@ -26,7 +26,7 @@ export class RecipeVariantComponent implements OnInit {
 
   get existingVariantsRestrictions() {
 
-    return this.variant.restrictions.size > 0 || !(this.variant.restrictions.size === 1 && this.variant.restrictions.has(FoodRestriction.NONE));
+    return !(this.variant.restrictions.size === 0 || (this.variant.restrictions.size === 1 && this.variant.restrictions.has(FoodRestriction.NONE)));
 
   }
 

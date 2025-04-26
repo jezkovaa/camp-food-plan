@@ -16,11 +16,12 @@ import { IDayMealRecipeNames } from 'src/app/data/interfaces/day-meal-names.inte
 import { RestrictionComponent } from "../../components/restriction/restriction.component";
 import { FoodRestriction } from 'src/app/data/enums/food-restriction.enum';
 import { MenuService } from 'src/app/data/services/menu.service';
-import { clone, cloneDeep } from 'lodash';
+import { clone, cloneDeep, isEqual } from 'lodash';
 import { finalize } from 'rxjs';
 import { LoadingService } from '../../services/loading.service';
 import { AlertService } from '../../services/alert.service';
-import { NotificationService } from '../../services/notification.service';
+import { ToastController } from '@ionic/angular';
+import { BaseComponent } from '../../components/base-component/base.component';
 
 @Component({
   selector: 'app-meal-detail',
@@ -41,7 +42,7 @@ import { NotificationService } from '../../services/notification.service';
 
     RestrictionComponent]
 })
-export class MealDetailPage implements OnInit {
+export class MealDetailPage extends BaseComponent implements OnInit {
 
   meal: IDayMeal | null = null;
   initMeal: IDayMeal | null = null;
@@ -75,19 +76,29 @@ export class MealDetailPage implements OnInit {
   constructor(private route: ActivatedRoute,
     private plannedEventService: PlannedEventService,
     private menuService: MenuService,
-    private translateService: TranslateService,
+    override translateService: TranslateService,
     private recipesService: RecipeService,
     private router: Router,
-    private notifyService: NotificationService,
+    override toastController: ToastController,
     private alertService: AlertService,
     private loadingService: LoadingService,
     private navController: NavController,
     private cdr: ChangeDetectorRef) {
+    super(toastController, translateService);
     addIcons({ add, trash, pencil, save, closeCircle });
   }
 
   get isAnyChange(): boolean {
-    return JSON.stringify(this.initMeal) === JSON.stringify(this.meal);
+    if (this.meal && this.initMeal) {
+      return !isEqual(this.meal, this.initMeal);
+    }
+    if (this.meal && !this.initMeal) {
+      return true;
+    }
+    if (this.initMeal && !this.meal) {
+      return true;
+    }
+    return false;
   }
 
   ngOnInit() {
@@ -255,8 +266,65 @@ export class MealDetailPage implements OnInit {
     });
   }
 
-  save() {
+  async save() {
+    const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
+    buttonElement.blur();
+    if (this.isAnyChange && this.dayMenuId && this.meal) {
+      if (this.meal.chosenRecipes.length === 0) {
+        const alert = await this.alertService.presentConfirm(
+          this.translateService.instant('planning.day-menu.meal-alert-title'),
+          this.translateService.instant('planning.day-menu.meal-alert-message'),
+          () => {
+            if (!this.eventId || !this.dayMenuId || !this.meal || !this.meal.id) {
+              return;
+            }
 
+            this.menuService.deleteMealFromMenu(this.eventId, this.dayMenuId, this.meal.id).subscribe({
+              next: async (menu: IDayMenu) => {
+                this.meal = null;
+                const notification = await this.presentSuccess(this.translateService.instant('planning.day-menu.success-deleted'));
+                await notification.present();
+                this.cdr.detectChanges();
+                this.router.navigate(['/tabs/planning/events', this.eventId, 'menu', this.dayMenuId]);
+                //this.router.navigate(['/tabs/planning/events', this.eventId, 'menu', this.dayMenuId]);
+              },
+              error: async (err: any) => {
+                const notification = await this.presentError(err);
+                await notification.present();
+                console.error('Error deleting meal:', err);
+                this.router.navigate(['/tabs/planning/events', this.eventId, 'menu', this.dayMenuId]);
+              }
+            });
+
+
+          },
+          () => {
+            const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
+            buttonElement.blur();
+          });
+        await alert.present();
+      } else {
+        this.menuService.updateMenu(this.dayMenuId, this.meal?.course, this.meal?.chosenRecipes).subscribe({
+          next: async (menu: IDayMenu) => {
+            this.meal = menu.meals.find(meal => meal.course === this.meal?.course) || null;
+            this.cdr.detectChanges();
+            const notification = await this.presentSuccess(this.translateService.instant('planning.day-menu.success-updated'));
+            await notification.present();
+          },
+          error: async (err: any) => {
+            const notification = await this.presentError(err);
+            await notification.present();
+
+            console.error('Error saving meal:', err);
+          }
+        });
+      }
+
+
+    }
+    else {
+      this.navController.back();
+    }
   }
 
   close() {
@@ -267,7 +335,7 @@ export class MealDetailPage implements OnInit {
 
   private async updateMenuWithTakeBack(menu: IDayMenu, oldMeal: IDayMealRecipe[]) {
     this.meal = menu.meals.find(meal => meal.course === this.meal?.course) || null;
-    const toast = await this.notifyService.presentSuccessWithTakeBack(
+    const notification = await this.presentSuccessWithTakeBack(
       this.translateService.instant('planning.day-menu.success-deleted'),
       () => {
         if (!this.dayMenuId || !this.meal) {
@@ -284,7 +352,7 @@ export class MealDetailPage implements OnInit {
         });
       }
     );
-    await toast.present();
+    await notification.present();
   }
 
 
