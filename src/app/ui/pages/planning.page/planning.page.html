@@ -1,27 +1,36 @@
 <div id="planning-home" class="ion-page">
   <ion-header>
-    <ion-toolbar>
-      <ion-title> {{ "planning.title" | translate}}</ion-title>
+    <ion-toolbar class="ion-padding-top ion-padding-bottom">
+      <ion-title style="width: fit-content; padding: 0.5rem; border-radius: 1rem; width: 100%; padding-left: 16px;"> {{
+        "planning.title" |
+        translate}}</ion-title>
+      <ion-searchbar class="searchbar-event" (ionInput)="searchbarInput($event)"
+        placeholder="{{'searchBar' | translate}}" />
     </ion-toolbar>
   </ion-header>
 
-  <ion-content [fullscreen]="true">
+  <ion-content>
 
     <div class="content">
       <ion-label *ngIf="plannedEvents.length === 0">{{"planning.no-planned-events" | translate}}</ion-label>
-      <ion-label *ngIf="plannedEvents.length !== 0">{{"planning.choose-or-create" | translate }}</ion-label>
-      <ion-button (click)="createEvent()">
-        <ion-icon slot="start" name="add"></ion-icon>
-        <ion-label>{{"planning.event.add-event" | translate }}</ion-label>
-      </ion-button>
-      <ion-button id="showPopover" color="light">
-        <ion-icon slot="end" name="chevron-down"></ion-icon>
-        {{"planning.event.select-event" | translate }}</ion-button>
-      <ion-popover trigger="showPopover" show-backdrop="true" showBackdrop="true">
-        <app-select-event *ngIf="plannedEvents.length !== 0"
-          (selectionChange)="selectionChanged($event)"></app-select-event>
-      </ion-popover>
-
+      <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+        <ion-fab-button (click)="createEvent()" shape="round" size="large" color="dark">
+          <ion-icon name="add"></ion-icon>
+        </ion-fab-button>
+      </ion-fab>
+      <div class="events-list" style="width: 100%;">
+        <ion-list id="modal-list" [inset]="true" style="display: flex; flex-direction: column; gap: 10px">
+          @for (item of filteredItems; track item.name) {
+          <ion-item style="width: 100%;   box-shadow: var(--box-shadow);
+          border-radius: var(--radius);
+          display: flex;
+          align-items: center;">
+            <ion-button fill="clear" size="large" (click)="selectItem(item)">{{
+              item.name }}</ion-button>
+          </ion-item>
+          }
+        </ion-list>
+      </div>
     </div>
 
   </ion-content>

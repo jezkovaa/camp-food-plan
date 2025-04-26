@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { IonHeader, IonToolbar, IonTitle, IonContent, IonLabel, IonButton, IonIcon, IonPopover, IonButtons, IonBackButton } from '@ionic/angular/standalone';
+import { IonHeader, IonToolbar, IonTitle, IonContent, IonLabel, IonButton, IonIcon, IonPopover, IonButtons, IonBackButton, IonSearchbar, IonList, IonItem, IonFab, IonFabButton } from '@ionic/angular/standalone';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { addIcons } from 'ionicons';
 import { add, chevronDown } from 'ionicons/icons';
@@ -11,12 +11,13 @@ import { PopoverController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs';
 import { LoadingService } from '../../services/loading.service';
+import { cloneDeep } from 'lodash';
 
 @Component({
   selector: 'app-planning',
   templateUrl: 'planning.page.html',
   styleUrls: ['planning.page.scss'],
-  imports: [IonBackButton, IonButtons, IonPopover,
+  imports: [IonFabButton, IonFab, IonItem, IonList, IonSearchbar, IonBackButton, IonButtons, IonPopover,
     IonButton,
     IonLabel,
     IonHeader,
@@ -33,6 +34,7 @@ import { LoadingService } from '../../services/loading.service';
 export class PlanningPage implements OnInit {
 
   plannedEvents: IPlannedEvent[] = [];
+  filteredItems: IPlannedEvent[] = [];
   selectedEventId: string = '';
 
 
@@ -54,6 +56,7 @@ export class PlanningPage implements OnInit {
     ).subscribe({
       next: (plannedEvents: IPlannedEvent[]) => {
         this.plannedEvents = plannedEvents;
+        this.filteredItems = cloneDeep(plannedEvents);
       },
       error: (error) => {
         console.error(error);
@@ -69,8 +72,28 @@ export class PlanningPage implements OnInit {
 
   selectionChanged(selectedEventId: string) {
     this.selectedEventId = selectedEventId;
-    this.popover.dismiss();
     this.router.navigate(['tabs/planning/events/', selectedEventId]);
 
+  }
+
+  selectItem(item: IPlannedEvent) {
+    const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
+    buttonElement.blur();
+    this.selectionChanged(item.id);
+  }
+
+  searchbarInput(event: Event) {
+    const inputElement = event.target as HTMLInputElement;
+    this.filterList(inputElement.value);
+  }
+
+  filterList(searchQuery: string | undefined) {
+
+    if (searchQuery === undefined || searchQuery.trim() === '') {
+      this.filteredItems = [...this.plannedEvents];
+    } else {
+      const normalizedQuery = searchQuery.toLowerCase();
+      this.filteredItems = this.plannedEvents.filter((item) => item.name.toLowerCase().includes(normalizedQuery));
+    }
   }
 }
