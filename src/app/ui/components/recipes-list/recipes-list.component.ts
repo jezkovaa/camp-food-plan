@@ -71,7 +71,28 @@ export class RecipesListComponent implements OnInit, OnChanges {
   }
 
   private applySearchValue() {
-    this.filteredRecipes = this.filteredRecipes.filter(recipe => recipe.name.toLowerCase().includes(this.searchValue.toLowerCase()));
+    this.filteredRecipes = this.filteredRecipes.filter(recipe => {
+      const recipeName = recipe.name.toLowerCase();
+      const searchValue = this.searchValue.toLowerCase();
+
+      let mismatches = 0;
+      let i = 0, j = 0;
+
+      while (i < recipeName.length && j < searchValue.length) {
+        if (recipeName[i] !== searchValue[j]) {
+          mismatches++;
+          if (mismatches > 2) {
+            return false;
+          }
+        }
+        j++;
+        i++;
+      }
+
+      mismatches += searchValue.length - j;
+
+      return mismatches <= 2;
+    });
   }
 
   private filterRecipes() {

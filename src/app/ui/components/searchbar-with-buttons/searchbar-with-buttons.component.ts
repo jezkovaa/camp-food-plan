@@ -198,11 +198,11 @@ export class SearchbarWithButtonsComponent implements OnInit {
     this.filter ? this.filterChangedEvent.emit(this.filter) : this.filterChangedEvent.emit({ courses: new Set<Course>(), restrictions: new Set<FoodRestriction>() });
   }
 
-  getFilterValue(value: Course | FoodRestriction): Set<FoodRestriction> {
+  getFilterValue(value: Course | FoodRestriction): FoodRestriction {
     if (Object.values(FoodRestriction).includes(value as FoodRestriction)) {
-      return new Set<FoodRestriction>([value as FoodRestriction]);
+      return value as FoodRestriction;
     }
-    return new Set<FoodRestriction>();
+    return FoodRestriction.NONE;
   }
 
   isFoodRestrictionFilter(type: FilterType): boolean {

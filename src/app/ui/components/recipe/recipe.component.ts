@@ -8,6 +8,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ID } from 'src/app/types';
 import { addIcons } from 'ionicons';
 import { alert } from 'ionicons/icons';
+import { MultipleRestrictionsComponent } from "../multiple-restrictions/multiple-restrictions.component";
 
 @Component({
   selector: 'app-recipe',
@@ -18,8 +19,9 @@ import { alert } from 'ionicons/icons';
     IonCheckbox,
     IonButton,
     IonIcon,
-
-    CommonModule, RestrictionComponent, TranslateModule]
+    CommonModule, TranslateModule,
+    MultipleRestrictionsComponent
+  ]
 })
 export class RecipeComponent implements OnInit {
 

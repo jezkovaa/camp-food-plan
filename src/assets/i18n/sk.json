@@ -1,5 +1,6 @@
 {
   "alert": {
+    "take-back": "Vrátiť späť",
     "cancel": "Zrušiť",
     "delete-success": "Úspešne vymazané",
     "delete-success-message": "Údaje boli úspešne vymazané",
@@ -17,7 +18,13 @@
     "missing-dates-message": "Doba konania udalosti musí byť vyplnená",
     "delete-confirm-message": "Naozaj chcete vymazať udalosť?",
     "delete-confirm-message-variants": "Naozaj chcete vymazať všetky varianty receptu?",
-    "delete-confirm": "Potvrdenie vymazania"
+    "delete-confirm": "Potvrdenie vymazania",
+    "variant-created": "Varianta bola vytvorená",
+    "menu-updated": "Jedálniček bol aktualizovaný",
+    "menu-updated-error": "Chyba pri aktualizácii jedálnička",
+    "recipe-deleted": "Recept bol úspešne vymazaný",
+    "event-created": "Udalosť bola úspešne vytvorená",
+    "event-saved": "Udalosť bola úspešne uložená"
   },
   "buttons": {
     "apply": "Použiť"
@@ -44,13 +51,15 @@
     "VEGETARIAN": "Vegetarián",
     "LACTOSE_INTOLERANT": "Laktózová intolerancia",
     "GLUTEN_FREE": "Gluténová intolerancia",
-    "available-for": "Vhodné pre"
+    "available-for": "Vhodné pre",
+    "for-all": "Bez omedzenia"
   },
   "loading": "Načítava sa...",
   "planning": {
     "title": "Plánovanie",
     "day-menu": {
       "add-meal": "Pridať jedlo",
+      "no-meals": "Žiadne jedlá",
       "meal": "Jedlo",
       "meal-alert-title": "Zmazanie receptu z jedla",
       "meal-variant-alert-title": "Zmazanie varianty z jedla",
@@ -60,22 +69,27 @@
       "alert": {
         "delete-confirm": "Potvrdenie vymazania",
         "delete-confirm-message": "Naozaj chcete vymazať toto jedlo?",
-        "delete-title": "Vymazanie jedla"
+        "delete-title": "Vymazanie jedla",
+        "delete-success": "Úspešne vymazané",
+        "error-title": "Chyba"
       },
       "portions": {
         "title": "Porcie",
         "entry": "Zadejte počet porcí",
         "confirm": "Potvrdiť",
         "cancel": "Zrušiť"
-      }
+      },
+      "success-deleted": "Úspěšně smazáno",
+      "success-updated": "Úspěšně aktualizováno"
     },
     "day-menu-overview": {
       "title": "Jedálniček",
+      "no-variant": "Žiadna varianta",
       "no-recipe": "-"
     },
     "event": {
-      "date": "Dátum",
       "add-event": "Pridať udalosť",
+      "date": "Dátum",
       "select-event": "Vyberte udalosť",
       "load-participants": "Načítať účastníkov",
       "display-menu": "Zobraziť jedálniček",
@@ -88,6 +102,7 @@
       },
       "title": "Udalosť",
       "shopping-lists": {
+        "no-shopping-lists": "Žiadne nákupné zoznamy",
         "title": "Nákupné zoznamy",
         "list": "Nákup",
         "minimum-count": "Počet položiek",
@@ -98,12 +113,21 @@
     "no-planned-events": "Nemáte naplánované žiadne udalosti",
     "choose-or-create": "Vyberte alebo vytvorte novú udalosť"
   },
+  "recipe-detail": {
+    "delete-variants": "Vymazať varianty",
+    "delete-variants-message": "Naozaj chcete vymazať všetky varianty receptu?",
+    "delete-variants-success": "Varianty boli úspešne vymazané"
+  },
   "recipes": {
     "alert": {
       "empty-recipe": "Prázdný recept",
       "empty-recipe-message": "Recept nesmie byť prázdny. Vyplňte názov, vyberte chod a pridajte aspoň jednu variantu",
       "no-changes": "Žiadne zmeny",
       "no-changes-message": "Nemáte žiadne zmeny na uloženie",
+      "save-success": "Úspešne uložené",
+      "save-error": "Chyba pri ukladaní",
+      "no-variants": "Žiadne varianty",
+      "no-variants-message": "Nemáte žiadne varianty na uloženie. Naozaj chcete pokračovať?",
       "cancel-creation": "Zrušiť vytvorenie",
       "cancel-creation-message": "Naozaj chcete zrušiť vytvorenie receptu?",
       "unsaved-changes": "Neuložené zmeny",
@@ -163,7 +187,7 @@
       "title": "Varianta",
       "name": "Názov",
       "name-error": "Názov nesmie byť prázdny.",
-      "ingredients-invalid": "Ingrediencie sú neplatné.",
+      "invalid-ingredients": "Ingrediencie sú neplatné.",
       "ingredients-error": "Ingrediencie nesmú byť prázdne.",
       "proceeding-error": "Postup je neplatný.",
       "enter-name": "Zadejte názov",
@@ -181,6 +205,7 @@
   },
   "dummy-recipes": {
     "ingredients": {
+      "beans": "Fazuľa",
       "flour": "Múka",
       "bread": "Chlieb",
       "beet": "Cvikla",
@@ -204,6 +229,7 @@
       "lentil": "Šošovica",
       "cream-for-cooking": "Smotana na varenie",
       "egg": "Vajce",
+      "egg-spread": "Vajcová nátierka",
       "cheese": "Syr",
       "fillet": "Filé",
       "chicken": "Kuracie maso",
@@ -267,6 +293,18 @@
     },
     "recipes": {
       "subtitle": "Pre všetkých",
+      "beans": {
+        "title": "Fazuľa s klobásou",
+        "step1": "Uvarte fazuľu v osolenej vode",
+        "step2": "Pridajte nakrájanú klobásu",
+        "step3": "Podávajte"
+      },
+      "pancakes": {
+        "title": "Palacinky",
+        "step1": "Zmiešajte múku, mlieko, vajcia, soľ a cukor",
+        "step2": "Na panvici opečte palacinky z oboch strán",
+        "step3": "Podávajte s džemom alebo nutelou"
+      },
       "bread-butter-jam-milk": {
         "title": "Chlieb s maslom, džemom a mliekom",
         "step1": "Nakrájajte chlieb na plátky",

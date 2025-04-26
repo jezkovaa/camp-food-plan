@@ -1,6 +1,6 @@
 <ion-toolbar>
   <ion-searchbar class="searchbar" animated="true" placeholder="{{'searchBar' | translate}}" show-clear-button="always"
-    (search)="onSearchValueChange($event)" />
+    (ionInput)="onSearchValueChange($event)" (ionClear)="onSearchValueChange($event)" />
   <div style="display: flex; justify-content: space-between;">
     <div class="filters-container">
       <ion-chip *ngFor="let filter of appliedFilters" style="display: flex;
@@ -11,7 +11,7 @@
           
 ">{{ filter.name }}</ion-label>
         <app-restriction *ngIf="isFoodRestrictionFilter(filter.type)"
-          [inputRestrictions]="getFilterValue(filter.value)"></app-restriction>
+          [restriction]="getFilterValue(filter.value)"></app-restriction>
         <button (click)="removeFilter(filter)" [disabled]="isForeverFilter(filter)" size="small"
           style="background-color: transparent;">
           <ion-icon name="close-circle"></ion-icon>

@@ -5,15 +5,14 @@ import { TranslateModule } from '@ngx-translate/core';
 import { CommonModule } from '@angular/common';
 import { addIcons } from 'ionicons';
 import { chevronDown, chevronUp } from 'ionicons/icons';
-import { RestrictionComponent } from '../restriction/restriction.component';
+import { MultipleRestrictionsComponent } from "../multiple-restrictions/multiple-restrictions.component";
 
 @Component({
   selector: 'app-recipe-variant-detail',
   templateUrl: './recipe-variant-detail.component.html',
   styleUrls: ['./recipe-variant-detail.component.scss'],
   imports: [IonIcon, IonButton, IonRow, IonCol, IonGrid, IonList, IonReorderGroup, IonReorder, IonItem, IonLabel,
-    TranslateModule, CommonModule, RestrictionComponent
-  ],
+    TranslateModule, CommonModule, MultipleRestrictionsComponent],
   standalone: true
 })
 export class RecipeVariantDetailComponent implements OnInit {

@@ -15,6 +15,7 @@ import { RestrictionHelpComponent } from '../restriction-help/restriction-help.c
 import { FoodRestriction } from 'src/app/data/enums/food-restriction.enum';
 import { RestrictionComponent } from "../restriction/restriction.component";
 import { cloneDeep } from 'lodash';
+import { MultipleRestrictionsComponent } from '../multiple-restrictions/multiple-restrictions.component';
 
 @Component({
   selector: 'app-variant-edit',
@@ -33,7 +34,7 @@ import { cloneDeep } from 'lodash';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    RestrictionHelpComponent, RestrictionComponent],
+    RestrictionHelpComponent, MultipleRestrictionsComponent],
 })
 export class VariantEditComponent implements OnInit {
 

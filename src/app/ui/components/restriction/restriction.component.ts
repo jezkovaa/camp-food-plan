@@ -10,14 +10,13 @@ import { RestrictionHelpComponent } from "../restriction-help/restriction-help.c
   selector: 'app-restriction',
   templateUrl: './restriction.component.html',
   styleUrls: ['./restriction.component.scss'],
-  imports: [IonPopover, IonButton, IonIcon, CommonModule, RestrictionHelpComponent]
+  imports: [IonIcon, CommonModule]
 })
 export class RestrictionComponent {
 
+  @Input({ required: true }) restriction: FoodRestriction = FoodRestriction.NONE;
 
-  @Input() inputRestrictions: Set<FoodRestriction> = new Set<FoodRestriction>();
-
-  @ViewChild("restrictionHelpPopover") restrictionHelpPopover!: IonPopover;
+  noRestriction = FoodRestriction.NONE;
 
   restrictions = FoodRestriction;
 
@@ -25,8 +24,5 @@ export class RestrictionComponent {
     addIcons({ leaf });
   }
 
-  showRestrictionHelp(e: any) {
-    this.restrictionHelpPopover.event = e;
-    this.restrictionHelpPopover.present();
-  }
+
 }

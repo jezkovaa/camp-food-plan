@@ -7,12 +7,13 @@ import { IRecipeVariant } from 'src/app/data/interfaces/recipe-variant.interface
 import { Router } from '@angular/router';
 import { FoodRestriction } from 'src/app/data/enums/food-restriction.enum';
 import { ID } from 'src/app/types';
+import { MultipleRestrictionsComponent } from "../multiple-restrictions/multiple-restrictions.component";
 
 @Component({
   selector: 'app-recipe-variant',
   templateUrl: './recipe-variant.component.html',
   styleUrls: ['./recipe-variant.component.scss'],
-  imports: [IonCheckbox, IonButton, TranslateModule, CommonModule, RestrictionComponent],
+  imports: [IonCheckbox, IonButton, TranslateModule, CommonModule, MultipleRestrictionsComponent],
   standalone: true
 })
 export class RecipeVariantComponent implements OnInit {

@@ -13,6 +13,7 @@ import { RestrictionComponent } from '../restriction/restriction.component';
 import { FoodRestriction } from 'src/app/data/enums/food-restriction.enum';
 import { finalize } from 'rxjs';
 import { LoadingService } from '../../services/loading.service';
+import { MultipleRestrictionsComponent } from "../multiple-restrictions/multiple-restrictions.component";
 
 @Component({
   selector: 'app-meal',
@@ -23,12 +24,9 @@ import { LoadingService } from '../../services/loading.service';
     IonIcon,
     IonButton,
     IonButtons,
-
-
     CommonModule,
     TranslateModule,
-
-    RestrictionComponent
+    MultipleRestrictionsComponent
   ]
 
 })

@@ -33,12 +33,6 @@ export class RestrictionHelpComponent implements OnInit {
     return this.translateService.instant(`food-restriction.${restriction}`);
   }
 
-  getRestriction(restriction: FoodRestriction): Set<FoodRestriction> {
-    const restrictionSet = new Set<FoodRestriction>();
-    restrictionSet.add(restriction);
-    return restrictionSet;
-  }
-
   getValue(restriction: FoodRestriction): boolean {
     return this.selectedRestrictions.has(restriction);
   }

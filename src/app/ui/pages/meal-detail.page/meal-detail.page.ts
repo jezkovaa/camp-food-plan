@@ -22,6 +22,7 @@ import { LoadingService } from '../../services/loading.service';
 import { AlertService } from '../../services/alert.service';
 import { ToastController } from '@ionic/angular';
 import { BaseComponent } from '../../components/base-component/base.component';
+import { MultipleRestrictionsComponent } from '../../components/multiple-restrictions/multiple-restrictions.component';
 
 @Component({
   selector: 'app-meal-detail',
@@ -40,7 +41,7 @@ import { BaseComponent } from '../../components/base-component/base.component';
     CommonModule,
     FormsModule,
 
-    RestrictionComponent]
+    MultipleRestrictionsComponent]
 })
 export class MealDetailPage extends BaseComponent implements OnInit {
 

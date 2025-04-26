@@ -55,7 +55,8 @@
         <div *ngFor="let variant of recipe.variants" class="ion-padding ion-padding-start"
           style="margin-left: 10px; display: flex; align-items: center; justify-content: space-between; gap: 5px">
           <ion-label>{{getVariantName(recipe.recipeId, variant.variantId)}}</ion-label>
-          <app-restriction [inputRestrictions]="getRestrictions(recipe.recipeId, variant.variantId)"></app-restriction>
+          <app-multiple-restrictions
+            [inputRestrictions]="getRestrictions(recipe.recipeId, variant.variantId)"></app-multiple-restrictions>
 
 
           <ion-input [(ngModel)]="variant.portions" type="number" placeholder="0" style="width: 50px;"
