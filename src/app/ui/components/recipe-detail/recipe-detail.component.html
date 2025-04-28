@@ -96,6 +96,7 @@
   </ion-row>
   <ion-row>
     <ion-col *ngIf="!(isEditing || isChoosing) && recipe.variants.length === 1 ">
+      {{"recipes.recipe-detail.variant-detail" | translate}}
       <app-recipe-variant-detail [variant]="recipe.variants[0]" />
     </ion-col>
     <ion-col *ngIf="recipe !== null && recipe.variants.length === 0">

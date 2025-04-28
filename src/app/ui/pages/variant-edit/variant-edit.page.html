@@ -2,11 +2,12 @@
   <ion-header>
     <ion-toolbar>
       <ion-buttons slot="start">
-        <ion-back-button defaultHref="/recipes" text="" />
+        <ion-back-button defaultHref="/recipes" text="" [disabled]="isAnyChange" />
       </ion-buttons>
       <div class="ion-justify-content-end ion-padding-top ion-padding-bottom" style="display: flex; ">
         <ion-buttons slot="end" class="buttons-container">
-          <ion-button (click)="saveVariant()" [disabled]="!isAnyChange" shape="round" size="small">
+          <ion-button (click)="saveVariant()" [disabled]="!isAnyChange" shape="round" size="small"
+            style="--background: var(--ion-color-success-tint);">
             <ion-icon slot="icon-only" name="save" color="primary" />
           </ion-button>
           <ion-button (click)="closeVariant()" shape="round" size="small">

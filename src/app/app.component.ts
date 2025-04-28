@@ -12,8 +12,8 @@ import { Filesystem } from '@capacitor/filesystem';
 })
 export class AppComponent {
   constructor(public translateService: TranslateService) {
-    this.translateService.setDefaultLang('sk');
-    this.translateService.use('sk');
+    this.translateService.setDefaultLang('cs');
+    this.translateService.use('cs');
 
     if ((window as any).Capacitor && (window as any).Capacitor.isNativePlatform()) {
       StatusBar.setOverlaysWebView({ overlay: false });

@@ -1,11 +1,12 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/planning" text="" />
+      <ion-back-button defaultHref="/planning" text="" [disabled]="isAnyChange" />
     </ion-buttons>
     <div class="ion-justify-content-end" style="display: flex;">
       <ion-buttons class="buttons-container" slot="end">
-        <ion-button (click)="save()" [disabled]="!isAnyChange" shape="round">
+        <ion-button (click)="save()" [disabled]="!isAnyChange" shape="round"
+          style="--background: var(--ion-color-success-tint);">
           <ion-icon slot="icon-only" name="save" />
         </ion-button>
         <ion-button (click)=" close()" shape="round">

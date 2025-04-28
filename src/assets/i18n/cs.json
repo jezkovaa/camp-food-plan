@@ -16,7 +16,7 @@
     "missing-name-message": "Názov nesmí být prázdny",
     "missing-dates": "Chybějící datumy",
     "missing-dates-message": "Doba konání události musí být vyplněna",
-    "delete-confirm-message": "Opravdu chcete vymazat událost?",
+    "delete-confirm-message": "Opravdu chcete vymazat tento recept?",
     "delete-confirm-message-variants": "Opravdu chcete vymazat všechny varianty receptu?",
     "delete-confirm": "Potvrzení vymazání",
     "variant-created": "Varianta byla vytvořena",
@@ -87,6 +87,10 @@
       "no-recipe": "-"
     },
     "event": {
+      "from": "Od",
+      "to": "Do",
+      "enter-from": "Zadejte datum od",
+      "enter-to": "Zadejte datum do",
       "add-event": "Přidat událost",
       "date": "Datum",
       "select-event": "Vyberte udalost",
@@ -137,6 +141,7 @@
     "recipe": "Recept",
     "recipe-detail": {
       "course": "Chod",
+      "variant-detail": "Detail varianty",
       "variants": "Varianty",
       "choose-course": "Vyberte chod",
       "add-variant": "Přidat variantu",
@@ -151,7 +156,7 @@
     },
     "recipe-variant-detail": {
       "delete-variant": "Vymazat varianty",
-      "delete-variant-message": "Opravdu chcete smazat všechny varianty receptu?",
+      "delete-variant-message": "Opravdu chcete smazat tuto variantu receptu?",
       "delete-variants-success": "Varianty byly úspěšně smazány"
     },
     "variant": {

@@ -7,7 +7,7 @@ import {
   IonToolbar,
   IonButtons,
   IonButton,
-  IonIcon, IonContent, IonLabel, IonPopover, ToastController
+  IonIcon, IonContent, IonLabel, IonPopover, ToastController, IonDatetime, IonInput
 } from "@ionic/angular/standalone";
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { cloneDeep, isEqual } from 'lodash';
@@ -19,15 +19,16 @@ import { addIcons } from 'ionicons';
 import { alert, close, closeCircle, save, calendar } from 'ionicons/icons';
 import { PlannedEvent } from 'src/app/data/models/planned-event';
 import { LoadingService } from '../../services/loading.service';
-import { finalize } from 'rxjs';
+import { finalize, Observable } from 'rxjs';
 import { BaseComponent } from '../../components/base-component/base.component';
+import { PopoverController } from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-event-edit.page',
   templateUrl: './event-edit.page.html',
   styleUrls: ['./event-edit.page.scss'],
   standalone: true,
-  imports: [IonPopover, IonLabel, IonContent,
+  imports: [IonInput, IonDatetime, IonPopover, IonContent,
     IonTextarea,
     IonBackButton,
     IonHeader,
@@ -38,8 +39,7 @@ import { BaseComponent } from '../../components/base-component/base.component';
 
     FormsModule,
     CommonModule,
-    TranslateModule,
-    IonRangeCalendarComponent
+    TranslateModule
 
   ]
 })
@@ -51,13 +51,18 @@ export class EventEditPage extends BaseComponent implements OnInit {
 
   msg = '';
 
-  @ViewChild(IonPopover) calendar!: IonPopover;
+  @ViewChild('fromPicker') fromPicker!: IonDatetime;
+  @ViewChild('toPicker') toPicker!: IonDatetime;
 
   optionsRange: CalendarComponentOptions = {
     pickMode: 'range'
   };
 
   dateRange: { from: string; to: string; } = { from: '', to: '' };
+
+  get getCurrentLang() {
+    return this.translateService.currentLang;
+  }
 
   get isAnyChange() {
 
@@ -87,7 +92,8 @@ export class EventEditPage extends BaseComponent implements OnInit {
     private loadingService: LoadingService,
     private router: Router,
     override translateService: TranslateService,
-    override toastController: ToastController
+    override toastController: ToastController,
+    private popoverCtrl: PopoverController,
   ) {
     super(toastController, translateService);
     addIcons({ save, closeCircle, alert, calendar, close });
@@ -121,6 +127,8 @@ export class EventEditPage extends BaseComponent implements OnInit {
     });
 
   }
+
+
 
 
   async saveEvent() {
@@ -192,46 +200,13 @@ export class EventEditPage extends BaseComponent implements OnInit {
     const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
     buttonElement.blur();
 
-    if (this.isCreating && this.isAnyChange) {
-      const alert = await this.alertService.presentConfirm(
-        this.translateService.instant('alert.cancel-creation'),
-        this.translateService.instant('alert.cancel-creation-message'),
-        () => {
-          const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
-          buttonElement.blur();
-          this.router.navigate(['/tabs/planning/']);
-        },
-        () => {
-          const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
-          buttonElement.blur();
-        });
-      await alert.present();
+    if (this.isAnyChange) {
+      await this.unsavedChangesAlert();
     }
     else if (this.isCreating) {
       this.router.navigate(['/tabs/planning/']);
     }
-    else if (this.isAnyChange) {
 
-      await this.alertService.presentConfirm(
-        this.translateService.instant('alert.unsaved-changes'),
-        this.translateService.instant('alert.unsaved-changes-message'),
-        () => {
-          const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
-          buttonElement.blur();
-          this.event = this.initEvent;
-          if (this.event?.id) {
-            this.router.navigate(['/tabs/planning/events/', this.event?.id]);
-          }
-          else {
-            this.router.navigate(['/tabs/planning/']);
-          }
-        },
-        () => {
-          const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
-          buttonElement.blur();
-          //nothing happens
-        });
-    }
     else {
       this.event = this.initEvent;
       this.router.navigate(['/tabs/planning/events/', this.event?.id]);
@@ -245,20 +220,39 @@ export class EventEditPage extends BaseComponent implements OnInit {
     }
   }
 
-  onDidDismiss(event: any) {
-    if (this.event) {
-      this.event.dateFrom = event.from;
-      this.event.dateTo = event.to;
-      this.calendar.dismiss();
+
+  async dateFromChanged(e: any) {
+    await this.fromPicker.confirm(true);
+    this.popoverCtrl.dismiss();
+    const date = new Date(e.detail.value);
+    if (this.event === null) {
+      return;
     }
+    this.event.dateFrom = date;
   }
 
-  clearDateRange() {
-    if (this.event) {
-      this.event.dateFrom = null;
-      this.event.dateTo = null;
-      this.dateRange = { from: '', to: '' };
+  async dateToChanged(e: any) {
+    await this.toPicker.confirm(true);
+    this.popoverCtrl.dismiss();
+    const date = new Date(e.detail.value);
+    if (this.event === null) {
+      return;
     }
+    this.event.dateTo = date;
+  }
+
+  getISODateFrom(): string {
+    if (this.event && this.event.dateFrom !== null) {
+      return this.event.dateFrom.toISOString();
+    }
+    return '';
+  }
+
+  getISODateTo(): string {
+    if (this.event && this.event.dateTo) {
+      return this.event.dateTo.toISOString().substring(0, 10);
+    }
+    return '';
   }
 
   private async validateEvent(): Promise<boolean> {
@@ -281,6 +275,32 @@ export class EventEditPage extends BaseComponent implements OnInit {
       return false;
     }
     return true;
+  }
+
+  private async unsavedChangesAlert(): Promise<boolean> {
+    let value = false;
+    const alert = await this.alertService.presentConfirmHighlight(
+      this.translateService.instant('alert.unsaved-changes'),
+      this.translateService.instant('alert.unsaved-changes-message'),
+      () => {
+        value = true;
+        const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
+        buttonElement.blur();
+        this.event = this.initEvent;
+        if (this.event?.id) {
+          this.router.navigate(['/tabs/planning/events/', this.event?.id]);
+        }
+        else {
+          this.router.navigate(['/tabs/planning/']);
+        }
+      },
+      () => {
+        const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
+        buttonElement.blur();
+        //nothing happens
+      });
+    await alert.present();
+    return value;
   }
 
 

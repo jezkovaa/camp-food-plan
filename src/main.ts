@@ -9,6 +9,7 @@ import { HttpClient, provideHttpClient } from '@angular/common/http';
 import { importProvidersFrom, LOCALE_ID } from '@angular/core';
 import localeSk from '@angular/common/locales/sk';
 import { registerLocaleData } from '@angular/common';
+import { CanDeactivateGuard } from './app/ui/services/can-deactivate.service';
 
 registerLocaleData(localeSk);
 
@@ -18,6 +19,7 @@ export function translateHttpLoaderFactory(http: HttpClient) {
 
 bootstrapApplication(AppComponent, {
   providers: [
+    CanDeactivateGuard,
     provideHttpClient(),
     provideRouter(routes),
     provideIonicAngular(),

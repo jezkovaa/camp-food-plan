@@ -16,7 +16,7 @@
     "missing-name-message": "Názov nesmie byť prázdny",
     "missing-dates": "Chýbajúce dátumy",
     "missing-dates-message": "Doba konania udalosti musí byť vyplnená",
-    "delete-confirm-message": "Naozaj chcete vymazať udalosť?",
+    "delete-confirm-message": "Naozaj chcete vymazať tento recept?",
     "delete-confirm-message-variants": "Naozaj chcete vymazať všetky varianty receptu?",
     "delete-confirm": "Potvrdenie vymazania",
     "variant-created": "Varianta bola vytvorená",
@@ -88,6 +88,10 @@
       "no-recipe": "-"
     },
     "event": {
+      "from": "Od",
+      "enter-from": "Zadejte datum od",
+      "enter-to": "Zadejte datum do",
+      "to": "Do",
       "add-event": "Pridať udalosť",
       "date": "Dátum",
       "select-event": "Vyberte udalosť",
@@ -137,6 +141,7 @@
     "new-recipe": "Nový recept",
     "recipe": "Recept",
     "recipe-detail": {
+      "variant-detail": "Detail varianty: ",
       "delete-variants": "Vymazať varianty",
       "delete-variants-message": "Naozaj chcete vymazať všetky varianty receptu?",
       "course": "Chod",
@@ -151,6 +156,11 @@
       "choose-variants": "Zvolit varianty",
       "change-recipe": "Upravit recept a jeho varianty",
       "change-variant": "Upravit variantu"
+    },
+    "recipe-variant-detail": {
+      "delete-variant": "Vymazať variantu",
+      "delete-variant-message": "Naozaj chcete vymazať túto variantu receptu?",
+      "delete-variants-success": "Varianty boli úspešne vymazané"
     },
     "variant": {
       "alert": {
@@ -167,7 +177,7 @@
         "new-amount": "Množstvo",
         "entry-amount": "napr. 4",
         "new-unit": "Jednotka",
-        "one-person": "Zadejte množstvo pre jednu osobu",
+        "one-person": "Množstvo pre jednu osobu",
         "units": {
           "g": "g",
           "kg": "kg",

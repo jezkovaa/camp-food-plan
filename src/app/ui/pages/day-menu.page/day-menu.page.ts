@@ -19,6 +19,7 @@ import { AlertService } from '../../services/alert.service';
 import { LoadingService } from '../../services/loading.service';
 import { ToastController } from '@ionic/angular';
 import { BaseComponent } from '../../components/base-component/base.component';
+import { ViewWillEnter } from '@ionic/angular';
 
 @Component({
   selector: 'app-day-menu',
@@ -43,7 +44,7 @@ import { BaseComponent } from '../../components/base-component/base.component';
     MealComponent]
 })
 
-export class DayMenuPage extends BaseComponent implements OnInit {
+export class DayMenuPage extends BaseComponent implements OnInit, ViewWillEnter {
 
   @ViewChild('datepicker') datepicker!: IonDatetime;
 
@@ -103,6 +104,10 @@ export class DayMenuPage extends BaseComponent implements OnInit {
 
   ngOnChanges() {
     this.init();
+  }
+
+  ionViewWillEnter(): void {
+    this.init(); // Reload recipes every time the page becomes active
   }
 
   courseExists(course: Course): boolean {

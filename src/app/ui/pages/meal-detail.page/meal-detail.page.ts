@@ -75,7 +75,6 @@ export class MealDetailPage extends BaseComponent implements OnInit {
   }
 
   constructor(private route: ActivatedRoute,
-    private plannedEventService: PlannedEventService,
     private menuService: MenuService,
     override translateService: TranslateService,
     private recipesService: RecipeService,
@@ -287,6 +286,7 @@ export class MealDetailPage extends BaseComponent implements OnInit {
                 await notification.present();
                 this.cdr.detectChanges();
                 this.router.navigate(['/tabs/planning/events', this.eventId, 'menu', this.dayMenuId]);
+
                 //this.router.navigate(['/tabs/planning/events', this.eventId, 'menu', this.dayMenuId]);
               },
               error: async (err: any) => {
@@ -311,6 +311,7 @@ export class MealDetailPage extends BaseComponent implements OnInit {
             this.cdr.detectChanges();
             const notification = await this.presentSuccess(this.translateService.instant('planning.day-menu.success-updated'));
             await notification.present();
+            this.navController.back();
           },
           error: async (err: any) => {
             const notification = await this.presentError(err);
@@ -328,9 +329,28 @@ export class MealDetailPage extends BaseComponent implements OnInit {
     }
   }
 
-  close() {
+  async close() {
 
-    this.navController.back();
+    if (this.isAnyChange) {
+      const alert = await this.alertService.presentConfirmHighlight(
+        this.translateService.instant('alert.unsaved-changes'),
+        this.translateService.instant('alert.unsaved-changes-message'),
+        () => {
+          const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
+          buttonElement.blur();
+          this.meal = this.initMeal;
+          this.navController.back();
+        },
+        () => {
+          const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
+          buttonElement.blur();
+        });
+      await alert.present();
+    }
+    else {
+      this.meal = this.initMeal;
+      this.navController.back();
+    }
 
   }
 

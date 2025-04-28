@@ -107,6 +107,15 @@ export class ChooseRecipePage implements OnInit {
     this.filter = filter;
   }
 
+  getSelectedRecipesCount(): number {
+
+    if (this.recipesList === undefined) {
+      return 0;
+    }
+    const selectedRecipes = this.recipesList.selectedRecipes;
+    return selectedRecipes.size;
+  }
+
 
   chooseSelected() {
     const selectedRecipes = this.recipesList.selectedRecipes;

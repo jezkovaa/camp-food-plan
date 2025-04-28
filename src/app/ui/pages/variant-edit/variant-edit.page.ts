@@ -195,7 +195,7 @@ export class VariantEditPage extends BaseComponent implements OnInit {
     const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
     buttonElement.blur();
     if (this.isAnyChange) {
-      const alert = await this.alertService.presentConfirm(
+      const alert = await this.alertService.presentConfirmHighlight(
         this.translateService.instant('recipes.variant.alert.unsaved-changes'),
         this.translateService.instant('recipes.variant.alert.unsaved-changes-message'),
         () => {

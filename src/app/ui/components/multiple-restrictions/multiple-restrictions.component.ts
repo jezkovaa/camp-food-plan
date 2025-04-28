@@ -3,6 +3,9 @@ import { IonPopover, IonButton, IonIcon } from "@ionic/angular/standalone";
 import { RestrictionHelpComponent } from '../restriction-help/restriction-help.component';
 import { FoodRestriction } from 'src/app/data/enums/food-restriction.enum';
 import { CommonModule } from '@angular/common';
+import { add } from 'lodash';
+import { addIcons } from 'ionicons';
+import { help } from 'ionicons/icons';
 
 @Component({
   selector: 'app-multiple-restrictions',
@@ -20,7 +23,10 @@ export class MultipleRestrictionsComponent implements OnInit {
 
   restrictions = FoodRestriction;
 
-  constructor() { }
+  constructor() {
+
+    addIcons({ help });
+  }
 
   ngOnInit() { }
 

@@ -25,8 +25,6 @@ import { LoadingController } from '@ionic/angular/standalone';
     IonToolbar,
     IonTitle,
     IonContent,
-    IonButtons,
-    IonBackButton,
 
     TranslateModule,
     CommonModule,

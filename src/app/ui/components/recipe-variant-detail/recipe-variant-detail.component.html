@@ -18,6 +18,9 @@
         <ion-icon slot="icon-only" [name]="getIcon(ingredientsVisible)" />
       </ion-button>
     </div>
+    <div style="color: var(--ion-color-medium)">
+      {{"recipes.variant.ingredients.one-person" | translate }}
+    </div>
     <ion-list *ngIf="ingredientsVisible" style="margin-top: 5px">
       <ion-reorder-group [disabled]="isEditing" (ionItemReorder)="handleReorder($any($event))">
         <div *ngFor="let ingredient of variant.ingredients">

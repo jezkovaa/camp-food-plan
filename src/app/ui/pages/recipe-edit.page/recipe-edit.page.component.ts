@@ -102,7 +102,25 @@ export class RecipeEditPage extends BaseComponent implements OnInit, ViewWillEnt
     const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
     buttonElement.blur();
 
-    if (this.isCreating) {
+    if (this.isAnyChange) {
+      const alert = await this.alertService.presentConfirmHighlight(
+        this.translateService.instant('recipes.alert.unsaved-changes'),
+
+        this.translateService.instant('recipes.alert.unsaved-changes-message'),
+        () => {
+          const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
+          buttonElement.blur();
+          this.router.navigate(['/tabs/recipes/']);
+        },
+        () => {
+          const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
+          buttonElement.blur();
+          //nothing happens
+        });
+      await alert.present();
+    }
+
+    else if (this.isCreating) {
       const alert = await this.alertService.presentConfirm(
         this.translateService.instant('recipes.alert.cancel-creation'),
         this.translateService.instant('recipes.alert.cancel-creation-message'),
@@ -120,7 +138,7 @@ export class RecipeEditPage extends BaseComponent implements OnInit, ViewWillEnt
     }
     else if (!isEqual(this.recipeDetail.recipe, this.initRecipe)) {
 
-      const alert = await this.alertService.presentConfirm(
+      const alert = await this.alertService.presentConfirmHighlight(
         this.translateService.instant('recipes.alert.unsaved-changes'),
         this.translateService.instant('recipes.alert.unsaved-changes-message'),
         () => {

@@ -12,12 +12,13 @@ import { Router } from '@angular/router';
 import { finalize } from 'rxjs';
 import { LoadingService } from '../../services/loading.service';
 import { cloneDeep } from 'lodash';
+import { ViewWillEnter } from '@ionic/angular';
 
 @Component({
   selector: 'app-planning',
   templateUrl: 'planning.page.html',
   styleUrls: ['planning.page.scss'],
-  imports: [IonFabButton, IonFab, IonItem, IonList, IonSearchbar, IonBackButton, IonButtons, IonPopover,
+  imports: [IonFabButton, IonFab, IonItem, IonList, IonSearchbar,
     IonButton,
     IonLabel,
     IonHeader,
@@ -26,12 +27,11 @@ import { cloneDeep } from 'lodash';
     IonContent,
     IonIcon,
     CommonModule,
-    TranslateModule,
-    SelectEventComponent
+    TranslateModule
   ],
   providers: [PopoverController]
 })
-export class PlanningPage implements OnInit {
+export class PlanningPage implements OnInit, ViewWillEnter {
 
   plannedEvents: IPlannedEvent[] = [];
   filteredItems: IPlannedEvent[] = [];
@@ -49,6 +49,15 @@ export class PlanningPage implements OnInit {
   }
 
   async ngOnInit() {
+    this.init();
+  }
+
+
+  async ionViewWillEnter() {
+    this.init();
+  }
+
+  async init() {
     const loading = await this.loadingService.showLoading();
     await loading.present();
     this.plannedEventService.getAll().pipe(
@@ -63,6 +72,7 @@ export class PlanningPage implements OnInit {
       }
     });
   }
+
 
   createEvent() {
     const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element

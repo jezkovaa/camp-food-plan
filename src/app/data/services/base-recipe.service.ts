@@ -61,7 +61,7 @@ export class BaseRecipeService {
             { name: this.translateService?.instant('dummy-recipes.ingredients.bread'), quantity: 1.5, unit: Units.PIECES, durability: 5 },
             { name: this.translateService?.instant('dummy-recipes.ingredients.pasty'), quantity: 30, unit: Units.GRAMS, durability: 5 }
           ],
-          restrictions: new Set<FoodRestriction>([FoodRestriction.VEGAN]),
+          restrictions: new Set<FoodRestriction>([]),
           proceeding: [
             { order: 1, description: this.translateService?.instant('dummy-recipes.recipes.bread-pasty.step1') },
             { order: 2, description: this.translateService?.instant('dummy-recipes.recipes.bread-pasty.step2') },
@@ -724,7 +724,7 @@ export class BaseRecipeService {
           recipeId: "r29",
           name: this.translateService.instant('dummy-recipes.recipes.subtitle'),
           ingredients: [
-            { name: this.translateService?.instant('dummy-recipes.ingredients.milk'), quantity: 250, unit: Units.GRAMS, durability: 5 },
+            { name: this.translateService?.instant('dummy-recipes.ingredients.milk'), quantity: 250, unit: Units.MILLILITERS, durability: 5 },
             { name: this.translateService?.instant('dummy-recipes.ingredients.flour'), quantity: 150, unit: Units.GRAMS, durability: 5 },
             { name: this.translateService?.instant('dummy-recipes.ingredients.egg'), quantity: 1.5, unit: Units.PIECES, durability: 5 }
           ],

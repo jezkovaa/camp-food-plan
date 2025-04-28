@@ -38,11 +38,24 @@ export class AlertService {
     let result = await alert.onDidDismiss();
   }
 
+  async presentConfirmHighlight(header: string, message: string, confirmHandler: () => void, cancelHandler: () => void = () => { }): Promise<HTMLIonAlertElement> {
+    const alert = await this.alertController.create({
+      header,
+      message,
+      buttons: this.okCancelButtons(confirmHandler, cancelHandler),
+      cssClass: 'custom-alert'
+    });
+    const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
+    buttonElement.blur();
+    return alert;
+  }
+
   async presentConfirm(header: string, message: string, confirmHandler: () => void, cancelHandler: () => void = () => { }): Promise<HTMLIonAlertElement> {
     const alert = await this.alertController.create({
       header,
       message,
-      buttons: this.okCancelButtons(confirmHandler, cancelHandler)
+      buttons: this.okCancelButtons(confirmHandler, cancelHandler),
+      cssClass: 'custom-alert'
     });
     const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
     buttonElement.blur();
