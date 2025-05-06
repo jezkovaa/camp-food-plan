@@ -22,7 +22,8 @@
         </div>
         <div class="recipe-variants" *ngIf="existingVariantsRestrictions">
           <div *ngFor="let variant of recipe.variants">
-            <app-restriction [inputRestrictions]="variant.restrictions"></app-restriction>
+            <app-multiple-restrictions [disabled]="true"
+              [inputRestrictions]="variant.restrictions"></app-multiple-restrictions>
           </div>
         </div>
       </div>
@@ -31,6 +32,6 @@
   </ion-button>
 
   <!-- Choose Button -->
-  <ion-checkbox *ngIf="isChoosing" (ionChange)="selectionChanged($event)" class="choose-button">
+  <ion-checkbox *ngIf="isChoosing" [checked]="isSelected" (ionChange)="selectionChanged($event)" class="choose-button">
   </ion-checkbox>
 </div>

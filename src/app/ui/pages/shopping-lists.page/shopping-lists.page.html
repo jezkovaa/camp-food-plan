@@ -2,7 +2,7 @@
   <ion-header class="ion-padding-start ion-padding-end">
     <ion-toolbar>
       <ion-buttons slot="start">
-        <ion-back-button defaultHref="/recipes" text="" />
+        <ion-back-button defaultHref="/planning" text="" />
       </ion-buttons>
       <ion-label class="shopping-lists-title">
         <div class=" custom-title-2">{{"planning.event.shopping-lists.title" | translate}}</div>
@@ -11,8 +11,8 @@
         </div>
       </ion-label>
       <ion-buttons slot="end">
-        <ion-button (click)="getPDF()" fill="solid" color="primary" shape="round" class="ion-text-wrap"
-          style="max-width: 150px">{{"planning.event.shopping-lists.getPDF"
+        <ion-button (click)="getPDF()" [disabled]="true" fill="solid" color="primary" shape="round"
+          class="ion-text-wrap" style="max-width: 150px">{{"planning.event.shopping-lists.getPDF"
           |translate}}</ion-button>
       </ion-buttons>
     </ion-toolbar>
@@ -47,7 +47,7 @@
       </ion-row>
       <ion-row>
         <ion-col *ngIf="shoppingLists.length === 0">
-          <p>{{"event.shopping-lists.no-shopping-lists" | translate}}</p>
+          <p>{{"planning.event.shopping-lists.no-shopping-lists" | translate}}</p>
         </ion-col>
       </ion-row>
     </ion-grid>

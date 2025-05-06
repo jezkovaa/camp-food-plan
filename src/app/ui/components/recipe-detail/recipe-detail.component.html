@@ -51,6 +51,7 @@
           </ion-button>
           <ion-select (ionChange)="addFromExistingVariant($event)"
             placeholder="{{'recipes.recipe-detail.existing-variant' | translate }}"
+            cancelText="{{ 'common.cancel'| translate}}"
             style="display: flex; justify-content: center; padding-left: 4px; padding-right: 4px;">
             <ion-select-option *ngFor="let variant of recipe.variants" [value]="variant">
               {{ variant.name }}
@@ -71,7 +72,7 @@
       {{"recipes.recipe-detail.selected" | translate }} : {{selectedCount}}
     </ion-col>
     <ion-col>
-      <ion-button *ngIf="isEditing" (click)="deleteSelected()" style="height: 100%; width: 100%;">
+      <ion-button *ngIf="isEditing" (click)="deleteSelected()" style="height: 100%; width: 100%;" color="danger">
         <ion-icon name="trash" fill="solid" />
         <div>
           {{"recipes.recipe-detail.delete-selected" | translate}}
@@ -88,18 +89,20 @@
   <ion-row *ngIf="variantsListToBeDisplayed">
 
     <app-variants-list [variants]="recipe.variants" [filter]="filter" [searchValue]="searchValue"
-      [sortOption]="sortOption" [isEditing]="isEditing" [isChoosing]="isChoosing"
-      (selectedCountChanged)="selectedCountChanged($event)" style="width: 100%;" />
+      [sortOption]="sortOption" [isEditing]="isEditing" [isChoosing]="isChoosing" [selectedVariants]="selectedVariants"
+      (selectedCountChanged)="selectedCountChanged($event)" (openVariantEvent)="openVariant($event)"
+      style="width: 100%;" />
 
   </ion-row>
   <ion-row>
     <ion-col *ngIf="!(isEditing || isChoosing) && recipe.variants.length === 1 ">
+      {{"recipes.recipe-detail.variant-detail" | translate}}
       <app-recipe-variant-detail [variant]="recipe.variants[0]" />
     </ion-col>
     <ion-col *ngIf="recipe !== null && recipe.variants.length === 0">
 
       <div style="display: flex; align-items: center;">
-        <ion-icon slot="start" name="alert" size="large" color="danger"></ion-icon>
+        <ion-icon slot="start" name="alert" size="large" color="warning"></ion-icon>
         {{"recipes.recipe-detail.no-variants" |
         translate}}
       </div>

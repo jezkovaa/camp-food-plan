@@ -1,9 +1,7 @@
 <div id="recipes" class="ion-page">
   <ion-header>
     <ion-toolbar class="ion-align-items-stretch">
-      <ion-buttons slot="start" class="ion-padding-end background-secondary">
-        <ion-back-button defaultHref="/recipes" text="" />
-      </ion-buttons>
+
       <ion-title class="background-secondary">
         <div style="
          
@@ -26,11 +24,12 @@
 
   <ion-content [fullscreen]="true" class="ion-padding">
     <ion-fab slot="fixed" vertical="bottom" horizontal="end">
-      <ion-fab-button (click)="createRecipe()" shape="round" size="large" color="success">
+      <ion-fab-button (click)="createRecipe()" shape="round" size="large" color="dark">
         <ion-icon name="add"></ion-icon>
       </ion-fab-button>
     </ion-fab>
-    <app-recipes-list [recipes]="recipes" [sortOption]="sortOption" [searchValue]="searchValue" [filter]="filter" />
+    <app-recipes-list [recipes]="recipes" [sortOption]="sortOption" [searchValue]="searchValue" [filter]="filter"
+      (navigateToRecipeEvent)="navigateToRecipe($event)" />
 
   </ion-content>
 </div>

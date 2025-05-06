@@ -6,13 +6,13 @@
     <div class="custom-title-3">{{getCourseName}}
     </div>
     <ion-buttons slot="end">
-      <ion-button fill="clear" size="small" (click)="editMeal()">
+      <ion-button fill="clear" size="small" (click)="editMeal()" shape="round">
         <ion-icon slot="icon-only" name="pencil" />
       </ion-button>
-      <ion-button fill="clear" size="small" (click)="deleteMeal()">
+      <ion-button fill="clear" size="small" (click)="deleteMeal()" shape="round">
         <ion-icon slot="icon-only" name="trash" />
       </ion-button>
-      <ion-button fill="clear" size="small" (click)="viewMeal()">
+      <ion-button fill="clear" size="small" (click)="viewMeal()" shape="round">
         <ion-icon slot="icon-only" [name]="getIcon" />
       </ion-button>
     </ion-buttons>
@@ -30,7 +30,8 @@
           {{ chosenRecipe.name }} - {{chosenVariant.variantName}}
         </div>
         <div *ngIf="existingRestrictions(chosenVariant.variantRestrictions)">
-          <app-restriction [inputRestrictions]="chosenVariant.variantRestrictions"></app-restriction>
+          <app-multiple-restrictions
+            [inputRestrictions]="chosenVariant.variantRestrictions"></app-multiple-restrictions>
         </div>
       </div>
     </div>

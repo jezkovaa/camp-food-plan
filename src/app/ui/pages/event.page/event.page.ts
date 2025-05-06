@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonPopover, IonButton, IonIcon, IonLabel, IonItem, IonButtons, IonBackButton } from '@ionic/angular/standalone';
@@ -8,8 +8,11 @@ import { chevronDown, pencil } from 'ionicons/icons';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PlannedEvent } from 'src/app/data/models/planned-event';
 import { IPlannedEvent } from 'src/app/data/interfaces/planned-event.interface';
-import { PlanningService } from 'src/app/data/services/planning.service';
+import { PlannedEventService } from 'src/app/data/services/planned-event.service';
 import { TranslateModule } from '@ngx-translate/core';
+import { finalize } from 'rxjs';
+import { LoadingService } from '../../services/loading.service';
+import { ID } from 'src/app/types';
 
 @Component({
   selector: 'app-event',
@@ -31,9 +34,12 @@ export class EventPage implements OnInit {
 
   event: IPlannedEvent | null = null;
 
+  @ViewChild('selectPopover') popover!: IonPopover;
+
   constructor(private route: ActivatedRoute,
-    private planningService: PlanningService,
-    private router: Router
+    private plannedEventService: PlannedEventService,
+    private router: Router,
+    private loadingService: LoadingService,
   ) {
 
     addIcons({ pencil, chevronDown });
@@ -42,9 +48,13 @@ export class EventPage implements OnInit {
 
   ngOnInit() {
 
-    this.route.params.subscribe(params => {
+    this.route.params.subscribe(async params => {
       const eventId = params['eventId'];
-      this.planningService.getEvent(eventId).subscribe({
+      const loading = await this.loadingService.showLoading();
+      await loading.present();
+      this.plannedEventService.getById(eventId).pipe(
+        finalize(() => loading.dismiss())
+      ).subscribe({
         next: (event: IPlannedEvent) => {
           this.event = event;
         },
@@ -60,6 +70,8 @@ export class EventPage implements OnInit {
     //todo
     const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
     buttonElement.blur();
+
+    this.router.navigate(['tabs/planning/events/', this.event?.id, 'edit']);
   }
 
 
@@ -80,6 +92,11 @@ export class EventPage implements OnInit {
     const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
     buttonElement.blur();
     this.router.navigate(['tabs/planning/events/', this.event?.id, 'shopping-lists']);
+  }
+
+  selectionChanged(selectedEventId: ID) {
+    this.popover.dismiss();
+    this.router.navigate(['tabs/planning/events/', selectedEventId]);
   }
 
 };

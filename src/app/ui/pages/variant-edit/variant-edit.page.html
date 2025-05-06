@@ -2,11 +2,12 @@
   <ion-header>
     <ion-toolbar>
       <ion-buttons slot="start">
-        <ion-back-button defaultHref="/recipes" text="" />
+        <ion-back-button defaultHref="/recipes" text="" [disabled]="isAnyChange" />
       </ion-buttons>
       <div class="ion-justify-content-end ion-padding-top ion-padding-bottom" style="display: flex; ">
         <ion-buttons slot="end" class="buttons-container">
-          <ion-button (click)="saveVariant()" shape="round" size="small">
+          <ion-button (click)="saveVariant()" [disabled]="!isAnyChange" shape="round" size="small"
+            style="--background: var(--ion-color-success-tint);">
             <ion-icon slot="icon-only" name="save" color="primary" />
           </ion-button>
           <ion-button (click)="closeVariant()" shape="round" size="small">
@@ -16,13 +17,14 @@
       </div>
 
       <div>
-        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-          <div style="display: flex; align-items: center; width: 70%;">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 10px; width: 100%;">
+          <div style="display: flex; align-items: center; ">
             <div *ngIf="variant" class="header-variant-name" style="width: 100%;">
               <ion-textarea rows="1" [(ngModel)]="variant.name" name="variantName"
                 label="{{'recipes.variant.name' | translate }}" labelPlacement="stacked"
                 placeholder="{{'recipes.variant.enter-name' |  translate }}"></ion-textarea>
             </div>
+            <ion-icon *ngIf="!hasName" name="alert" color="danger" size="large"></ion-icon>
           </div>
 
         </div>
@@ -32,7 +34,8 @@
 
   <ion-content class="ion-padding-start ion-padding-end">
     <div *ngIf="variant !== null">
-      <app-variant-edit [variant]="variant" />
+      <div>{{msg}}</div>
+      <app-variant-edit #variantEditCmp [variant]="variant" />
     </div>
   </ion-content>
 </div>

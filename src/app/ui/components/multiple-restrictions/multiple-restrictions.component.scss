@@ -1,0 +1,22 @@
+.restriction-icons {
+  display: flex;
+  gap: 2px;
+  box-shadow: var(--box-shadow);
+  width: 100%;
+  border-radius: var(--radius);
+  background-color: var(--ion-color-warning);
+  opacity: 1;
+  padding: 5px;
+  font-size: 1rem;
+  color: black;
+
+  margin-top: 0px;
+  margin-bottom: 0px;
+  margin-left: 0px;
+  margin-right: 0px;
+
+  --ion-padding-start: 0px;
+  --ion-padding-end: 0px;
+  --ion-padding-top: 0px;
+  --ion-padding-bottom: 0px;
+}

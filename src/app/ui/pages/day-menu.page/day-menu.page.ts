@@ -7,14 +7,19 @@ import { addIcons } from 'ionicons';
 import { add, calendar, chevronBack, chevronForward } from 'ionicons/icons';
 import { Course } from 'src/app/data/enums/courses.enum';
 import { ActivatedRoute, Router } from '@angular/router';
-import { PlanningService } from 'src/app/data/services/planning.service';
+import { MenuService } from 'src/app/data/services/menu.service';
+import { PlannedEventService } from 'src/app/data/services/planned-event.service';
 import { IDayMeal, IDayMenu } from 'src/app/data/interfaces/day-menu.interface';
 import { ID } from 'src/app/types';
-import { forkJoin, switchMap, throwError } from 'rxjs';
+import { finalize, forkJoin, switchMap, throwError } from 'rxjs';
 import { MealComponent } from '../../components/meal/meal.component';
 import { IPlannedEvent } from 'src/app/data/interfaces/planned-event.interface';
 import { isAfter, isBefore } from 'date-fns';
 import { AlertService } from '../../services/alert.service';
+import { LoadingService } from '../../services/loading.service';
+import { ToastController } from '@ionic/angular';
+import { BaseComponent } from '../../components/base-component/base.component';
+import { ViewWillEnter } from '@ionic/angular';
 
 @Component({
   selector: 'app-day-menu',
@@ -39,7 +44,7 @@ import { AlertService } from '../../services/alert.service';
     MealComponent]
 })
 
-export class DayMenuPage implements OnInit {
+export class DayMenuPage extends BaseComponent implements OnInit, ViewWillEnter {
 
   @ViewChild('datepicker') datepicker!: IonDatetime;
 
@@ -64,17 +69,29 @@ export class DayMenuPage implements OnInit {
     return this.dayMenu?.date.toISOString();
   }
 
+  get getDateFromISOString() {
+    return this.event?.dateFrom ? this.event?.dateFrom?.toISOString() : new Date().toISOString();
+  }
+
+  get getDateToISOString() {
+    return this.event?.dateTo ? this.event?.dateTo?.toISOString() : new Date().toISOString();
+
+  }
 
   get getCurrentLang() {
     return this.translateService.currentLang;
   }
 
   constructor(private route: ActivatedRoute,
-    private planningService: PlanningService,
+    private menuService: MenuService,
+    private plannedEventService: PlannedEventService,
     private router: Router,
-    private translateService: TranslateService,
-    private alertService: AlertService,
+    override translateService: TranslateService,
+    private loadingService: LoadingService,
+    override toastController: ToastController,
     private alertController: AlertController) {
+
+    super(toastController, translateService);
 
     addIcons({ chevronBack, chevronForward, add, calendar });
 
@@ -87,6 +104,10 @@ export class DayMenuPage implements OnInit {
 
   ngOnChanges() {
     this.init();
+  }
+
+  ionViewWillEnter(): void {
+    this.init(); // Reload recipes every time the page becomes active
   }
 
   courseExists(course: Course): boolean {
@@ -102,7 +123,7 @@ export class DayMenuPage implements OnInit {
     if (this.dayMenu === null || this.eventId === null) {
       return;
     }
-    this.router.navigate(['tabs/planning/events/', this.eventId, 'menu', this.dayMenu.id, course]);
+    this.router.navigate(['tabs/planning/events/', this.eventId, 'menu', this.dayMenu.id, course, 'recipes']);
   }
 
   // 
@@ -181,22 +202,30 @@ export class DayMenuPage implements OnInit {
         },
         {
           text: 'OK',
-          handler: () => {
+          handler: async () => {
             const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
             buttonElement.blur();
             if (this.dayMenu === null || this.eventId === null) {
               return;
             }
-            this.planningService.deleteMealFromMenu(this.eventId, this.dayMenu.id, mealId).subscribe({
-              next: (dayMenu: IDayMenu) => {
+            const loading = await this.loadingService.showLoading();
+            await loading.present();
+            this.menuService.deleteMealFromMenu(this.eventId, this.dayMenu.id, mealId).pipe(
+              finalize(() => loading.dismiss())
+            ).subscribe({
+              next: async (dayMenu: IDayMenu) => {
                 this.dayMenu = dayMenu;
+                const notification = await this.presentSuccess(
+                  this.translateService.instant('planning.day-menu.alert.delete-success')
+                );
+                await notification.present();
               },
               error: async (error: any) => {
-                const alert = await this.alertService.presentAlert(
-                  this.translateService.instant('planning.day-menu.alert.error-title'),
-                  this.translateService.instant('planning.day-menu.alert.error-message')
+                const notification = await this.presentError(
+                  this.translateService.instant('planning.day-menu.alert.error-title')
                 );
-                await alert.present();
+                await notification.present();
+
               }
             });
           },
@@ -236,13 +265,17 @@ export class DayMenuPage implements OnInit {
         // User cancelled the deletion
       });*/
   }
-  getDateFromISOString() {
-    return this.event?.dateFrom?.toISOString();
+
+  editMeal(mealId: ID) {
+    const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
+    buttonElement.blur();
+    if (this.dayMenu === null || this.eventId === null) {
+      return;
+    }
+    this.router.navigate(['tabs/planning/events/', this.eventId, 'menu', this.dayMenu.id, 'meal', mealId]);
   }
 
-  getDateToISOString() {
-    return this.event?.dateTo?.toISOString();
-  }
+
 
   async dateChanged(e: any) {
     await this.datepicker.confirm(true);
@@ -251,8 +284,15 @@ export class DayMenuPage implements OnInit {
     if (this.eventId === null) {
       return;
     }
+    if (this.event?.dateFrom && this.event.dateTo && (isBefore(this.event?.dateFrom, date) || isAfter(this.event?.dateTo, date))) {
+      return; //date is not in range
+    }
 
-    this.planningService.getEventMenuForDate(this.eventId, date).subscribe({
+    const loading = await this.loadingService.showLoading();
+    await loading.present();
+    this.menuService.getEventMenuForDate(this.eventId, date).pipe(
+      finalize(() => loading.dismiss())
+    ).subscribe({
 
       next: (dayMenu: IDayMenu) => {
         this.router.navigate(['tabs/planning/events', this.eventId, 'menu', dayMenu.id]);
@@ -266,7 +306,7 @@ export class DayMenuPage implements OnInit {
 
   private init() {
     this.route.paramMap.pipe(
-      switchMap(params => {
+      switchMap(async params => {
         this.eventId = params.get('eventId');
         const dayMenuId = params.get('dayMenuId');
         if (this.eventId === null) {
@@ -275,11 +315,17 @@ export class DayMenuPage implements OnInit {
         if (dayMenuId === null) {
           return throwError(() => new Error('Day menu ID is null'));
         }
+        const loading = await this.loadingService.showLoading();
+        await loading.present();
+
         return forkJoin({
-          dayMenu: this.planningService.getEventMenuById(this.eventId, dayMenuId),
-          event: this.planningService.getEvent(this.eventId)
-        });
-      })
+          dayMenu: this.menuService.getEventMenuById(this.eventId, dayMenuId),
+          event: this.plannedEventService.getById(this.eventId)
+        }).pipe(
+          finalize(() => loading.dismiss())
+        );
+      }),
+      switchMap(result => result) // Unwrap the observable
     ).subscribe({
       next: ({ dayMenu, event }: { dayMenu: IDayMenu, event: IPlannedEvent; }) => {
         this.dayMenu = dayMenu;
@@ -292,11 +338,15 @@ export class DayMenuPage implements OnInit {
     });
   }
 
-  private redirectToMenu(date: Date) {
+  private async redirectToMenu(date: Date) {
     if (this.eventId === null) {
       return;
     }
-    this.planningService.getEventMenuForDate(this.eventId, date).subscribe({
+    const loading = await this.loadingService.showLoading();
+    await loading.present();
+    this.menuService.getEventMenuForDate(this.eventId, date).pipe(
+      finalize(() => loading.dismiss())
+    ).subscribe({
 
       next: (dayMenu: IDayMenu) => {
         this.router.navigate(['tabs/planning/events', this.eventId, 'menu', dayMenu.id]);

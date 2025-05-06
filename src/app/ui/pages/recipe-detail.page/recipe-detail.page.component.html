@@ -36,7 +36,9 @@
   <ion-content>
     <div *ngIf="recipe !== null ">
       <app-recipe-detail [recipe]="recipe" [isChoosing]="isPlanningRoute" [course]="course"
-        (portionsChanged)="portionsChanged($event)" />
+        (portionsChanged)="portionsChanged($event)" [selectedVariants]="selectedVariants"
+        (navigateToNewVariantEventNewRecipe)="navigateToNewVariantNewRecipe($event)"
+        (navigateToNewVariantEventExistingRecipe)="navigateToNewVariant($event)" />
     </div>
   </ion-content>
 </div>

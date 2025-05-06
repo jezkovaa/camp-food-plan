@@ -2,11 +2,12 @@
   <ion-header>
     <ion-toolbar>
       <ion-buttons slot="start">
-        <ion-back-button defaultHref="/recipes" text="" />
+        <ion-back-button defaultHref="/recipes" text="" [disabled]="isAnyChange" />
       </ion-buttons>
       <div class="upper-part ion-justify-content-end">
         <ion-buttons slot="end" class="buttons-container">
-          <ion-button (click)="saveRecipe()" shape="round">
+          <ion-button (click)="saveRecipe()" [disabled]="!isAnyChange" shape="round"
+            style="--background: var(--ion-color-success-tint);">
             <ion-icon slot="icon-only" name="save" color="primary" />
           </ion-button>
           <ion-button (click)="closeRecipe()" shape="round">
@@ -16,8 +17,8 @@
       </div>
 
       <div>
-        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-          <div style="display: flex; align-items: center; width: 70%;">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 10px; width: 100%;">
+          <div style="display: flex; align-items: center; ">
             <div *ngIf="recipe" class="header-recipe-name" style="width: 100%;">
               <ion-textarea rows="1" [(ngModel)]="recipe.name" placeholder="{{'recipes.new-recipe' |translate}}"
                 label-placement="stacked" label="{{'recipes.recipe' | translate }}" />
@@ -33,7 +34,9 @@
 
   <ion-content class="ion-padding-start ion-padding-end">
     <div *ngIf="recipe !== null">
-      <app-recipe-detail [recipe]="recipe" [isEditing]="true" />
+      <app-recipe-detail [recipe]="recipe" [isEditing]="true"
+        (navigateToNewVariantEventNewRecipe)="navigateToNewVariantNewRecipe($event)"
+        (navigateToNewVariantEventExistingRecipe)="navigateToNewVariant($event)" />
     </div>
   </ion-content>
 </div>

@@ -4,22 +4,28 @@ import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonBackButton, IonButton } from '@ionic/angular/standalone';
 import { DayMenuOverviewComponent } from "../../components/day-menu-overview/day-menu-overview.component";
 import { IDayMeal, IDayMealRecipe, IDayMealRecipeVariant, IDayMenu } from 'src/app/data/interfaces/day-menu.interface';
-import { ActivatedRoute } from '@angular/router';
-import { PlanningService } from 'src/app/data/services/planning.service';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ID } from 'src/app/types';
 import { IPlannedEvent } from 'src/app/data/interfaces/planned-event.interface';
 import { isBefore, isSameDay } from 'date-fns';
 import * as pdfMake from "pdfmake/build/pdfmake";
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
-import { RecipesService } from 'src/app/data/services/recipes.service';
+import { RecipeService } from 'src/app/data/services/recipe.service';
+import { VariantService } from 'src/app/data/services/variant.service';
+import { PlannedEventService } from 'src/app/data/services/planned-event.service';
 import { IDayMealExtended, IDayMealRecipeExtended, IDayMealRecipeVariantExtended, IPlannedEventExtended } from 'src/app/data/interfaces/planned-event-extended.interface';
-import { IRecipe } from 'src/app/data/interfaces/recipe.interface';
-import { image } from 'ionicons/icons';
-import { async, lastValueFrom } from 'rxjs';
+import { finalize, lastValueFrom } from 'rxjs';
 import { AlertService } from '../../services/alert.service';
+import { firstValueFrom } from 'rxjs';
+import { LoadingService } from '../../services/loading.service';
 
+import { FileOpener } from '@ionic-native/file-opener/ngx';
+import { Directory, Filesystem } from '@capacitor/filesystem';
+
+import { Platform } from '@ionic/angular';
 (<any>pdfMake).addVirtualFileSystem(pdfFonts);
+
 
 @Component({
   selector: 'app-menu-overview',
@@ -35,7 +41,8 @@ import { AlertService } from '../../services/alert.service';
     CommonModule,
     FormsModule,
     TranslateModule,
-    DayMenuOverviewComponent]
+    DayMenuOverviewComponent],
+  providers: [FileOpener]
 })
 export class MenuOverviewPage implements OnInit {
 
@@ -43,20 +50,28 @@ export class MenuOverviewPage implements OnInit {
   dates: Date[] = [];
 
   constructor(private route: ActivatedRoute,
-    private planningService: PlanningService,
+    private plannedEventService: PlannedEventService,
     private translateService: TranslateService,
-    private recipesService: RecipesService,
-    private alertService: AlertService
-  ) { }
+    private recipesService: RecipeService,
+    private variantService: VariantService,
+    private alertService: AlertService,
+    private loadingService: LoadingService,
+    private router: Router,
+    private plt: Platform,
+    private fileOpener: FileOpener) { }
 
   ngOnInit() {
 
-    this.route.params.subscribe(params => {
+    this.route.params.subscribe(async params => {
       let eventId = params['eventId'];
       if (eventId === null) {
         return;
       }
-      this.planningService.getEvent(eventId).subscribe({
+      const loading = await this.loadingService.showLoading();
+      await loading.present();;
+      this.plannedEventService.getById(eventId).pipe(
+        finalize(() => loading.dismiss())
+      ).subscribe({
         next: (event: IPlannedEvent) => {
           this.event = event;
           if (event.dateFrom && event.dateTo) {
@@ -124,18 +139,75 @@ export class MenuOverviewPage implements OnInit {
     }
 
 
+    const content = await this.getPdfContent(this.event, this.event.dateFrom, this.event.dateTo);
+
+    // Define the document structure
+    const docDefinition = {
+      content: content,
+      styles: {
+        header: {
+          fontSize: 18,
+          bold: true,
+          margin: [0, 10, 0, 10] as [number, number, number, number],
+        },
+        subheader: {
+          fontSize: 14,
+          bold: true,
+          margin: [0, 10, 0, 5] as [number, number, number, number],
+        },
+        menuDate: {
+          fontSize: 12,
+          italics: true,
+          margin: [0, 5, 0, 5] as [number, number, number, number],
+        },
+      },
+    };
+
+    // Generate the PDF
+    const pdfObj = pdfMake.createPdf(docDefinition);
+
+
+    if (this.plt.is('cordova')) {
+      pdfObj.getBase64(async (base64: string) => {
+        try {
+          let path = 'demopdfs/demoionic5pdf.pdf';
+          const result = await Filesystem.writeFile({
+            path,
+            data: base64,
+            directory: Directory.Documents,
+            recursive: true
+          });
+          this.fileOpener.open(result.uri, 'application/pdf');
+        } catch (error) {
+          console.error('Error writing file:', error);
+        }
+      });
+
+    } else {
+      pdfObj.download('menu.pdf');
+    }
+  }
+
+  navigateToDayMenu(menu: IDayMenu) {
+    if (this.event === null) {
+      return;
+    }
+    this.router.navigate(['/tabs/planning/events', this.event.id, "menu", menu.id]);
+  }
+
+  private async getPdfContent(event: IPlannedEvent, dateFrom: Date, dateTo: Date) {
     const content = [];
 
     let data: IPlannedEventExtended = {
-      id: this.event.id,
-      name: this.event.name,
-      dateFrom: this.event.dateFrom,
-      dateTo: this.event.dateTo,
+      id: event.id,
+      name: event.name,
+      dateFrom: dateFrom,
+      dateTo: dateTo,
       participants: [],
       menu: []
     };
 
-    data.menu = await Promise.all(this.event.menu.map(async (menu: IDayMenu) => {
+    data.menu = await Promise.all(event.menu.map(async (menu: IDayMenu) => {
       return {
         id: menu.id,
         date: menu.date,
@@ -183,7 +255,7 @@ export class MenuOverviewPage implements OnInit {
                   .flatMap((recipe) =>
                     recipe.variants.map(
                       (variant) =>
-                        `${variant.variantName}, ${this.translateService.instant('planning.day-menu.portions.title')}: ${variant.portions}, ${this.translateService.instant('food-restriction.available-for')}: ${variant.restrictions
+                        `${variant.variantName}, ${this.translateService.instant('planning.day-menu.portions.title')}: ${variant.portions}, ${this.translateService.instant('food-restriction.available-for')}: ${Array.from(variant.restrictions)
                           .map((restriction) => restriction.toLocaleLowerCase())
                           .join(', ')}`
                     )
@@ -201,31 +273,7 @@ export class MenuOverviewPage implements OnInit {
       }
 
     });
-
-    // Define the document structure
-    const docDefinition = {
-      content: content,
-      styles: {
-        header: {
-          fontSize: 18,
-          bold: true,
-          margin: [0, 10, 0, 10] as [number, number, number, number],
-        },
-        subheader: {
-          fontSize: 14,
-          bold: true,
-          margin: [0, 10, 0, 5] as [number, number, number, number],
-        },
-        menuDate: {
-          fontSize: 12,
-          italics: true,
-          margin: [0, 5, 0, 5] as [number, number, number, number],
-        },
-      },
-    };
-
-    // Generate the PDF
-    pdfMake.createPdf(docDefinition).open();
+    return content;
   }
 
   private menuIsComplete(): boolean {
@@ -254,16 +302,23 @@ export class MenuOverviewPage implements OnInit {
   }
 
   private async mapRecipes(recipes: IDayMealRecipe[]): Promise<IDayMealRecipeExtended[]> {
-    return Promise.all(
+    const mappedRecipes = await Promise.all(
       recipes.map(async (recipe: IDayMealRecipe) => {
-        const fetchedRecipe = await this.recipesService.getRecipe(recipe.recipeId).toPromise();
-        return {
-          recipeId: recipe.recipeId,
-          recipeName: fetchedRecipe.name,
-          variants: await this.mapVariants(recipe.recipeId, recipe.variants),
-        };
+        const fetchedRecipe = await firstValueFrom(this.recipesService.getById(recipe.recipeId));
+        if (fetchedRecipe === null) {
+          console.error(`Recipe with ID ${recipe.recipeId} not found`);
+          return null; // or handle the error as needed
+        } else {
+          return {
+            recipeId: recipe.recipeId,
+            recipeName: fetchedRecipe.name,
+            variants: await this.mapVariants(recipe.recipeId, recipe.variants),
+          };
+        }
       })
     );
+
+    return mappedRecipes.filter((recipe): recipe is IDayMealRecipeExtended => recipe !== null);
   }
 
 
@@ -271,7 +326,7 @@ export class MenuOverviewPage implements OnInit {
     const variantsWithDetails = await Promise.all(
       variants.map(async (variant) => {
         try {
-          const fetchedVariant = await lastValueFrom(this.recipesService.getVariant(recipeId, variant.variantId));
+          const fetchedVariant = await lastValueFrom(this.variantService.getById(variant.variantId));
           if (fetchedVariant === null) {
             console.error(`Variant with ID ${variant.variantId} not found for recipe ID ${recipeId}`);
             return null; // or handle the error as needed

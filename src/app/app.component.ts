@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 import { StatusBar } from '@capacitor/status-bar';
 import { PushNotifications } from '@capacitor/push-notifications';
+import { Filesystem } from '@capacitor/filesystem';
 
 @Component({
   selector: 'app-root',
@@ -11,13 +12,14 @@ import { PushNotifications } from '@capacitor/push-notifications';
 })
 export class AppComponent {
   constructor(public translateService: TranslateService) {
-    this.translateService.setDefaultLang('sk');
-    this.translateService.use('sk');
+    this.translateService.setDefaultLang('cs');
+    this.translateService.use('cs');
 
     if ((window as any).Capacitor && (window as any).Capacitor.isNativePlatform()) {
       StatusBar.setOverlaysWebView({ overlay: false });
       StatusBar.setBackgroundColor({ color: '#ffffff' });
       this.requestNotificationPermission();
+      this.requestFileNotificationPermission();
     }
   }
 
@@ -29,6 +31,18 @@ export class AppComponent {
       console.log('Oznámení zamítnuta.');
     }
   }
+
+  async requestFileNotificationPermission() {
+    const permission = await Filesystem.requestPermissions();
+    if (permission.publicStorage === 'granted') {
+      console.log('Přístup k souborům povolen!');
+    } else {
+      console.log('Přístup k souborům zamítnut.');
+    }
+
+  }
+
+
 
 
 }

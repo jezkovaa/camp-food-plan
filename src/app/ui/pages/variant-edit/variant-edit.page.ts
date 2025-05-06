@@ -5,16 +5,19 @@ import { IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonBackButton,
 import { ID } from 'src/app/types';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IRecipeVariant } from 'src/app/data/interfaces/recipe-variant.interface';
-import { RecipesService } from 'src/app/data/services/recipes.service';
+import { VariantService } from 'src/app/data/services/variant.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { RecipeVariantDetailComponent } from '../../components/recipe-variant-detail/recipe-variant-detail.component';
 import { VariantEditComponent } from '../../components/variant-edit/variant-edit.component';
 import { addIcons } from 'ionicons';
-import { closeCircle, save } from 'ionicons/icons';
+import { alert, closeCircle, save } from 'ionicons/icons';
 import { RecipeVariant } from 'src/app/data/models/recipe-variant';
 import { cloneDeep, isEqual } from 'lodash';
 import { AlertService } from '../../services/alert.service';
 import { IRecipe } from 'src/app/data/interfaces/recipe.interface';
+import { LoadingService } from '../../services/loading.service';
+import { ToastController } from '@ionic/angular';
+import { BaseComponent } from '../../components/base-component/base.component';
 
 @Component({
   selector: 'app-variant-edit-page',
@@ -38,31 +41,44 @@ import { IRecipe } from 'src/app/data/interfaces/recipe.interface';
     VariantEditComponent
   ],
 })
-export class VariantEditPage implements OnInit {
+export class VariantEditPage extends BaseComponent implements OnInit {
 
-  @ViewChild(VariantEditComponent) variantEditComponent!: VariantEditComponent;
+  @ViewChild('variantEditCmp') variantEditComponent!: VariantEditComponent;
 
   recipeId: ID | null = null;
   variantId: ID | null = null;
 
   variant: IRecipeVariant | null = null;
-  initVariant: IRecipeVariant | null = null;
+  initName = '';
   isCreating = false;
+
+  msg = "";
 
   isCreatingRecipe = false;
   newRecipeData: IRecipe | null = null;
 
+  get isAnyChange() {
+    return this.variant && this.variantEditComponent && (this.variantEditComponent.isIngredientsValidAndChanged() || this.variantEditComponent.isProceedingValidAndChanged() || !isEqual(this.variantEditComponent.foodRestrictions, this.variant.restrictions) || this.initName !== this.variant.name);
+  }
+
+  get hasName() {
+    return this.variant && this.variant.name && this.variant.name.length > 0;
+  }
+
   constructor(private route: ActivatedRoute,
-    private recipeService: RecipesService,
+    private variantService: VariantService,
     private alertService: AlertService,
-    private translateService: TranslateService,
+    override translateService: TranslateService,
+    private loadingService: LoadingService,
+    override toastController: ToastController,
     private router: Router) {
-    addIcons({ save, closeCircle });
+    super(toastController, translateService);
+    addIcons({ save, closeCircle, alert });
   }
 
   ngOnInit() {
 
-    this.route.params.subscribe(params => {
+    this.route.params.subscribe(async params => {
       this.recipeId = params['recipeId'];
       this.variantId = params['variantId'];
       if (!this.recipeId) {
@@ -75,7 +91,6 @@ export class VariantEditPage implements OnInit {
         this.recipeId = null;
         this.isCreating = true;
         this.variant = new RecipeVariant(this.recipeId);
-        this.initVariant = cloneDeep(this.variant);
         const state = this.router.getCurrentNavigation()?.extras.state;
         if (state) {
           this.newRecipeData = state['recipeData'] || null;
@@ -89,30 +104,42 @@ export class VariantEditPage implements OnInit {
           createdFromId = state['variantId'] || null;
         }
         if (createdFromId) {
-          this.recipeService.getVariant(this.recipeId, createdFromId).subscribe({
+          const loading = await this.loadingService.showLoading();
+          await loading.present();
+          this.variantService.getById(createdFromId).subscribe({
             next: (variant: IRecipeVariant | null) => {
+              loading.dismiss();
               this.variant = cloneDeep(variant);
               if (this.variant) {
                 this.variant.id = null; // Reset the ID for the new variant
               }
-              this.initVariant = cloneDeep(this.variant);
+              this.initName = this.variant?.name || '';
             },
-            error: (err) => {
+            error: async (err) => {
               console.error('Error fetching variant:', err);
+              const notification = await this.presentError(err);
+              await notification.present();
+
+              loading.dismiss();
             }
           });
         }
         else
           this.variant = new RecipeVariant(this.recipeId);
-        this.initVariant = cloneDeep(this.variant);
 
       } else if (this.recipeId && this.variantId) {
-        this.recipeService.getVariant(this.recipeId, this.variantId).subscribe({
+        const loading = await this.loadingService.showLoading();
+        await loading.present();
+        this.variantService.getById(this.variantId).subscribe({
           next: (variant: IRecipeVariant | null) => {
+            loading.dismiss();
             this.variant = variant;
-            this.initVariant = cloneDeep(this.variant);
+            this.initName = this.variant?.name || '';
           },
-          error: (err) => {
+          error: async (err) => {
+            loading.dismiss();
+            const notification = await this.presentError(err);
+            await notification.present();
             console.error('Error fetching variant:', err);
           }
 
@@ -128,30 +155,7 @@ export class VariantEditPage implements OnInit {
     const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
     buttonElement.blur();
     const variant = await this.variantEditComponent.getVariant();
-    if (variant === null) {
-      //invalid data in variant
-      return;
-    }
-    const same = isEqual(variant, this.initVariant);
-    if (same) {
-      const alert = await this.alertService.presentConfirm(
-        this.translateService.instant('recipes.variant.alert.no-changes'),
-        this.translateService.instant('recipes.variant.alert.no-changes-message'),
-        () => {
-          if (this.isCreatingRecipe) {
-            this.router.navigate(['/tabs/recipes', 'new'], {
-              state: {
-                recipeData: this.newRecipeData,
-              },
-            });
-          }
-          else {
-            this.router.navigate(['/tabs/recipes/', this.recipeId]);
-          }
-        });
-      await alert.present();
-    }
-    else if (this.variant) {
+    if (variant) {
       if (this.isCreatingRecipe) {
         this.newRecipeData?.variants.push(variant);
         this.router.navigate(['/tabs/recipes', 'new'], {
@@ -161,11 +165,24 @@ export class VariantEditPage implements OnInit {
         });
       }
       else {
-        this.recipeService.saveVariant(this.variant).subscribe({
-          next: (res: IRecipeVariant) => {
+        const loading = await this.loadingService.showLoading();
+        await loading.present();
+        this.variantService.saveItem(variant).subscribe({
+          next: async (res: IRecipeVariant) => {
+            loading.dismiss();
+            this.msg += "creating";
+            const notification = await this.presentSuccess(this.translateService.instant('alert.variant-created'));
+            this.msg += "created";
+            await notification.present();
+            this.msg += "presented";
+
             this.router.navigate(['/tabs/recipes/', this.recipeId, 'variants', res.id]);
           },
-          error: (err: any) => {
+          error: async (err: any) => {
+            loading.dismiss();
+            const notification = await this.presentError(err);
+            await notification.present();
+
             console.error('Error saving variant', err);
           }
         });
@@ -177,9 +194,8 @@ export class VariantEditPage implements OnInit {
   async closeVariant() {
     const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
     buttonElement.blur();
-    this.variant = this.variantEditComponent.getVariantWithoutControl();
-    if (this.variant && !isEqual(this.variant, this.initVariant)) {
-      const alert = await this.alertService.presentConfirm(
+    if (this.isAnyChange) {
+      const alert = await this.alertService.presentConfirmHighlight(
         this.translateService.instant('recipes.variant.alert.unsaved-changes'),
         this.translateService.instant('recipes.variant.alert.unsaved-changes-message'),
         () => {

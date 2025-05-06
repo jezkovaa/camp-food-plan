@@ -1,5 +1,6 @@
 {
   "alert": {
+    "take-back": "Vrátiť späť",
     "cancel": "Zrušiť",
     "delete-success": "Úspešne vymazané",
     "delete-success-message": "Údaje boli úspešne vymazané",
@@ -14,13 +15,24 @@
     "missing-name": "Chýbajúci názov",
     "missing-name-message": "Názov nesmie byť prázdny",
     "missing-dates": "Chýbajúce dátumy",
-    "missing-dates-message": "Doba konání události musí být vyplněna",
-    "delete-confirm-message": "Naozaj chcete vymazať udalosť?",
+    "missing-dates-message": "Doba konania udalosti musí byť vyplnená",
+    "delete-confirm-message": "Naozaj chcete vymazať tento recept?",
     "delete-confirm-message-variants": "Naozaj chcete vymazať všetky varianty receptu?",
-    "delete-confirm": "Potvrzení vymazání"
+    "delete-confirm": "Potvrdenie vymazania",
+    "variant-created": "Varianta bola vytvorená",
+    "menu-updated": "Jedálniček bol aktualizovaný",
+    "menu-updated-error": "Chyba pri aktualizácii jedálnička",
+    "recipe-deleted": "Recept bol úspešne vymazaný",
+    "event-created": "Udalosť bola úspešne vytvorená",
+    "event-saved": "Udalosť bola úspešne uložená"
   },
   "buttons": {
     "apply": "Použiť"
+  },
+  "common": {
+    "ok": "OK",
+    "cancel": "Zrušiť",
+    "choose": "Vybrať"
   },
   "courses": {
     "BREAKFAST": "Raňajky",
@@ -31,52 +43,72 @@
     "no-course": "Chod nebol vybraný"
   },
   "filter": {
-    "title": "Filtrovat",
+    "title": "Filtrovať",
     "course": "Chod"
   },
   "food-restriction": {
     "VEGAN": "Vegan",
     "VEGETARIAN": "Vegetarián",
     "LACTOSE_INTOLERANT": "Laktózová intolerancia",
-    "GLUTEN_FREE": "Glutenová intolerancia",
-    "available-for": "Vhodné pre"
+    "GLUTEN_FREE": "Gluténová intolerancia",
+    "available-for": "Vhodné pre",
+    "for-all": "Bez omedzenia"
   },
+  "loading": "Načítava sa...",
   "planning": {
     "title": "Plánovanie",
     "day-menu": {
       "add-meal": "Pridať jedlo",
+      "no-meals": "Žiadne jedlá",
+      "meal": "Jedlo",
+      "meal-alert-title": "Zmazanie receptu z jedla",
+      "meal-variant-alert-title": "Zmazanie varianty z jedla",
+      "meal-alert-message": "Naozaj chcete vymazať tento recept z jedla?",
+      "meal-variant-alert-message": "Naozaj chcete vymazať tuto variantu z jedla?",
+      "meal-variant-alert-message-single-recipe": "Vymazaním varianty dôjde k odstráneniu receptu z jedla.",
       "alert": {
-        "delete-confirm": "Potvrzení vymazání",
+        "delete-confirm": "Potvrdenie vymazania",
         "delete-confirm-message": "Naozaj chcete vymazať toto jedlo?",
-        "delete-title": "Vymazanie jedla"
+        "delete-title": "Vymazanie jedla",
+        "delete-success": "Úspešne vymazané",
+        "error-title": "Chyba"
       },
       "portions": {
         "title": "Porcie",
         "entry": "Zadejte počet porcí",
-        "confirm": "Potvrdit",
-        "cancel": "Zrušit"
-      }
+        "confirm": "Potvrdiť",
+        "cancel": "Zrušiť"
+      },
+      "success-deleted": "Úspěšně smazáno",
+      "success-updated": "Úspěšně aktualizováno"
     },
     "day-menu-overview": {
-      "title": "Jídelníček",
+      "title": "Jedálniček",
+      "no-variant": "Žiadna varianta",
       "no-recipe": "-"
     },
     "event": {
-      "date": "Dátum",
+      "from": "Od",
+      "enter-from": "Zadejte datum od",
+      "enter-to": "Zadejte datum do",
+      "to": "Do",
       "add-event": "Pridať udalosť",
+      "date": "Dátum",
       "select-event": "Vyberte udalosť",
       "load-participants": "Načítať účastníkov",
-      "display-menu": "Zobraziť jídelníček",
+      "display-menu": "Zobraziť jedálniček",
       "empty-name": "Zadejte názov...",
       "choose-date": "Vyberte dátum",
-      "menu": "Jídelníček",
+      "menu": "Jedálniček",
       "menu-not-complete": {
-        "title": "Jídelníček nie je kompletný",
+        "title": "Jedálniček nie je kompletný",
         "message": "Niektoré jedlá nie sú naplánované. Naozaj chcete pokračovať?"
       },
       "title": "Udalosť",
       "shopping-lists": {
+        "no-shopping-lists": "Žiadne nákupné zoznamy",
         "title": "Nákupné zoznamy",
+        "list": "Nákup",
         "minimum-count": "Počet položiek",
         "minimum": "Minimálny počet nákupov",
         "getPDF": "Získať PDF"
@@ -85,21 +117,31 @@
     "no-planned-events": "Nemáte naplánované žiadne udalosti",
     "choose-or-create": "Vyberte alebo vytvorte novú udalosť"
   },
+  "recipe-detail": {
+    "delete-variants": "Vymazať varianty",
+    "delete-variants-message": "Naozaj chcete vymazať všetky varianty receptu?",
+    "delete-variants-success": "Varianty boli úspešne vymazané"
+  },
   "recipes": {
     "alert": {
       "empty-recipe": "Prázdný recept",
-      "empty-recipe-message": "Recept nesmie byť prázdny. Vyplňte název, vyberte chod a pridejte aspoň jednu variantu",
+      "empty-recipe-message": "Recept nesmie byť prázdny. Vyplňte názov, vyberte chod a pridajte aspoň jednu variantu",
       "no-changes": "Žiadne zmeny",
       "no-changes-message": "Nemáte žiadne zmeny na uloženie",
+      "save-success": "Úspešne uložené",
+      "save-error": "Chyba pri ukladaní",
+      "no-variants": "Žiadne varianty",
+      "no-variants-message": "Nemáte žiadne varianty na uloženie. Naozaj chcete pokračovať?",
       "cancel-creation": "Zrušiť vytvorenie",
       "cancel-creation-message": "Naozaj chcete zrušiť vytvorenie receptu?",
       "unsaved-changes": "Neuložené zmeny",
       "unsaved-changes-message": "Máte neuložené zmeny. Naozaj chcete pokračovať?"
     },
-    "choose-recipe": "Zvolit",
+    "choose-recipe": "Zvoliť",
     "new-recipe": "Nový recept",
     "recipe": "Recept",
     "recipe-detail": {
+      "variant-detail": "Detail varianty: ",
       "delete-variants": "Vymazať varianty",
       "delete-variants-message": "Naozaj chcete vymazať všetky varianty receptu?",
       "course": "Chod",
@@ -112,10 +154,19 @@
       "delete-selected": "Vymazať vybrané",
       "no-variants": "Žiadne varianty",
       "choose-variants": "Zvolit varianty",
-      "change-recipe": "Upravit recept",
+      "change-recipe": "Upravit recept a jeho varianty",
       "change-variant": "Upravit variantu"
     },
+    "recipe-variant-detail": {
+      "delete-variant": "Vymazať variantu",
+      "delete-variant-message": "Naozaj chcete vymazať túto variantu receptu?",
+      "delete-variants-success": "Varianty boli úspešne vymazané"
+    },
     "variant": {
+      "alert": {
+        "unsaved-changes": "Neuložené zmeny",
+        "unsaved-changes-message": "Máte neuložené zmeny. Naozaj chcete pokračovať?"
+      },
       "delete-variant": "Vymazať variantu",
       "delete-variant-message": "Naozaj chcete vymazať túto variantu receptu?",
       "invalid-data": "Neplatné údaje",
@@ -124,35 +175,36 @@
         "new-name": "Ingrediencie",
         "entry-name": "Zadejte názov",
         "new-amount": "Množstvo",
-        "entry-amount": "např. 4",
+        "entry-amount": "napr. 4",
         "new-unit": "Jednotka",
-        "one-person": "Zadejte množstvo pre jednu osobu",
+        "one-person": "Množstvo pre jednu osobu",
         "units": {
-          "GRAMS": "g",
-          "KILOGRAMS": "kg",
-          "LITERS": "l",
-          "MILLILITERS": "ml",
-          "PIECES": "ks",
-          "CUPS": "hrnčeky",
-          "TABLESPOONS": "polievkové lyžice",
-          "TEASPOONS": "čajové lyžice"
+          "g": "g",
+          "kg": "kg",
+          "l": "l",
+          "ml": "ml",
+          "pieces": "ks",
+          "cups": "hrnčeky",
+          "tbsp": "polievkové lyžice",
+          "tsp": "čajové lyžice"
         }
       },
       "proceeding": {
         "title": "Postup",
         "new-step": "Krok",
-        "description": "Zadejte postup"
+        "description": "Zadajte postup"
       },
       "title": "Varianta",
       "name": "Názov",
       "name-error": "Názov nesmie byť prázdny.",
-      "ingredients-invalid": "Ingrediencie sú neplatné.",
+      "invalid-ingredients": "Ingrediencie sú neplatné.",
       "ingredients-error": "Ingrediencie nesmú byť prázdne.",
       "proceeding-error": "Postup je neplatný.",
       "enter-name": "Zadejte názov",
       "variants": "varianty",
       "history-of-changes": "História zmien",
-      "no-history-of-changes": "Žiadne zmeny"
+      "no-history-of-changes": "Žiadne zmeny",
+      "no-proceeding": "Žiadny postup"
     },
     "title": "Recepty"
   },
@@ -160,5 +212,334 @@
   "sort-options": {
     "NAME_ASC": "Názov (A-Z)",
     "NAME_DESC": "Názov (Z-A)"
+  },
+  "dummy-recipes": {
+    "ingredients": {
+      "beans": "Fazuľa",
+      "flour": "Múka",
+      "bread": "Chlieb",
+      "beet": "Cvikla",
+      "butter": "Maslo",
+      "butter-veto": "Maslo veto",
+      "milk": "Mlieko",
+      "milk-veto": "Mlieko bez laktózy",
+      "cocoa": "Kakao",
+      "salt": "Soľ",
+      "sugar": "Cukor",
+      "poppy": "Mak",
+      "cinnamon": "Škorica",
+      "sweet-paprika": "Paprika korenie",
+      "basil": "Bazalka",
+      "marjoram": "Majorán",
+      "soup-spice": "Polievkové korenie",
+      "pepper": "Čierne korenie",
+      "rice": "Ryža",
+      "dry-pea": "Sušený hrášok",
+      "dry-bean": "Sušená fazuľa",
+      "lentil": "Šošovica",
+      "cream-for-cooking": "Smotana na varenie",
+      "egg": "Vajce",
+      "egg-spread": "Vajcová nátierka",
+      "cheese": "Syr",
+      "fillet": "Filé",
+      "chicken": "Kuracie maso",
+      "wurst": "Párok",
+      "sausage": "Saláma",
+      "bacon": "Slanina",
+      "all-purpose-flour": "Hladká múka",
+      "breadcrumbs": "Strúhanka",
+      "pasta": "Cestoviny",
+      "olive-oil": "Olivový olej",
+      "lancheon": "Luncheon",
+      "corn-tin": "Kukurica v plechovke",
+      "nutella": "Nutella",
+      "jam": "Džem",
+      "pasty": "Paštika",
+      "puree": "Pretlak",
+      "morcadela": "Morcadella",
+      "sardines": "Sardinky",
+      "hamburger-roll": "Hamburgerová žemľa",
+      "spaghetti": "Špagety",
+      "garlic": "Cesnak",
+      "onion": "Cibuľa",
+      "cauliflower": "Karfiol",
+      "potato": "Zemiaky",
+      "carrot": "Mrkva",
+      "saur-cucumbur": "Kyslá uhorka",
+      "paprika": "Paprika",
+      "tomato": "Paradajka",
+      "oil": "Olej",
+      "bagged-soup": "Sáčková polievka",
+      "biscuit": "Keks",
+      "biscuit-gluten-free": "Keks bez gluténu",
+      "fruit": "Ovocie",
+      "yoghurt": "Jogurt",
+      "yoghurt-veto": "Jogurt bez laktózy",
+      "musli": "Granule",
+      "mustard": "Horčica",
+      "soy-sauce": "Sójová omáčka",
+      "chilli": "Chilli",
+      "masox": "Masox",
+      "ketchup": "Kečup",
+      "beans-tin": "Fazuľa v plechovke",
+      "celia-pastry": "Celiakia pečivo",
+      "celia-pasta": "Celiakia cestoviny",
+      "celia-spaghetti": "Celiakia špagety",
+      "spread": "Náierka",
+      "cheese-cream": "Syrokrém",
+      "cheese-veto": "Syr bez laktózy",
+      "mince": "Mleté mäso",
+      "crud": "Tvaroh",
+      "spring-onion": "Cibuľa jarná",
+      "bryndza": "Bryndza",
+      "dia-biscuit": "Dia keks",
+      "vegan-camembert": "Vegan camembert",
+      "sliced-chees": "Syr plátkovy",
+      "pumpkin": "Tekvica",
+      "oat": "ovsené vločky",
+      "zucchini": "cuketa",
+      "banana": "banán",
+      "apple": "jablko"
+    },
+    "recipes": {
+      "subtitle": "Pre všetkých",
+      "beans": {
+        "title": "Fazuľa s klobásou",
+        "step1": "Uvarte fazuľu v osolenej vode",
+        "step2": "Pridajte nakrájanú klobásu",
+        "step3": "Podávajte"
+      },
+      "pancakes": {
+        "title": "Palacinky",
+        "step1": "Zmiešajte múku, mlieko, vajcia, soľ a cukor",
+        "step2": "Na panvici opečte palacinky z oboch strán",
+        "step3": "Podávajte s džemom alebo nutelou"
+      },
+      "bread-butter-jam-milk": {
+        "title": "Chlieb s maslom, džemom a mliekom",
+        "step1": "Nakrájajte chlieb na plátky",
+        "step2": "Natrite maslo na chlieb",
+        "step3": "Natrite džem na chlieb",
+        "step4": "Nalejte mlieko do pohára",
+        "step5": "Podávajte"
+      },
+      "bread-pasty": {
+        "title": "Chlieb s paštikou",
+        "step1": "Nakrájajte chlieb na plátky",
+        "step2": "Natrite paštiku na chlieb",
+        "step3": "Podávajte"
+      },
+      "bread-nutella-cocoa": {
+        "title": "Chlieb s nutelou a kakaom",
+        "step1": "Nakrájajte chlieb na plátky",
+        "step2": "Natrite nutelu na chlieb",
+        "step3": "Nalejte kakao do pohára",
+        "step4": "Podávajte"
+      },
+      "musli": {
+        "title": "Musli",
+        "step1": "Nasypte musli do misky",
+        "step2": "Nalejte mlieko do misky",
+        "step3": "Podávajte"
+      },
+      "bread-butter-sausage": {
+        "title": "Chlieb s maslom a salámou",
+        "step1": "Nakrájajte chlieb na plátky",
+        "step2": "Natrite maslo na chlieb",
+        "step3": "Nakrájajte salámu na plátky a dejte na chlieb",
+        "step4": "Podávajte"
+      },
+      "bread-crud-spread": {
+        "title": "Chlieb s tvarohovou nátierkou",
+        "step1": "Nakrájajte chlieb na plátky",
+        "step2": "Natrite tvarohovú nátierku na chlieb",
+        "step4": "Podávajte"
+      },
+      "bread-garlic-spread": {
+        "title": "Chlieb s cesnakovou nátierkou",
+        "step1": "Nakrájajte chlieb na plátky",
+        "step2": "Zmiešajte maslo, soľ, syr, cesnak a korenie",
+        "step3": "Natrite cesnakovú nátierku na chlieb",
+        "step4": "Podávajte"
+      },
+      "bread-bryndza-spread": {
+        "title": "Chlieb s bryndzovou nátierkou",
+        "step1": "Nakrájajte chlieb na plátky",
+        "step2": "Natrite bryndzovú nátierku na chlieb",
+        "step4": "Podávajte"
+      },
+      "rice-porridge-with-butter": {
+        "title": "Ryžová kaša s maslom",
+        "step1": "Uvarte ryžu v osolenej vode",
+        "step2": "Pridajte maslo",
+        "step3": "Podávajte"
+      },
+      "lentil-soup-with-wurst": {
+        "title": "Šošovicová polievka s párkom",
+        "step1": "Uvarte šošovicu v osolenej vode",
+        "step2": "Pridajte nakrájaný párok",
+        "step3": "Podávajte"
+      },
+      "spaghetti": {
+        "title": "Špagety",
+        "step1": "Uvarte špagety v osolenej vode",
+        "step2": "Pripravte omáčku z bazalky, pretlaku, morcadelly, cesnaku, cibule",
+        "step3": "Nastrúhajte syr",
+        "step4": "Podávajte"
+      },
+      "chicken-with-pasta": {
+        "title": "Kurací perkelt",
+        "step1": "Uvarte cestoviny v osolenej vode",
+        "step2": "Opečte kuracie prsia na panvici",
+        "step3": "Podávajte"
+      },
+      "cauliflower-with-potatoes": {
+        "title": "Karfiol so zemiakmi",
+        "step1": "Uvarte karfiol a zemiaky v osolenej vode",
+        "step2": "Pridajte maslo",
+        "step3": "Podávajte"
+      },
+      "risotto": {
+        "title": "Rizoto",
+        "step1": "Uvarte ryžu v osolenej vode",
+        "step2": "Pridajte maslo, syr a korenie",
+        "step3": "Podávajte"
+      },
+      "fillet-with-potatoes": {
+        "title": "Filé s zemiakmi",
+        "step1": "Uvarte zemiaky v osolenej vode",
+        "step2": "Opečte filé na panvici",
+        "step3": "Podávajte"
+      },
+      "luncheon-with-potatoes": {
+        "title": "Lanšmít s zemiakmi",
+        "step1": "Uvarte zemiaky v osolenej vode",
+        "step2": "Opečte lanšmít na panvici",
+        "step3": "Podávajte"
+      },
+      "chicken-sote-with-tomatoes-and-rice": {
+        "title": "Kuracie soté s paradajkami a ryžou",
+        "step1": "Uvarte ryžu v osolenej vode",
+        "step2": "Opečte kuracie prsia na panvici",
+        "step3": "Pridajte nakrájané paradajky",
+        "step4": "Podávajte"
+      },
+      "mexico": {
+        "title": "Mexiko",
+        "step1": "Uvarte ryžu v osolenej vode",
+        "step2": "Opečte kuracie prsia na panvici",
+        "step3": "Pridajte nakrájané paradajky, fazuľu a kukuricu",
+        "step4": "Podávajte"
+      },
+      "hamburger-luncheon": {
+        "title": "Hamburger s lanšmítom",
+        "step1": "Opečte hamburgerovú žemľu na panvici",
+        "step2": "Opečte lanšmít na panvici",
+        "step3": "Podávajte"
+      },
+      "chinese-pasta": {
+        "title": "Čínske cestoviny",
+        "step1": "Uvarte cestoviny v osolenej vode",
+        "step2": "Pripravte omáčku z cibule, cesnaku, papriky, morcadely a sójovej omáčky",
+        "step3": "Podávajte"
+      },
+      "bean-soup": {
+        "title": "Fazuľová polievka",
+        "step1": "Uvarte fazuľu v osolenej vode",
+        "step2": "Pridajte maslo a korenie",
+        "step3": "Podávajte"
+      },
+      "pea-porridge": {
+        "title": "Hrášková kaša",
+        "step1": "Uvarte hrášok v osolenej vode",
+        "step2": "Pridajte maslo a korenie",
+        "step3": "Podávajte"
+      },
+      "tomatoe-soup": {
+        "title": "Paradajková polievka",
+        "step1": "Uvarte paradajky v osolenej vode",
+        "step2": "Pridajte maslo a cierne korenie",
+        "step3": "Podávajte"
+      },
+      "leco": {
+        "title": "Lečo",
+        "step1": "Uvarte zemiaky v osolenej vode",
+        "step2": "Pripravte omáčku z cibule, cesnaku, papriky a paradajky",
+        "step3": "Podávajte"
+      },
+      "french-potatoes": {
+        "title": "Francúzske zemiaky",
+        "step1": "Uvarte zemiaky v osolenej vode",
+        "step2": "Pripravte omáčku z cibule, cesnaku, papriky a paradajky",
+        "step3": "Podávajte"
+      },
+      "wurst-with-bread-mustard": {
+        "title": "Párok s chlebom a horčicou",
+        "step1": "Nakrájajte chlieb na plátky",
+        "step2": "Natrite horčicu na chlieb",
+        "step3": "Uvarte párok v osolenej vode",
+        "step4": "Podávajte"
+      },
+      "pasta-with-poppy": {
+        "title": "Cestoviny s makom",
+        "step1": "Uvarte cestoviny v osolenej vode",
+        "step2": "Pridajte mak a cukor",
+        "step3": "Podávajte"
+      },
+      "sardines-spread": {
+        "title": "Chlieb s nátierkou zo sardiniek",
+        "step1": "Nakrájajte chlieb na plátky",
+        "step2": "Natrite nátierku zo sardiniek na chlieb",
+        "step4": "Podávajte"
+      },
+      "egg-spread": {
+        "title": "Chlieb s vajíčkovou nátierkou",
+        "step1": "Nakrájajte chlieb na plátky",
+        "step2": "Natrite vajíčkovú nátierku na chlieb",
+        "step4": "Podávajte"
+      },
+      "yoghurt": {
+        "title": "Jogurt",
+        "nolactose": "Jogurt bez laktózy"
+      },
+      "fruit": {
+        "title": "Ovocie"
+      },
+      "apple": {
+        "title": "Jablko"
+      },
+      "banana": {
+        "title": "Banán"
+      },
+      "biscuit": {
+        "title": "Keks",
+        "gluten-free": "Keks bez lepku"
+      },
+      "sac-soup-bread": {
+        "title": "Sáčkovou polievka",
+        "step1": "Uvarte sáčkovou polievku v osolenej vode",
+        "step2": "Nakrájajte chlieb na plátky",
+        "step3": "Podávajte"
+      },
+      "pumpkin-soup": {
+        "title": "Tekvicová polievka",
+        "step1": "Uvarte tekvicu v osolenej vode",
+        "step2": "Pridajte maslo a korenie",
+        "step3": "Podávajte"
+      },
+      "oat-meal": {
+        "title": "Ovsená kaša",
+        "step1": "Uvarte ovsené vločky v osolenej vode",
+        "step2": "Pridajte maslo a korenie",
+        "step3": "Podávajte"
+      },
+      "chicken-with-paprika-sauce": {
+        "title": "Kurací paprikáš",
+        "step1": "Uvarte zemiaky v osolenej vode",
+        "step2": "Opečte kuracie prsia na panvici",
+        "step3": "Pripravte omáčku z cibule, cesnaku, papriky a paradajky",
+        "step4": "Podávajte"
+      }
+    }
   }
 }

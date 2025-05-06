@@ -1,9 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { addIcons } from 'ionicons';
 import { leaf } from 'ionicons/icons';
 import { FoodRestriction } from 'src/app/data/enums/food-restriction.enum';
-import { IonIcon } from '@ionic/angular/standalone';
+import { IonIcon, IonButton, IonPopover } from '@ionic/angular/standalone';
 import { CommonModule } from '@angular/common';
+import { RestrictionHelpComponent } from "../restriction-help/restriction-help.component";
 
 @Component({
   selector: 'app-restriction',
@@ -13,12 +14,15 @@ import { CommonModule } from '@angular/common';
 })
 export class RestrictionComponent {
 
+  @Input({ required: true }) restriction: FoodRestriction = FoodRestriction.NONE;
 
-  @Input() inputRestrictions: FoodRestriction[] = [];
+  noRestriction = FoodRestriction.NONE;
 
   restrictions = FoodRestriction;
 
   constructor() {
     addIcons({ leaf });
   }
+
+
 }

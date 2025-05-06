@@ -28,8 +28,8 @@ export class RecipesFilterComponent implements OnInit {
 
   @Output() filterChanged = new EventEmitter<IFilterOptions>();
 
-  selectedCourses: Course[] = [];
-  selectedRestrictions: FoodRestriction[] = [];
+  selectedCourses: Set<Course> = new Set<Course>();
+  selectedRestrictions: Set<FoodRestriction> = new Set<FoodRestriction>();
 
   courses = Object.values(Course);
 
@@ -48,14 +48,11 @@ export class RecipesFilterComponent implements OnInit {
 
   selectedRestrictionsChanged(e: any) {
     if (e.checked) {
-      this.selectedRestrictions = [...this.selectedRestrictions, e.restriction];
+      this.selectedRestrictions.add(e.restriction);
     } else {
-      this.selectedRestrictions = this.selectedRestrictions.filter((r: FoodRestriction) => r !== e.restriction);
+      this.selectedRestrictions.delete(e.restriction);
     }
   }
-
-
-
 
   applyFilter() {
     const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
@@ -69,12 +66,12 @@ export class RecipesFilterComponent implements OnInit {
   }
 
   courseValue(course: Course): boolean {
-    return this.selectedCourses.includes(course);
+    return this.selectedCourses.has(course);
   }
 
 
   checkboxClick(e: any, course: Course) {
-    this.selectedCourses = e.detail.checked ? [...this.selectedCourses, course] : this.selectedCourses.filter(c => c !== course);
+    this.selectedCourses = e.detail.checked ? new Set([...this.selectedCourses, course]) : new Set(Array.from(this.selectedCourses).filter(c => c !== course));
   }
 
   isForeverFilter(filter: Course): boolean {

@@ -1,4 +1,4 @@
-import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { IonList } from '@ionic/angular/standalone';
 import { RecipeComponent } from '../recipe/recipe.component';
 import { CommonModule } from '@angular/common';
@@ -7,6 +7,7 @@ import { IRecipe } from 'src/app/data/interfaces/recipe.interface';
 import { SortOption } from 'src/app/data/enums/sort-options.enum';
 import { IFilterOptions } from 'src/app/data/interfaces/filter-options.interface';
 import { ID } from 'src/app/types';
+import { IDayMealRecipe } from 'src/app/data/interfaces/day-menu.interface';
 
 @Component({
   selector: 'app-recipes-list',
@@ -22,6 +23,9 @@ export class RecipesListComponent implements OnInit, OnChanges {
   @Input() sortOption: SortOption = SortOption.NAME_ASC;
   @Input() searchValue = '';
   @Input() filter: IFilterOptions | null = null;
+  @Input() chosenRecipes: IDayMealRecipe[] = [];
+
+  @Output() navigateToRecipeEvent = new EventEmitter<ID>();
 
   selectedRecipes = new Set<ID>();
 
@@ -35,6 +39,8 @@ export class RecipesListComponent implements OnInit, OnChanges {
     this.applySearchValue();
     this.filterRecipes();
     this.sortRecipes();
+
+    this.selectedRecipes = new Set<ID>(this.chosenRecipes.map(recipe => recipe.recipeId));
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -49,10 +55,44 @@ export class RecipesListComponent implements OnInit, OnChanges {
     this.applySearchValue();
     this.filterRecipes();
     this.sortRecipes();
+
+
+  }
+
+  isRecipeSelected(recipeId: ID | null): boolean {
+    if (recipeId === null) {
+      return false;
+    }
+    return this.selectedRecipes.has(recipeId);
+  }
+
+  navigateToRecipe(recipeId: ID) {
+    this.navigateToRecipeEvent.emit(recipeId);
   }
 
   private applySearchValue() {
-    this.filteredRecipes = this.filteredRecipes.filter(recipe => recipe.name.toLowerCase().includes(this.searchValue.toLowerCase()));
+    this.filteredRecipes = this.filteredRecipes.filter(recipe => {
+      const recipeName = recipe.name.toLowerCase();
+      const searchValue = this.searchValue.toLowerCase();
+
+      let mismatches = 0;
+      let i = 0, j = 0;
+
+      while (i < recipeName.length && j < searchValue.length) {
+        if (recipeName[i] !== searchValue[j]) {
+          mismatches++;
+          if (mismatches > 2) {
+            return false;
+          }
+        }
+        j++;
+        i++;
+      }
+
+      mismatches += searchValue.length - j;
+
+      return mismatches <= 2;
+    });
   }
 
   private filterRecipes() {
@@ -73,20 +113,23 @@ export class RecipesListComponent implements OnInit, OnChanges {
     if (!this.filter || !this.filter.courses) {
       return true;
     }
-    if (this.filter.courses.length === 0) {
+    if (this.filter.courses.size === 0) {
       return true;
     }
-    return (recipe.courses.some(course => this.filter && this.filter.courses && this.filter.courses.includes(course)));
+    return (recipe.courses.some(course => this.filter && this.filter.courses && this.filter.courses.has(course)));
   }
 
   private recipeHasRestrictionWhichIsInFilter(recipe: IRecipe): boolean {
     if (!this.filter || !this.filter.restrictions) {
       return true;
     }
-    if (this.filter.restrictions.length === 0) {
+    if (this.filter.restrictions.size === 0) {
       return true;
     }
-    return recipe.variants.some(variant => variant.restrictions.some(restriction => this.filter && this.filter.restrictions && this.filter.restrictions.includes(restriction)));
+    return recipe.variants.some(variant => {
+      const restrictionsSet = new Set(variant.restrictions);
+      return this.filter && this.filter.restrictions && [...this.filter.restrictions].some(restriction => restrictionsSet.has(restriction));
+    });
   }
 
   private sortRecipes() {

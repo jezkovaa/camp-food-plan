@@ -1,16 +1,17 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { IonRow, IonCol, IonGrid, IonButton, IonIcon, IonList, IonItem, IonLabel, IonText } from "@ionic/angular/standalone";
 import { TranslateService } from '@ngx-translate/core';
 import { addIcons } from 'ionicons';
-import { chevronForward } from 'ionicons/icons';
-import { firstValueFrom, Observable } from 'rxjs';
+import { alert, chevronForward } from 'ionicons/icons';
+import { finalize, firstValueFrom, Observable } from 'rxjs';
 import { IDayMenu } from 'src/app/data/interfaces/day-menu.interface';
 import { Course } from 'src/app/data/enums/courses.enum';
-import { RecipesService } from 'src/app/data/services/recipes.service';
+import { RecipeService } from 'src/app/data/services/recipe.service';
 import { ID } from 'src/app/types';
-import { PlanningService } from 'src/app/data/services/planning.service';
+import { MenuService } from 'src/app/data/services/menu.service';
+import { LoadingService } from '../../services/loading.service';
 
 @Component({
   selector: 'app-day-menu-overview',
@@ -30,6 +31,8 @@ export class DayMenuOverviewComponent implements OnInit {
   @Input({ required: true }) eventId!: ID;
   @Input({ required: true }) date!: Date;
 
+  @Output() navigateToDayMenuEvent = new EventEmitter<IDayMenu>();
+
 
   courses = Object.values(Course);
   recipeNames: { [key in Course]: Array<{ id: ID, name: string; }>; } = {} as { [key in Course]: Array<{ id: ID, name: string; }>; };
@@ -42,12 +45,12 @@ export class DayMenuOverviewComponent implements OnInit {
   }
 
   constructor(private translateService: TranslateService,
-    private recipesService: RecipesService,
-    private router: Router,
-    private planningService: PlanningService) { // Inject the PlanningService here
+    private recipesService: RecipeService,
+    private loadingService: LoadingService,
+    private menuService: MenuService) {
 
 
-    addIcons({ chevronForward });
+    addIcons({ chevronForward, alert });
     this.loadRecipeNames = this.loadRecipeNames.bind(this);
 
   }
@@ -83,13 +86,17 @@ export class DayMenuOverviewComponent implements OnInit {
     }
   }
 
-  openDayMenu() {
+  async openDayMenu() {
     const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
     buttonElement.blur();
     if (this.dayMenu === null) {
-      this.planningService.createDayMenu(this.eventId, this.date).subscribe({
+      const loading = await this.loadingService.showLoading();
+      await loading.present();
+      this.menuService.createDayMenu(this.eventId, this.date).pipe(
+        finalize(() => loading.dismiss())
+      ).subscribe({
         next: (dayMenu: IDayMenu) => {
-          this.router.navigate(['/tabs/planning/events', this.eventId, "menu", dayMenu.id]);
+          this.navigateToDayMenuEvent.emit(dayMenu);
         },
         error: (err: any) => {
           console.error('Error creating day menu', err);
@@ -97,7 +104,7 @@ export class DayMenuOverviewComponent implements OnInit {
       });
     }
     else {
-      this.router.navigate(['/tabs/planning/events', this.eventId, "menu", this.dayMenu.id]);
+      this.navigateToDayMenuEvent.emit(this.dayMenu);
     }
   }
 
@@ -113,8 +120,11 @@ export class DayMenuOverviewComponent implements OnInit {
         this.recipeNames[course] = [];
         return;
       }
-
-      this.recipesService.getNames(meal.chosenRecipes).subscribe({
+      const loading = await this.loadingService.showLoading();
+      await loading.present();
+      this.recipesService.getNames(meal.chosenRecipes).pipe(
+        finalize(() => loading.dismiss())
+      ).subscribe({
         next: (recipeNames: Array<{ id: ID, name: string; }>) => {
           this.recipeNames[course] = recipeNames;
         },

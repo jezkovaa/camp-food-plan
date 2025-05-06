@@ -1,0 +1,32 @@
+<div style="display: flex; align-items: center;">
+  <div class="restriction-icons">
+
+    <div *ngFor=" let restriction of inputRestrictions">
+      <div class="restriction-icon">
+        <div *ngIf="restriction === restrictions.VEGAN">
+          <ion-icon src="assets/icon/restrictions/vegan.svg" />
+        </div>
+        <div *ngIf="restriction === restrictions.VEGETARIAN">
+          <ion-icon src="assets/icon/restrictions/vegetarian.svg" />
+        </div>
+        <div *ngIf="restriction === restrictions.GLUTEN_FREE">
+          <ion-icon src="assets/icon/restrictions/gluten_free.svg" />
+        </div>
+        <div *ngIf="restriction === restrictions.LACTOSE_INTOLERANT">
+          <ion-icon src="assets/icon/restrictions/lactose_intolerant.svg" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ion-button *ngIf="!disabled" (click)="showRestrictionHelp($event)" shape="round" size="small"
+    style=" --border-color: --border-style: solid; --padding-start: 0px; --padding-end: 0px; font-size: 0.3rem;align-self: flex-start;">
+    <ion-icon slot="icon-only" name="help" color="primary"></ion-icon>
+  </ion-button>
+
+  <ion-popover #restrictionHelpPopover>
+    <ng-template>
+      <app-restriction-help></app-restriction-help>
+    </ng-template>
+  </ion-popover>
+</div>

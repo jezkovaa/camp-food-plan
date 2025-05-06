@@ -36,5 +36,5 @@ export interface IDayMealRecipeVariantExtended {
   variantId: ID;
   variantName: string;
   portions: number;
-  restrictions: FoodRestriction[];
+  restrictions: Set<FoodRestriction>;
 }

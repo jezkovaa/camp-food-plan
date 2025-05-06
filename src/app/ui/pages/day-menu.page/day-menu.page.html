@@ -11,7 +11,7 @@
       <div style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
         <div class="custom-title-1">{{event?.name}}</div>
         <div class="custom-title-1">{{ dayMenu?.date | date: 'dd.MM.yyyy'}}</div>
-        <ion-button id="date-selection" fill="success" shape="round" size="small">
+        <ion-button id="date-selection" fill="dark" shape="round" size="small">
           <ion-icon slot="icon-only" name="calendar" />
         </ion-button>
         <ion-popover id="date-selection-popover" trigger="date-selection" triggerAction="click" size="auto">
@@ -40,14 +40,14 @@
     <ion-list style=" gap: 10px;
     flex-direction: column;
     display: flex;
-    height: 100%;
     justify-content: space-around;
     align-items: center;">
       <div *ngFor="let course of courses" style="width: 100%; 
       display: flex; justify-content: center;">
         <ion-item style="width: 100%;" class="my-item">
           <div *ngIf="courseExists(course)" style="width: 100%;">
-            <app-meal [meal]="getMealForCourse(course)" (deleteMealEvent)="deleteMeal($event)" />
+            <app-meal [meal]="getMealForCourse(course)" (deleteMealEvent)="deleteMeal($event)"
+              (editMealEvent)="editMeal($event)" />
           </div>
           <div *ngIf="!courseExists(course)" class="no-meal-container ion-padding" style="width: 100%;">
             <div>

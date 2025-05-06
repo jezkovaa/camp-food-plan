@@ -5,10 +5,12 @@
         <ion-back-button defaultHref="/recipes" text="" />
       </ion-buttons>
 
-      <div class="firs-row ion-padding-top">
-        <div>{{"recipes.recipe" | translate }}</div>
-        <div class="header-recipe-name"> {{ recipe?.name }}</div>
-      </div>
+      <ion-button class="firs-row" style="--background: transparent; --box-shadow: none; --padding-start: 0px">
+        <ion-item style="--background: transparent; box-shadow: none; --padding-start: 0px" (click)="goToRecipe()">
+          <ion-label position="stacked">{{ 'recipes.recipe' | translate }}</ion-label>
+          <ion-text class="header-recipe-name">{{ recipe?.name }}</ion-text>
+        </ion-item>
+      </ion-button>
 
       <div class="second-row ion-padding-top">
 

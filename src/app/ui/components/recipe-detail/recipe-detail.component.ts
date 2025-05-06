@@ -8,18 +8,21 @@ import { Course } from 'src/app/data/enums/courses.enum';
 import { CommonModule } from '@angular/common';
 import { addIcons } from 'ionicons';
 import { add, alert, trash } from 'ionicons/icons';
-import { RecipesService } from 'src/app/data/services/recipes.service';
+import { VariantService } from 'src/app/data/services/variant.service';
 import { CourseListComponent } from '../course-list/course-list.component';
 import { AlertService } from '../../services/alert.service';
 import { ChooseVariantPopoverComponent } from '../choose-variant-popover/choose-variant-popover.component';
 import { IRecipeVariant } from 'src/app/data/interfaces/recipe-variant.interface';
-import { PlanningService } from 'src/app/data/services/planning.service';
+import { BasePlanningService } from 'src/app/data/services/base-planning.service';
 import { ID } from 'src/app/types';
 import { IDayMeal, IDayMealRecipe, IDayMealRecipeVariant, IDayMenu } from 'src/app/data/interfaces/day-menu.interface';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SearchbarWithButtonsComponent } from "../searchbar-with-buttons/searchbar-with-buttons.component";
 import { IFilterOptions } from 'src/app/data/interfaces/filter-options.interface';
 import { SortOption } from 'src/app/data/enums/sort-options.enum';
+import { LoadingService } from '../../services/loading.service';
+import { ToastController } from '@ionic/angular';
+import { BaseComponent } from '../base-component/base.component';
 
 @Component({
   selector: 'app-recipe-detail',
@@ -43,7 +46,7 @@ import { SortOption } from 'src/app/data/enums/sort-options.enum';
     SearchbarWithButtonsComponent
   ]
 })
-export class RecipeDetailComponent implements OnInit {
+export class RecipeDetailComponent extends BaseComponent implements OnInit {
 
   @Input({ required: true }) recipe!: IRecipe;
   @Input() isEditing = false;
@@ -55,7 +58,11 @@ export class RecipeDetailComponent implements OnInit {
   @Input() sortOption: SortOption = SortOption.NAME_ASC;
 
 
+  @Input() selectedVariants: IDayMealRecipeVariant[] = [];
+
   @Output() portionsChanged = new EventEmitter<IDayMeal>();
+  @Output() navigateToNewVariantEventNewRecipe = new EventEmitter<IRecipe>();
+  @Output() navigateToNewVariantEventExistingRecipe = new EventEmitter<ID | null>();
 
   @ViewChild('chooseCoursePopover') popover!: IonPopover;
   @ViewChild('addPopover') addPopover!: IonPopover;
@@ -63,7 +70,10 @@ export class RecipeDetailComponent implements OnInit {
   selectedIds: string[] = [];
   selectedItems: Array<{ variantId: ID, name: string; portions: number; }> = [];
 
-  public alertButtons = ['OK', 'Cancel'];
+  public alertButtons = [
+    this.translateService.instant('common.ok'),
+    this.translateService.instant('common.cancel')
+  ];
 
   ngOnInit(): void {
 
@@ -82,14 +92,16 @@ export class RecipeDetailComponent implements OnInit {
       (this.recipe.variants.length > 1 || ((this.isEditing || this.isChoosing) && this.recipe.variants.length > 0));
   }
 
-  constructor(private translateService: TranslateService,
-    private recipesService: RecipesService,
+  constructor(override translateService: TranslateService,
+    private variantService: VariantService,
     private alertService: AlertService,
     private route: ActivatedRoute,
-    private modalController: ModalController,
     private popoverController: PopoverController,
+    private loadingService: LoadingService,
+    override toastController: ToastController,
     private router: Router) {
 
+    super(toastController, translateService);
     addIcons({ add, trash, alert });
 
   }
@@ -117,7 +129,7 @@ export class RecipeDetailComponent implements OnInit {
       return;
     }
 
-    const modal = await this.modalController.create({
+    const modal = await this.popoverController.create({
       component: ChooseVariantPopoverComponent,
       componentProps: {
         recipeId: this.recipe.id,
@@ -146,7 +158,7 @@ export class RecipeDetailComponent implements OnInit {
     const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
     buttonElement.blur();
     if (this.recipe && !this.recipe.id) {
-      this.router.navigate(['/tabs/recipes', 'new', 'variants', 'new'], { state: { recipeData: this.recipe } });
+      this.navigateToNewVariantEventNewRecipe.emit(this.recipe);
     }
     else {
       this.addPopover.event = event;
@@ -159,9 +171,9 @@ export class RecipeDetailComponent implements OnInit {
     const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
     buttonElement.blur();
     if (this.recipe.id === null) {
-      this.router.navigate(['/tabs/recipes', 'new', 'variants', 'new'], { state: { recipeData: this.recipe } });
+      this.navigateToNewVariantEventNewRecipe.emit(this.recipe);
     } else {
-      this.router.navigate(['/tabs/recipes', this.recipe.id, 'variants', 'new']);
+      this.navigateToNewVariantEventExistingRecipe.emit();
     }
   }
 
@@ -172,11 +184,11 @@ export class RecipeDetailComponent implements OnInit {
     if (variant === null) {
       //should not happen
       this.addPopover.dismiss().then(() => {
-        this.router.navigate(['/tabs/recipes', this.recipe.id, 'variants', 'new']);
+        this.navigateToNewVariantEventExistingRecipe.emit();
       });
     } else {
       this.addPopover.dismiss().then(() => {
-        this.router.navigate(['/tabs/recipes', this.recipe.id, 'variants', 'new'], { state: { variantId: variant.id } });
+        this.navigateToNewVariantEventExistingRecipe.emit(variant.id);
       });
     }
 
@@ -195,17 +207,25 @@ export class RecipeDetailComponent implements OnInit {
     const alert = await this.alertService.presentConfirm(
       this.translateService.instant('recipe-detail.delete-variants'),
       this.translateService.instant('recipe-detail.delete-variants-message'),
-      () => {
+      async () => {
         const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
         buttonElement.blur();
         if (this.recipe.id) {
-          this.recipesService.deleteVariants(this.recipe.id, this.selectedIds).subscribe({
-            next: (variants) => {
+          const loading = await this.loadingService.showLoading();
+          await loading.present();
+          this.variantService.deleteSelected(this.recipe.id, this.selectedIds).subscribe({
+            next: async (variants: IRecipeVariant[]) => {
               this.selectedIds = [];
               this.recipe.variants = variants;
+              loading.dismiss();
+              const notification = await this.presentSuccess(this.translateService.instant('recipe-detail.delete-variants-success'));
+              await notification.present();
             },
-            error: (err: any) => {
+            error: async (err: any) => {
               console.error(err);
+              loading.dismiss();
+              const notification = await this.presentError(err);
+              await notification.present();
             }
           }
           );
@@ -229,6 +249,10 @@ export class RecipeDetailComponent implements OnInit {
 
   sortOptionChanged(sortOption: SortOption) {
     this.sortOption = sortOption;
+  }
+
+  openVariant(variantId: ID) {
+    this.router.navigate(['/tabs/recipes', this.recipe.id, 'variants', variantId]);
   }
 
 };

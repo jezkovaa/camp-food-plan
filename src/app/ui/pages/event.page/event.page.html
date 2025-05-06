@@ -8,21 +8,21 @@
       <div class="my-toolbar-content">
         <ion-label *ngIf="event === null">{{"planning.event.select-event" | translate}}</ion-label>
         <ion-label *ngIf="event !== null" class="custom-title-2">{{event.name}}</ion-label>
-        <ion-button (click)="editEvent()" fill="clear" size="small">
+        <ion-button (click)="editEvent()" shape="round" size="small">
           <ion-icon slot="icon-only" name="pencil" />
         </ion-button>
       </div>
 
       <ion-buttons slot="end">
-        <ion-button id="select-event" fill="clear" class="ion-align-self-center select-even-button"
+        <ion-button id="select-event" shape="round" size="small" class="ion-align-self-center select-even-button"
           style="align-self: flex-end; display: flex;">
           <ion-icon slot="icon-only" name="chevron-down" />
         </ion-button>
       </ion-buttons>
 
-      <ion-popover trigger="select-event" triggerAction="click">
+      <ion-popover #selectPopover trigger="select-event" triggerAction="click">
         <ng-template>
-          <app-select-event />
+          <app-select-event (selectionChange)="selectionChanged($event)" />
         </ng-template>
       </ion-popover>
     </ion-toolbar>
@@ -36,7 +36,7 @@
           {{event?.dateFrom | date: 'dd.MM.yyyy'}} - {{event?.dateTo | date: 'dd.MM.yyyy'}}
         </ion-label>
       </div>
-      <ion-button (click)="loadParticipants()" class="content-button">
+      <ion-button (click)="loadParticipants()" [disabled]="true" class="content-button">
 
         {{"planning.event.load-participants" | translate}}
       </ion-button>

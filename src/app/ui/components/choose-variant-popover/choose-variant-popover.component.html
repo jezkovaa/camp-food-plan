@@ -1,18 +1,14 @@
-<ion-header>
-  <ion-toolbar class="ion-padding-end">
-    <ion-buttons slot="start">
-      <ion-button color="medium" (click)="cancel()">{{"planning.day-menu.portions.cancel" | translate}}</ion-button>
-    </ion-buttons>
-    <ion-title>{{"planning.day-menu.portions.entry" | translate}}</ion-title>
-    <ion-buttons slot="end">
-      <ion-button [disabled]="!allFilledCorrectly" (click)="confirm()"
-        [strong]="true">{{"planning.day-menu.portions.confirm" | translate}}</ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
-<ion-content class="ion-padding">
+<div class="ion-padding">
+  <div class="custom-title-3">{{"planning.day-menu.portions.entry" | translate}}</div>
   <div *ngFor="let variant of selectedItems">
     <ion-input [(ngModel)]="variant.portions" [label]="variant.name" type="number"
       placeholder="{{'planning.day-menu.portions.title' | translate}}" labelPlacement="stacked" min="1" />
   </div>
-</ion-content>
+  <div>
+    <ion-buttons>
+      <ion-button (click)="cancel()">{{"planning.day-menu.portions.cancel" | translate}}</ion-button>
+      <ion-button class="ion-padding" [disabled]="!allFilledCorrectly" (click)="confirm()" color="primary" fill="solid"
+        size="default" [strong]="true">{{"planning.day-menu.portions.confirm" | translate}}</ion-button>
+    </ion-buttons>
+  </div>
+</div>

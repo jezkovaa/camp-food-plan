@@ -7,12 +7,16 @@ import { RecipesListComponent } from 'src/app/ui/components/recipes-list/recipes
 import { ActivatedRoute, Router } from '@angular/router';
 import { ID } from 'src/app/types';
 import { Course } from 'src/app/data/enums/courses.enum';
-import { RecipesService } from 'src/app/data/services/recipes.service';
+import { RecipeService } from 'src/app/data/services/recipe.service';
 import { Recipe } from 'src/app/data/models/recipe';
 import { IFilter } from 'src/app/data/interfaces/filter.interface';
 import { SortOption } from 'src/app/data/enums/sort-options.enum';
 import { SearchbarWithButtonsComponent } from '../../components/searchbar-with-buttons/searchbar-with-buttons.component';
 import { IFilterOptions } from 'src/app/data/interfaces/filter-options.interface';
+import { IRecipe } from 'src/app/data/interfaces/recipe.interface';
+import { IDayMealRecipe } from 'src/app/data/interfaces/day-menu.interface';
+import { FoodRestriction } from 'src/app/data/enums/food-restriction.enum';
+import { LoadingService } from '../../services/loading.service';
 
 @Component({
   selector: 'app-choose-recipe',
@@ -49,12 +53,16 @@ export class ChooseRecipePage implements OnInit {
   filter: IFilterOptions | null = null;
   sortOption = SortOption.NAME_ASC;
 
+  chosenRecipes: IDayMealRecipe[] = [];
+
+
   @ViewChild(RecipesListComponent) recipesList!: RecipesListComponent;
 
 
   constructor(private route: ActivatedRoute,
-    private recipesService: RecipesService,
-    private router: Router
+    private recipesService: RecipeService,
+    private router: Router,
+    private loadingService: LoadingService,
   ) { }
 
   ngOnInit() {
@@ -65,9 +73,14 @@ export class ChooseRecipePage implements OnInit {
       this.course = params['course'];
       if (this.course) {
         this.filter = {
-          courses: [this.course],
-          restrictions: [],
+          courses: new Set<Course>([this.course]),
+          restrictions: new Set<FoodRestriction>(),
         };
+      }
+      const state = this.router.getCurrentNavigation()?.extras.state;
+      if (state) {
+        this.chosenRecipes = state['chosenRecipes'] || [];
+
       }
 
     });
@@ -94,27 +107,47 @@ export class ChooseRecipePage implements OnInit {
     this.filter = filter;
   }
 
+  getSelectedRecipesCount(): number {
+
+    if (this.recipesList === undefined) {
+      return 0;
+    }
+    const selectedRecipes = this.recipesList.selectedRecipes;
+    return selectedRecipes.size;
+  }
+
 
   chooseSelected() {
     const selectedRecipes = this.recipesList.selectedRecipes;
-    let selectedRecipesArray = Array.from(selectedRecipes.values());
-    if (selectedRecipesArray.length === 0) {
-      return;
-    }
+
     const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
     buttonElement.blur();
 
-    const id = selectedRecipesArray[0];
+    if (selectedRecipes.size === 0) {
+      return;
+    }
 
-    selectedRecipesArray = selectedRecipesArray.filter(recipeId => recipeId !== id);
-    this.router.navigate(['./recipe', id], { relativeTo: this.route, state: { selectedRecipesArray: selectedRecipesArray } },);
+    const selectedRecipesSet = new Set(selectedRecipes);
+    const recipeId = selectedRecipesSet.values().next().value;
+    if (recipeId === undefined) {
+      return;
+    }
+    selectedRecipesSet.delete(recipeId);
+    const selectedRecipesArray = Array.from(selectedRecipesSet);
+
+    this.router.navigate([recipeId], { relativeTo: this.route, state: { selectedRecipesArray: selectedRecipesArray } },);
     //open one of the recipe, choose variants and portions for it and return back here
-
-
   }
 
-  private loadRecipes() {
-    this.recipesService.getRecipes().subscribe((recipes) => {
+  navigateToRecipe(recipeId: ID) {
+    //this does nothing - the button is not clickable
+  }
+
+  private async loadRecipes() {
+    const loading = await this.loadingService.showLoading();
+    await loading.present();
+    this.recipesService.getAll().subscribe((recipes: IRecipe[]) => {
+      loading.dismiss();
       this.recipes = recipes;
     });
   }

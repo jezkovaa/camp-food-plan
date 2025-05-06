@@ -1,10 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { IPlannedEvent } from 'src/app/data/interfaces/planned-event.interface';
-import { IonToolbar, IonLabel, IonItem, IonList, IonSearchbar, IonButtons, IonButton, IonCheckbox } from "@ionic/angular/standalone";
+import { IonToolbar, IonItem, IonList, IonSearchbar, IonButton } from "@ionic/angular/standalone";
+import { LoadingController } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { PlanningService } from 'src/app/data/services/planning.service';
-import { TranslateModule } from '@ngx-translate/core';
+import { PlannedEventService } from 'src/app/data/services/planned-event.service';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-select-event',
@@ -31,19 +32,28 @@ export class SelectEventComponent implements OnInit {
   filteredItems: IPlannedEvent[] = [];
   items: IPlannedEvent[] = [];
 
-  constructor(private planningService: PlanningService) {
+  constructor(private plannedEventService: PlannedEventService,
+    private loadingCtrl: LoadingController,
+    private translateService: TranslateService
+  ) {
 
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.filteredItems = [...this.items];
-    this.planningService.getPlannedEvents().subscribe({
-      next: (plannedEvents) => {
+    const loading = await this.loadingCtrl.create({
+      message: this.translateService.instant('loading'),
+    });
+    loading.present();
+    this.plannedEventService.getAll().subscribe({
+      next: (plannedEvents: IPlannedEvent[]) => {
         this.items = plannedEvents;
+        loading.dismiss();
         this.filteredItems = [...this.items];
       },
       error: (error) => {
         console.error(error);
+        loading.dismiss();
       }
     });
   }
