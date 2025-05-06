@@ -11,7 +11,7 @@ import { TranslateService } from "@ngx-translate/core";
 export class BaseRecipeService {
 
   recipeId = 31;
-  variantId = 32;
+  variantId = 33;
 
   constructor(private translateService: TranslateService) { }
 
@@ -300,7 +300,7 @@ export class BaseRecipeService {
           historyOfChanges: []
         },
         {
-          id: 'v31',
+          id: 'v32',
           recipeId: "r11",
           name: "Vegetariánské špagety",
           ingredients: [
